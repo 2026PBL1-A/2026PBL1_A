@@ -4,7 +4,9 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
 
+// User機能のDI設定をまとめるモジュール
 @Module({
+  // UserエンティティのRepositoryをServiceで利用可能にする
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [UserController],
   providers: [UserService],

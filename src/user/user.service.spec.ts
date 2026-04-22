@@ -12,6 +12,7 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
+          // Serviceが注入するRepositoryをモックで置き換える
           provide: getRepositoryToken(User),
           useValue: {
             create: jest.fn(),
@@ -25,6 +26,7 @@ describe('UserService', () => {
       ],
     }).compile();
 
+    // テスト対象のServiceインスタンスを取得
     service = module.get<UserService>(UserService);
   });
 
