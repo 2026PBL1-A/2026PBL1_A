@@ -22,5 +22,7 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "ignoreDeprecations": "5.0",
-  }
+  },
+  "include": ["src", "test"],
+  "exclude": ["node_modules", "dist"]
 }
