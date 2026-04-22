@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+//ユーザーデータの作成に必要なデータの型とバリデーションを定義
 export class CreateUserDto {
     @IsString()
     @IsNotEmpty({ message: '名前を入力してください' })  //エラーメッセージを指定。フロント側が楽になるらしい
