@@ -1,98 +1,207 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📦 2026PBL1_A Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS + TypeORM + MySQL を使用したバックエンドAPIです。
+チーム開発用の運用ドキュメントを兼ねています。
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🧰 技術スタック
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* NestJS
+* TypeORM
+* MySQL 8.0（Docker）
+* Jest
 
-## Project setup
+---
+
+## 🚀 セットアップ & 起動手順
+
+### ① 依存関係インストール
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+### ② MySQL起動（Docker）
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker compose up -d
 ```
 
-## Run tests
+### ③ APIサーバー起動
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Deployment
+👉 起動URL
+http://localhost:5000
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## ⚠️ 事前に確認すること
+
+* Docker が起動していること
+* 3306ポートが使用可能であること
+* 5000ポートが使用可能であること
+
+---
+
+## 🗄 DB接続設定
+
+設定ファイル：`src/app.module.ts`
+
+```ts
+TypeOrmModule.forRoot({
+  host: 'localhost',
+  port: 3306,
+  username: 'user',
+  password: 'password',
+  database: 'mydb',
+  autoLoadEntities: true,
+  synchronize: true,
+})
+```
+
+### ⚠️ 注意
+
+* `synchronize: true` は開発専用
+* 本番では必ず `false` + マイグレーション管理にすること
+
+---
+
+## 📁 ディレクトリ構成（主要）
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+src/
+├── user/
+│   ├── entities/
+│   ├── dto/
+│   ├── user.controller.ts
+│   ├── user.service.ts
+│   └── user.module.ts
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🧩 現在のAPI一覧
 
-Check out a few resources that may come in handy when working with NestJS:
+ベースパス：`/user`
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+| Method | Path       | 内容     |
+| ------ | ---------- | ------ |
+| POST   | /user      | ユーザー作成 |
+| GET    | /user      | 一覧取得   |
+| GET    | /user/:id  | 詳細取得   |
+| PATCH  | /user/:id  | 更新     |
+| DELETE | /user/:id  | 削除     |
+| POST   | /user/seed | 仮データ投入 |
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🧪 動作確認（PowerShell）
 
-## Stay in touch
+### 仮データ投入
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```powershell
+Invoke-RestMethod -Method Post -Uri http://localhost:5000/user/seed
+```
 
-## License
+### 一覧取得
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/user
+```
+
+### ユーザー作成
+
+```powershell
+$body = @{
+  name = "Test User"
+  email = "test@example.com"
+  password = "pass1234"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/user `
+  -ContentType "application/json" `
+  -Body $body
+```
+
+---
+
+## 🛠 開発ルール（重要）
+
+### テーブル追加時
+
+例：Product
+
+**作成するファイル**
+
+* entity
+* dto（create/update）
+* service
+* controller
+* module
+
+**変更する可能性あり**
+
+* `app.module.ts`
+* テストコード
+
+---
+
+### API追加時
+
+例：ログイン機能
+
+* controller：ルート追加
+* service：ロジック追加
+* dto：新規作成
+
+---
+
+### 認証機能を導入する場合
+
+新規ディレクトリ：
+
+```bash
+src/auth/
+```
+
+主な構成：
+
+* module
+* controller
+* service
+* jwt.strategy
+* guard
+
+---
+
+## 🔐 セキュリティ注意
+
+現在は開発用のため簡易実装です。
+
+本番前に必ず対応すること：
+
+* bcryptでパスワードをハッシュ化
+* passwordをレスポンスに含めない
+* emailにユニーク制約
+* バリデーション追加
+
+---
+
+## 🧪 テスト
+
+```bash
+npm run test
+npm run test:e2e
+```
+
+---
+
+## 📝 補足
+
+* DB構造変更時はチームに共有すること
+* READMEは随時更新してください
