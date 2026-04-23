@@ -1,21 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 // Userテーブルに対応するエンティティクラス
-@Entity('USES')
+@Entity('user')
 export class User {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   // ユーザー名（必須項目）
-  @Column({ name: 'username' })
+  @Column()
   name!: string;
 
   // メールアドレス（ログインや連絡用に使用）
-  @Column()
+  @Column({ unique: true })
   email!: string;
 
-  // パスワード（未設定の場合もあるためNULL許可）
-  @Column({ name: 'password_hash', nullable: true })
+  // パスワードは通常クエリで返却しない
+  @Column({ nullable: true, select: false })
   password?: string;
 }
