@@ -25,18 +25,18 @@ export class UserService {
   }
 
   // IDで1件取得する
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.userRepository.findOneBy({ id });
   }
 
   // 指定IDのユーザー情報を更新し、その後最新の状態を取得して返す
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     await this.userRepository.update(id, updateUserDto);
     return this.findOne(id);
   }
 
   // 指定IDのユーザーを削除し、削除結果を返す
-  async remove(id: number) {
+  async remove(id: string) {
     await this.userRepository.delete(id);
     return { deleted: true };
   }

@@ -3,9 +3,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 // Userテーブルに対応するエンティティクラス
 @Entity()
 export class User {
-  // 主キー（自動採番されるユーザーID）
-  @PrimaryGeneratedColumn()
-  id!: number;
+  // 主キー（UUID文字列）
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   // ユーザー名（必須項目）
   @Column()
