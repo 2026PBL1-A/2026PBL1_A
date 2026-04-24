@@ -31,11 +31,16 @@ export class AuthService {
     }
 
     // JWT の標準的なクレームとして sub(ユーザーID) を格納。
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, name: user.name };
 
     return {
       // 署名付きトークンを生成してクライアントへ返す。
       access_token: this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
     };
   }
 }
