@@ -15,9 +15,9 @@ export class Comment {
   post!: Post;*/
 
   //コメントユーザーID
-  /*@ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
-  user!: User;*/
+  user!: User;
 
   //コメント内容
   @Column()
