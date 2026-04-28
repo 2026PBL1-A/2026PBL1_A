@@ -53,20 +53,33 @@ http://localhost:5000
 
 ```ts
 TypeOrmModule.forRoot({
-  host: 'localhost',
-  port: 3306,
-  username: 'user',
-  password: 'password',
-  database: 'mydb',
+  host: process.env.DB_HOST ?? 'localhost',
+  port: Number(process.env.DB_PORT ?? 3306),
+  username: process.env.DB_USER ?? 'user',
+  password: process.env.DB_PASSWORD ?? 'password',
+  database: process.env.DB_NAME ?? 'mydb',
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: (process.env.DB_SYNCHRONIZE ?? 'false') === 'true',
 })
 ```
 
 ### ⚠️ 注意
 
+* 既定値は `DB_SYNCHRONIZE=false`（自動同期オフ）
 * `synchronize: true` は開発専用
 * 本番では必ず `false` + マイグレーション管理にすること
+
+### `.env` の準備
+
+`.env.example` をコピーして `.env` を作成してください（`.env` は Git 管理対象外）。
+
+```powershell
+Copy-Item .env.example .env
+```
+
+```bash
+cp .env.example .env
+```
 
 ---
 
@@ -86,15 +99,23 @@ src/
 
 ## 🧩 現在のAPI一覧
 
-ベースパス：`/user`
+ベースパス：`/auth`, `/user`
+
+### 認証
+
+| Method | Path        | 内容        |
+| ------ | ----------- | --------- |
+| POST   | /auth/login | ログインしてJWT取得 |
+
+### ユーザー
 
 | Method | Path       | 内容     |
 | ------ | ---------- | ------ |
 | POST   | /user      | ユーザー作成 |
-| GET    | /user      | 一覧取得   |
-| GET    | /user/:id  | 詳細取得   |
-| PATCH  | /user/:id  | 更新     |
-| DELETE | /user/:id  | 削除     |
+| GET    | /user      | 一覧取得（JWT必須） |
+| GET    | /user/:id  | 詳細取得（JWT必須） |
+| PATCH  | /user/:id  | 更新（JWT必須） |
+| DELETE | /user/:id  | 削除（JWT必須） |
 | POST   | /user/seed | 仮データ投入 |
 
 ---
@@ -107,10 +128,28 @@ src/
 Invoke-RestMethod -Method Post -Uri http://localhost:5000/user/seed
 ```
 
+### ログイン（JWT取得）
+
+```powershell
+$loginBody = @{
+  email = "taro@example.com"
+  password = "pass1234"
+} | ConvertTo-Json
+
+$loginRes = Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/auth/login `
+  -ContentType "application/json" `
+  -Body $loginBody
+
+$token = $loginRes.access_token
+```
+
 ### 一覧取得
 
 ```powershell
-Invoke-RestMethod -Method Get -Uri http://localhost:5000/user
+Invoke-RestMethod -Method Get `
+  -Uri http://localhost:5000/user `
+  -Headers @{ Authorization = "Bearer $token" }
 ```
 
 ### ユーザー作成
@@ -126,6 +165,82 @@ Invoke-RestMethod -Method Post `
   -Uri http://localhost:5000/user `
   -ContentType "application/json" `
   -Body $body
+```
+
+### ユーザー更新（JWT必須）
+
+```powershell
+$updateBody = @{
+  name = "Updated User"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/user/<id> `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $updateBody
+```
+
+### ユーザー削除（JWT必須）
+
+```powershell
+Invoke-RestMethod -Method Delete `
+  -Uri http://localhost:5000/user/<id> `
+  -Headers @{ Authorization = "Bearer $token" }
+```
+
+
+
+
+
+## 🧪 動作確認（macOS / zsh）
+
+### 仮データ投入
+
+```bash
+curl -X POST http://localhost:5000/user/seed
+```
+
+### ログイン（JWT取得）
+
+```bash
+LOGIN_RES=$(curl -s -X POST http://localhost:5000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"taro@example.com","password":"pass1234"}')
+
+TOKEN=$(echo "$LOGIN_RES" | sed -E 's/.*"access_token":"([^"]+)".*/\1/')
+echo "$TOKEN"
+```
+
+### 一覧取得
+
+```bash
+curl -X GET http://localhost:5000/user \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+### ユーザー作成
+
+```bash
+curl -X POST http://localhost:5000/user \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test User","email":"test@example.com","password":"pass1234"}'
+```
+
+### ユーザー更新（JWT必須）
+
+```bash
+curl -X PATCH http://localhost:5000/user/<id> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Updated User"}'
+```
+
+### ユーザー削除（JWT必須）
+
+```bash
+curl -X DELETE http://localhost:5000/user/<id> \
+  -H "Authorization: Bearer $TOKEN"
 ```
 
 ---
@@ -181,14 +296,18 @@ src/auth/
 
 ## 🔐 セキュリティ注意
 
-現在は開発用のため簡易実装です。
-
-本番前に必ず対応すること：
+現在は開発用の設定を含みますが、以下は実装済みです。
 
 * bcryptでパスワードをハッシュ化
-* passwordをレスポンスに含めない
+* passwordを通常レスポンスに含めない
 * emailにユニーク制約
-* バリデーション追加
+* DTOバリデーション（class-validator）
+
+本番前に追加で必ず対応すること：
+
+* JWT_SECRETを強固な値にし、環境変数で管理
+* DBマイグレーション運用（`DB_SYNCHRONIZE=false`）
+* CORS許可オリジンの明示設定
 
 ---
 
