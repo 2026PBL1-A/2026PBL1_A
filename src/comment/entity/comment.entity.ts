@@ -3,7 +3,7 @@ import { User } from '../../user/entities/user.entity';
 //import { Post } from './post.entity';
 
 // Commentsテーブルに対応するエンティティクラス
-@Entity('COMMENTS')
+@Entity('comment')
 export class Comment {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
@@ -15,9 +15,9 @@ export class Comment {
   post!: Post;*/
 
   //コメントユーザーID
-  @ManyToOne(() => User, (user) => user.id)
+  /*@ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
-  user!: User;
+  user!: User;*/
 
   //コメント内容
   @Column()
