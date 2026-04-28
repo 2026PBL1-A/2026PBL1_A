@@ -30,6 +30,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     // ユーザー関連APIを提供するモジュール
     UserModule,
     AuthModule,
+    // コメント関連APIを提供するモジュール
+    CommentModule,
   ],
 })
 export class AppModule {}
