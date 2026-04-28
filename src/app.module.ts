@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
 // 環境変数を安全に数値へ変換する
@@ -27,6 +28,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     }),
     // ユーザー関連APIを提供するモジュール
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
