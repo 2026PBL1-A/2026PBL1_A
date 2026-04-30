@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 // Userテーブルに対応するエンティティクラス
-@Entity('user')
+@Entity('USERS')
 export class User {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')

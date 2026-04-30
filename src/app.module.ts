@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
 
 // 環境変数を安全に数値へ変換する
@@ -23,12 +23,13 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
       port: dbPort,
       username: process.env.DB_USER ?? 'user',
       password: process.env.DB_PASSWORD ?? 'password',
-      database: process.env.DB_NAME ?? 'mydb',
+      database: process.env.DB_NAME ?? 'my_app_db',
       autoLoadEntities: true,
       synchronize: true,
     }),
     // ユーザー関連APIを提供するモジュール
     UserModule,
+    // 認証関連APIを提供するモジュール
     AuthModule,
     // コメント関連APIを提供するモジュール
     CommentModule,
