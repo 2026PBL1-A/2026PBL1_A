@@ -2,7 +2,7 @@
 -- This file runs only when the MySQL container initializes an empty data directory.
 -- Keep it idempotent and lightweight.
 
-CREATE TABLE IF NOT EXISTS USES (
+CREATE TABLE IF NOT EXISTS USERS (
   id VARCHAR(36) NOT NULL,
   username VARCHAR(255) NOT NULL,
   email VARCHAR(255) 
@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS USES (
   password_hash VARCHAR(255) NULL,
   PRIMARY KEY (id)
 );
-//postsテーブル作成(テーブル大文字)
+
+-- postsテーブル作成(テーブル大文字)
 CREATE TABLE IF NOT EXISTS POSTS (
   id VARCHAR(36) NOT NULL,
   user_id VARCHAR(36) NOT NULL,
@@ -20,5 +21,5 @@ CREATE TABLE IF NOT EXISTS POSTS (
   score INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES USES(id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
 );
