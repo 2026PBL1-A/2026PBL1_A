@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateCommentDto} from './dto/create-comment.dto';
 import { Comment } from './entity/comment.entity';
 
@@ -19,14 +18,42 @@ export class CommentService {
         return this.commentRepository.save(comment);
     }
     
-    // すべてのコメントを取得する
-    async findAll() {
-        return this.commentRepository.find();
+    // 投稿IDに基づいて全てのコメントを取得する
+    async findAll(id: string) {
+        return this.commentRepository.find({ 
+            relations: {'post': true},
+            where: { 
+                post: { 
+                    id: id 
+                }
+            }
+        });
     }
 
-    // IDで1件取得する
+    // コメントIDで1件取得する
     async findOne(id: string) {
         return this.commentRepository.findOneBy({ id });
+    }
+
+    // 必要なら。指定IDのコメント情報を更新し、その後最新の状態を取得して返す
+    /*async update(id: string, updateCommentDto: CreateCommentDto) {
+        await this.commentRepository.update(id, updateCommentDto);
+        return this.findOne(id);
+    }*/
+
+    // 必要なら。指定IDのコメントを削除する
+    /*async remove(id: string) {
+        await this.commentRepository.delete(id);
+    }*/
+
+    // コメントのシードデータを作成する
+    async seed() {
+        const samplecomment: CreateCommentDto[] = [
+            { comment: 'これはサンプルコメント1です' },
+            { comment: 'これはサンプルコメント2です' },
+            { comment: 'これはサンプルコメント3です' },
+        ];
+        return this.commentRepository.save(samplecomment);
     }
     
 }
