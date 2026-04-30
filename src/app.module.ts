@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
 
@@ -33,6 +34,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     AuthModule,
     // コメント関連APIを提供するモジュール
     CommentModule,
+    // 投稿関連APIを提供するモジュール]
+    PostsModule,
   ],
 })
 export class AppModule {}
