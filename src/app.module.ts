@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
@@ -29,6 +30,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     UserModule,
     // 認証関連APIを提供するモジュール
     AuthModule,
+    // 投稿関連APIを提供するモジュール]
+    PostsModule,
   ],
 })
 export class AppModule {}
