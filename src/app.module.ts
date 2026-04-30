@@ -23,7 +23,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
       port: dbPort,
       username: process.env.DB_USER ?? 'user',
       password: process.env.DB_PASSWORD ?? 'password',
-      database: process.env.DB_NAME ?? 'mydb',
+      database: process.env.DB_NAME ?? 'my_app_db',
       autoLoadEntities: true,
       synchronize: true,
     }),
