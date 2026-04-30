@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { CommentModule } from './comment/comment.module';
+
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
 // true のときのみテーブル自動同期を有効化する
@@ -29,6 +31,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     UserModule,
     // 認証関連APIを提供するモジュール
     AuthModule,
+    // コメント関連APIを提供するモジュール
+    CommentModule,
   ],
 })
 export class AppModule {}
