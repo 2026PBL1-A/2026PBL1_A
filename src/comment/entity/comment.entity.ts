@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 //import { Post } from './post.entity';
 
 // Commentsテーブルに対応するエンティティクラス
-@Entity('comment')
+@Entity('COMMENTS')
 export class Comment {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
@@ -27,7 +27,7 @@ export class Comment {
   /*@Column()
   score!: number;*/
 
-  //投稿日時
-  @Column({ type: 'datetime', name: 'created_at'})
+  //投稿日時(自動作成)
+  @CreateDateColumn({ type: 'datetime', name: 'created_at'})
   created_at!: Date;
 }
