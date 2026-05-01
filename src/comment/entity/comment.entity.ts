@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-//import { Post } from './post.entity';
+import { Posts } from '../../posts/entities/posts.entity';
 
 // Commentsテーブルに対応するエンティティクラス
 @Entity('COMMENTS')
@@ -10,9 +10,9 @@ export class Comment {
   id!: string;
 
   //投稿ID
-  /*@ManyToOne((type) => Post, (post) => post.comments)
+  @ManyToOne((type) => Posts, (post) => post.content)
   @JoinColumn({ name: 'post_id' })
-  post!: Post;*/
+  post!: Posts;
 
   //コメントユーザーID
   @ManyToOne(() => User, (user) => user.id)
