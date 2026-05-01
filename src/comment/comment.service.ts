@@ -3,6 +3,7 @@ import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCommentDto} from './dto/create-comment.dto';
 import { Comment } from './entity/comment.entity';
+import { Posts } from '../posts/entities/posts.entity';
 
 //commentテーブルに対するデータ操作を担当するサービス
 @Injectable()
@@ -21,7 +22,7 @@ export class CommentService {
     // 投稿IDに基づいて全てのコメントを取得する
     async findAll(id: string) {
         return this.commentRepository.find({ 
-            relations: {'post': true},
+            relations: { post: true},
             where: { 
                 post: { 
                     id: id 
