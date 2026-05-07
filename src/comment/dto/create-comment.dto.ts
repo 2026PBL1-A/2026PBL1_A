@@ -4,5 +4,6 @@ export class CreateCommentDto {
     @IsString()
     @IsNotEmpty({ message: '内容を入力してください' })
     comment!: string;
-    
+    postid!: string;
+    userid!: string;
 }
