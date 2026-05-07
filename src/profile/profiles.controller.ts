@@ -4,7 +4,8 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { ProfileService } from './profiles.service';
 
-interface AuthenticatedRequest extends Request {//userIdを取得するためのインターフェース
+// userIdを取得するためのインターフェース
+interface AuthenticatedRequest extends Request {
 	user: { userId: string };
 }
 
