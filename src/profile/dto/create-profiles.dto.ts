@@ -10,7 +10,8 @@ export class CreateProfileDto {
     @IsOptional()
     tag?: string;
 
-    @IsString()
-    @IsOptional()
-    avatarUrl?: string;
+    // アバターURL（現在開発中）
+    // @IsString()
+    // @IsOptional()
+    // avatarUrl?: string;
 }

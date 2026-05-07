@@ -4,11 +4,12 @@ import { ProfileController } from './profiles.controller';
 import { ProfileService } from './profiles.service';
 import { Profile } from './entities/profiles.entity';
 import { User } from '../user/entities/user.entity';
+import { Posts } from '../posts/entities/posts.entity';
 
 // Profile機能のDI設定をまとめるモジュール
 @Module({
   // ProfileエンティティのRepositoryをServiceで利用可能にする
-  imports: [TypeOrmModule.forFeature([Profile, User])],
+  imports: [TypeOrmModule.forFeature([Profile, User, Posts])],
   controllers: [ProfileController],
   providers: [ProfileService],
   exports: [ProfileService],
