@@ -12,12 +12,12 @@ export class Comment {
   //投稿ID
   @ManyToOne((type) => Posts, (post) => post.content)
   @JoinColumn({ name: 'post_id' })
-  post!: Posts;
+  postid!: Posts;
 
   //コメントユーザーID
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
-  user!: User;
+  userid!: User;
 
   //コメント内容
   @Column()
