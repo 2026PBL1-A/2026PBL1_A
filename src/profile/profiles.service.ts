@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { Profile } from './entities/profiles.entity';
-import { User } from '../user/entities/user.entity';
 import { NotFoundException } from '@nestjs/common';
 
 //profileテーブルに対するデータ操作を担当するサービス
@@ -12,27 +11,18 @@ export class ProfileService {
     constructor(
         @InjectRepository(Profile)
         private readonly profileRepository: Repository<Profile>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
     ) {}
 
     // DTOをProfileエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
-    async create(createProfileDto: CreateProfileDto) {
-        const users = await this.userRepository.query(
-            'SELECT username FROM USERS WHERE id = ? LIMIT 1',
-            [createProfileDto.userId],
-        );
-
-        if (!users.length) {
+    async create(createProfileDto: CreateProfileDto, userId: string) {
+        if (!userId) {
             throw new NotFoundException('User not found');
         }
 
-        const username = users[0].username as string;
-
         const profile = this.profileRepository.create({
-            user_id: { id: createProfileDto.userId } as User,
-            username,
+            user_id: userId,
             bio: createProfileDto.bio,
+            tag: createProfileDto.tag,
             avatarUrl: createProfileDto.avatarUrl,
         });
 
