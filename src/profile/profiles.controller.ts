@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProfileDto } from './dto/create-profiles.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileService } from './profiles.service';
 
 // userIdを取得するためのインターフェース
@@ -21,6 +22,16 @@ export class ProfileController {
 	) {
 		const userId = req.user.userId;
 		return this.profileService.create(dto, userId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Patch()//プロフィール更新
+	update(
+		@Req() req: AuthenticatedRequest,
+		@Body() dto: UpdateProfileDto,
+	) {
+		const userId = req.user.userId;
+		return this.profileService.update(userId, dto);
 	}
 
 	@Get()//全件取得
