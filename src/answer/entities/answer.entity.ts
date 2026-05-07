@@ -1,0 +1,33 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
+import { User } from '../../user/entities/user.entity';
+import { Question } from '../../questions/entities/questions.entity';
+
+// Answersテーブルに対応するエンティティクラス
+@Entity('ANSWERS')
+export class Answer {
+  // 主キー（UUID文字列）
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
+
+  //質問ID
+  @ManyToOne((type) => Question, (question) => question.id)
+  @JoinColumn({ name: 'question_id' })
+  questionid!: Question;
+
+  //回答ユーザーID
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'user_id' })
+  userid!: User;
+
+  //回答内容
+  @Column()
+  answer!: string;
+
+  //score　いいね数？
+  @Column()
+  score!: number;
+
+  //投稿日時(自動作成)
+  @CreateDateColumn({ type: 'datetime', name: 'created_at'})
+  created_at!: Date;
+}
