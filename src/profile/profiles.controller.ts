@@ -43,4 +43,10 @@ export class ProfileController {
 	findOne(@Param('id') id: string) {
 		return this.profileService.findOne(id);
 	}
+
+	// 指定したプロフィールに紐づく投稿一覧を取得
+	@Get(':id/posts')
+	getPosts(@Param('id') id: string) {
+		return this.profileService.findPostsByProfileId(id);
+	}
 }

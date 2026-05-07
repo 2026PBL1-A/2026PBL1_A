@@ -6,6 +6,7 @@ import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profiles.entity';
 import { User } from '../user/entities/user.entity';
+import { Posts } from '../posts/entities/posts.entity';
 
 //profileテーブルに対するデータ操作を担当するサービス(userテーブルのServiceから呼び出される)
 @Injectable()
@@ -15,6 +16,8 @@ export class ProfileService {
         private readonly profileRepository: Repository<Profile>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        @InjectRepository(Posts)
+        private readonly postsRepository: Repository<Posts>,
     ) {}
 
     // DTOをProfileエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
@@ -29,7 +32,7 @@ export class ProfileService {
             user_id: userId,
             bio: createProfileDto.bio,
             tag: createProfileDto.tag,
-            avatarUrl: createProfileDto.avatarUrl,
+            // avatarUrl: createProfileDto.avatarUrl,
         });
 
         // 保存して作成済みのレコードを返却
@@ -80,5 +83,19 @@ export class ProfileService {
     async findOne(id: string) {
         return this.profileRepository.findOneBy({ id });
     }
-    
+
+    // プロフィールIDから紐づくユーザーの投稿一覧を取得する
+    async findPostsByProfileId(profileId: string) {
+        // プロフィール存在確認
+        const profile = await this.profileRepository.findOneBy({ id: profileId });
+        if (!profile) {
+            throw new NotFoundException('Profile not found');
+        }
+
+        // user_id に紐づく投稿を取得
+        return this.postsRepository.find({
+            where: { user_id: profile.user_id },
+            order: { created_at: 'DESC' as any },
+        });
+    }
 }
