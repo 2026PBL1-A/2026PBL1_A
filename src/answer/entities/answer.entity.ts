@@ -21,11 +21,11 @@ export class Answer {
 
   //回答内容
   @Column()
-  answer!: string;
+  comment!: string;
 
-  //score　いいね数？
-  @Column()
-  score!: number;
+  //いいね数
+  /*@Column({ default: 0 })
+  score!: number;*/
 
   //投稿日時(自動作成)
   @CreateDateColumn({ type: 'datetime', name: 'created_at'})
