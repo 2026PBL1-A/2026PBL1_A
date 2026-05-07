@@ -7,7 +7,7 @@ export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  // ユーザーID（postsテーブルと同様に文字列で保持）
+  // ユーザーID（Userテーブルのidと紐づく外部キー）
   @Column({ name: 'user_id', type: 'varchar', length: 36 })
   user_id!: string;
 
