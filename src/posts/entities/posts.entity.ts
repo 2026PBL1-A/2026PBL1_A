@@ -11,14 +11,17 @@ export class Posts {
     @Column()
     title!: string;
 
-    @Column()
+    @Column('text')
     content!: string;
 
+    @Column()
+    type!: string;
+
     @Column({ nullable: true })
-    tag!: string;
+    tag?: string;//?入力なくてもok
 
     @Column({ default: 0 })
-    score: number;
+    score!: number;
 
     @CreateDateColumn()
     created_at!: Date;
