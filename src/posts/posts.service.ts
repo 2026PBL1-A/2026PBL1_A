@@ -43,13 +43,11 @@ export class PostsService {
             {
                 title: 'first Post',
                 content: 'This is the first post.',
-                type: 'creation',
                 tag: 'sample'
             },
             {
                 title: 'second Post',
                 content: 'This is the second post',
-                type: 'creation',
                 tag: 'sample2'
             },
         ];

@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS POSTS (
   user_id VARCHAR(36) NOT NULL,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
-  type VARCHAR(50) NOT NULL,
   tag VARCHAR(255) ,
   -- image_url VARCHAR(255) ,
   score INT DEFAULT 0,

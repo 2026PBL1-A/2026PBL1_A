@@ -16,12 +16,7 @@ export class CreatePostDto {
     content!: string;   //必須項目
 
     @IsString()
-    @IsNotEmpty()
-    type!: string; 
-
-    @IsString()
     @IsOptional()
     @MaxLength(20,{ message: '20文字以内で入力してください' })
-    
     tag?: string;
 }

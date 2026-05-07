@@ -14,9 +14,6 @@ export class Posts {
     @Column('text')
     content!: string;
 
-    @Column()
-    type!: string;
-
     @Column({ nullable: true })
     tag?: string;//?入力なくてもok
 
