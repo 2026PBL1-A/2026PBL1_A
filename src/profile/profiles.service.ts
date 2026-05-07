@@ -5,7 +5,7 @@ import { CreateProfileDto } from './dto/create-profiles.dto';
 import { Profile } from './entities/profiles.entity';
 import { NotFoundException } from '@nestjs/common';
 
-//profileテーブルに対するデータ操作を担当するサービス
+//profileテーブルに対するデータ操作を担当するサービス(userテーブルのServiceから呼び出される)
 @Injectable()
 export class ProfileService {
     constructor(
