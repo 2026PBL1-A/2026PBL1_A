@@ -27,8 +27,9 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const user = this.userRepository.create({
-      ...createUserDto,
-      password: hashedPassword,
+      username: createUserDto.name,
+      email: createUserDto.email,
+      passwordHash: hashedPassword,
     });
     return this.userRepository.save(user);
   }
@@ -43,19 +44,22 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
-  // ログイン用にpasswordを明示取得する
+  // ログイン用にpasswordHashを明示取得する
   async findByEmail(email: string) {
     return this.userRepository.findOne({
       where: { email },
-      select: { id: true, name: true, email: true, password: true },
+      select: { id: true, username: true, email: true, passwordHash: true },
     });
   }
 
   // 指定IDのユーザー情報を更新し、その後最新の状態を取得して返す
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const updateData = { ...updateUserDto };
-    if (updateData.password) {
-      updateData.password = await bcrypt.hash(updateData.password, 10);
+    const updateData: any = {};
+    if (updateUserDto.name) {
+      updateData.username = updateUserDto.name;
+    }
+    if (updateUserDto.password) {
+      updateData.passwordHash = await bcrypt.hash(updateUserDto.password, 10);
     }
 
     await this.userRepository.update(id, updateData);
@@ -80,8 +84,9 @@ export class UserService {
       samples.map(async (sample) => {
         const hashedPassword = await bcrypt.hash(sample.password, 10);
         return this.userRepository.create({
-          ...sample,
-          password: hashedPassword,
+          username: sample.name,
+          email: sample.email,
+          passwordHash: hashedPassword,
         });
       }),
     );

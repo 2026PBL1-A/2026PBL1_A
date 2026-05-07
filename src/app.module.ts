@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
+import { ProfileModule } from './profile/profiles.module';
 
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
@@ -26,7 +27,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
       password: process.env.DB_PASSWORD ?? 'password',
       database: process.env.DB_NAME ?? 'my_app_db',
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: shouldSynchronize,
     }),
     // ユーザー関連APIを提供するモジュール
     UserModule,
@@ -34,6 +35,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     AuthModule,
     // コメント関連APIを提供するモジュール
     CommentModule,
+    // プロフィール関連APIを提供するモジュール
+    ProfileModule,
     // 投稿関連APIを提供するモジュール]
     PostsModule,
   ],
