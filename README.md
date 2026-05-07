@@ -25,6 +25,7 @@ npm install
 ### ② MySQL起動（Docker）
 
 ```bash
+docker compose down -v
 docker compose up -d
 ```
 
@@ -106,7 +107,7 @@ src/
 
 ## 🧩 現在のAPI一覧
 
-ベースパス：`/auth`, `/user`
+ベースパス：`/auth`, `/user`, `/profiles`, `/posts`
 
 ### 認証
 
@@ -124,6 +125,25 @@ src/
 | PATCH  | /user/:id  | 更新（JWT必須） |
 | DELETE | /user/:id  | 削除（JWT必須） |
 | POST   | /user/seed | 仮データ投入 |
+
+### プロフィール
+
+| Method | Path           | 内容         |
+| ------ | -------------- | ---------- |
+| POST   | /profiles      | 作成（JWT必須） |
+| GET    | /profiles      | 一覧取得 |
+| GET    | /profiles/:id  | 詳細取得 |
+| PATCH  | /profiles      | 更新（JWT必須） |
+| GET    | /profiles/:id/posts | プロフィール属性ユーザーの投稿一覧取得 |
+
+### 投稿
+
+| Method | Path       | 内容     |
+| ------ | ---------- | ------ |
+| POST   | /posts     | 新規作成（JWT必須） |
+| GET    | /posts     | 一覧取得 |
+| GET    | /posts/:id | 詳細取得 |
+| GET    | /posts/seed | 仮データ投入 |
 
 ---
 
@@ -196,6 +216,72 @@ Invoke-RestMethod -Method Delete `
   -Headers @{ Authorization = "Bearer $token" }
 ```
 
+### プロフィール一覧取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles
+```
+
+### プロフィール詳細取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles/<profileId>
+```
+
+### プロフィール更新（JWT必須）
+
+```powershell
+$updateBody = @{
+  username = "Updated User"
+  bio = "新しい自己紹介"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/profiles `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $updateBody
+```
+
+### プロフィールのユーザー投稿取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles/<profileId>/posts
+```
+
+### 投稿一覧取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts
+```
+
+### 投稿詳細取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/<postId>
+```
+
+### 投稿作成（JWT必須）
+
+```powershell
+$postBody = @{
+  title = "タイトル"
+  content = "本文内容"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/posts `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $postBody
+```
+
+### 投稿仮データ投入
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
+```
+
 
 
 
@@ -248,6 +334,60 @@ curl -X PATCH http://localhost:5000/user/<id> \
 ```bash
 curl -X DELETE http://localhost:5000/user/<id> \
   -H "Authorization: Bearer $TOKEN"
+```
+
+### プロフィール一覧取得
+
+```bash
+curl -X GET http://localhost:5000/profiles
+```
+
+### プロフィール詳細取得
+
+```bash
+curl -X GET http://localhost:5000/profiles/<profileId>
+```
+
+### プロフィール更新（JWT必須）
+
+```bash
+curl -X PATCH http://localhost:5000/profiles \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"Updated User","bio":"新しい自己紹介"}'
+```
+
+### プロフィールのユーザー投稿取得
+
+```bash
+curl -X GET http://localhost:5000/profiles/<profileId>/posts
+```
+
+### 投稿一覧取得
+
+```bash
+curl -X GET http://localhost:5000/posts
+```
+
+### 投稿詳細取得
+
+```bash
+curl -X GET http://localhost:5000/posts/<postId>
+```
+
+### 投稿作成（JWT必須）
+
+```bash
+curl -X POST http://localhost:5000/posts \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"タイトル","content":"本文内容"}'
+```
+
+### 投稿仮データ投入
+
+```bash
+curl -X GET http://localhost:5000/posts/seed
 ```
 
 ---
