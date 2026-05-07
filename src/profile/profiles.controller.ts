@@ -1,0 +1,34 @@
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CreateProfileDto } from './dto/create-profiles.dto';
+import { ProfileService } from './profiles.service';
+
+interface AuthenticatedRequest extends Request {//userIdを取得するためのインターフェース
+	user: { userId: string };
+}
+
+@Controller('profiles')
+export class ProfileController {
+	constructor(private readonly profileService: ProfileService) {}
+
+	@UseGuards(JwtAuthGuard)
+	@Post()//新規作成
+	create(
+		@Req() req: AuthenticatedRequest,
+		@Body() dto: CreateProfileDto,
+	) {
+		const userId = req.user.userId;
+		return this.profileService.create(dto, userId);
+	}
+
+	@Get()//全件取得
+	findAll() {
+		return this.profileService.findAll();
+	}
+
+	@Get(':id')//指定したプロフィールを取得
+	findOne(@Param('id') id: string) {
+		return this.profileService.findOne(id);
+	}
+}

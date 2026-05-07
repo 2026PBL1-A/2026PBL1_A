@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 // Profilesテーブルに対応するエンティティクラス
 @Entity('PROFILES')
@@ -8,28 +7,19 @@ export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  // ユーザー（外部キー）UNIQUE制約を付与
-  @OneToOne(() => User)
-  @JoinColumn({})
-  user_id!: User;
-
-  // user_id から取得したユーザー名
-  @Column({ name: 'username', type: 'varchar', length: 255 })
-  username!: string;
+  // ユーザーID（postsテーブルと同様に文字列で保持）
+  @Column({ name: 'user_id', type: 'varchar', length: 36 })
+  user_id!: string;
 
   // 自己紹介文
   @Column({ name: 'bio', type: 'text', nullable: true })
   bio?: string;
 
+  // 習得技術スタック
+  @Column({ name: 'tag', type: 'varchar', length: 255, nullable: true })
+  tag?: string;
+
   // アバターのURL
   @Column({ name: 'avatar_url', type: 'varchar', length: 255, nullable: true })
   avatarUrl?: string;
-
-  // 作成日時（自動管理）
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt!: Date;
-
-  // 更新日時（自動管理）
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt!: Date;
 }
