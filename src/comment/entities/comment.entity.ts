@@ -12,20 +12,20 @@ export class Comment {
   //投稿ID
   @ManyToOne(() => Posts)
   @JoinColumn({ name: 'post_id' })
-  postid!: Posts;
+  postId!: Posts;
 
   //コメントユーザーID
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
-  userid!: User;
+  userId!: User;
 
   //コメント内容
   @Column()
   comment!: string;
 
   //score　いいね数？
-  /*@Column()
-  score!: number;*/
+  @Column({ default: 0 })
+  score!: number;
 
   //投稿日時(自動作成)
   @CreateDateColumn({ type: 'datetime', name: 'created_at'})
