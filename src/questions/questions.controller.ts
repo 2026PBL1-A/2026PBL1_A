@@ -1,0 +1,40 @@
+import { Controller, Post, Get, Body, Param, Req, UseGuards, } from '@nestjs/common';
+import { Request } from 'express';
+import { QuestionsService } from './questions.service';
+import { CreateQuestionDto } from './dto/create-question.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
+interface AuthenticatedRequest extends Request {
+    user: { userId: string };
+}
+
+@Controller('questions')
+export class QuestionsController {
+    constructor(private readonly questionsService: QuestionsService) {}
+
+    @Get('seed')//仮データ
+    seed() {
+        return this.questionsService.seed();
+    }
+
+
+    @UseGuards(JwtAuthGuard)
+    @Post()//新規作成
+    create(
+        @Req() req: AuthenticatedRequest,
+        @Body() dto: CreateQuestionDto,
+    ) {
+        const userId = req.user.userId;
+        return this.questionsService.createQuestion(dto, userId);
+    }
+
+    @Get()//全件取得
+    findAll() {
+        return this.questionsService.findAll();
+    }
+
+    @Get(':id')//指定した質問を取得
+    findOne(@Param('id') id: string) {
+        return this.questionsService.findOne(id);
+    }
+}

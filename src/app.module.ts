@@ -6,6 +6,7 @@ import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
 import { ProfileModule } from './profile/profiles.module';
+import { QuestionsModule } from './questions/questions.module';
 
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
@@ -39,6 +40,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     ProfileModule,
     // 投稿関連APIを提供するモジュール]
     PostsModule,
+    // 質問関連APIを提供するモジュール
+    QuestionsModule,
   ],
 })
 export class AppModule {}
