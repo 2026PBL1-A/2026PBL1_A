@@ -77,14 +77,34 @@ export class ProfileService {
         };
     }
 
-    // すべてのプロフィールを取得する
+    // すべてのプロフィール、ユーザー名、メールアドレスを取得する
     async findAll() {
-        return this.profileRepository.find();
+        const profiles = await this.profileRepository.find();
+        // 各プロフィールに紐づくユーザー情報を付与して返却
+        return Promise.all(
+            profiles.map(async (p) => {
+                const user = await this.userRepository.findOne({ where: { id: p.user_id } });
+                return {
+                    profile: p,
+                    user: user
+                        ? { id: user.id, username: user.username, email: user.email }
+                        : null,
+                };
+            }),
+        );
     }
 
     // IDで1件取得する
     async findOne(id: string) {
-        return this.profileRepository.findOneBy({ id });
+        const profile = await this.profileRepository.findOneBy({ id });
+        if (!profile) {
+            throw new NotFoundException('Profile not found');
+        }
+        const user = await this.userRepository.findOne({ where: { id: profile.user_id } });
+        return {
+            profile,
+            user: user ? { id: user.id, username: user.username, email: user.email } : null,
+        };
     }
 
     // プロフィールIDから紐づくユーザーの投稿一覧を取得する
