@@ -29,6 +29,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
       database: process.env.DB_NAME ?? 'my_app_db',
       autoLoadEntities: true,
       synchronize: shouldSynchronize,
+      timezone: 'Z', // UTCで日時を保存する
     }),
     // ユーザー関連APIを提供するモジュール
     UserModule,
