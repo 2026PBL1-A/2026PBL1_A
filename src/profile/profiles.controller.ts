@@ -49,4 +49,10 @@ export class ProfileController {
 	getPosts(@Param('id') id: string) {
 		return this.profileService.findPostsByProfileId(id);
 	}
+
+	// 指定したプロフィールに紐づく質問一覧を取得
+	@Get(':id/questions')
+	getQuestions(@Param('id') id: string) {
+		return this.profileService.findQuestionsByProfileId(id);
+	}
 }
