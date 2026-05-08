@@ -135,6 +135,7 @@ src/
 | GET    | /profiles/:id  | 詳細取得 |
 | PATCH  | /profiles      | 更新（JWT必須） |
 | GET    | /profiles/:id/posts | プロフィール属性ユーザーの投稿一覧取得 |
+| GET    | /profiles/:id/questions | プロフィール属性ユーザーの質問一覧取得 |
 
 ### 投稿
 
