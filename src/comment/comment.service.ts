@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateCommentDto} from './dto/create-comment.dto';
-import { Comment } from './entity/comment.entity';
+import { Comment } from './entities/comment.entity';
 import { User } from '../user/entities/user.entity';
 import { Posts } from '../posts/entities/posts.entity';
 
@@ -20,8 +20,8 @@ export class CommentService {
 
     // DTOをCommentエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
     async create(createCommentDto: CreateCommentDto) {
-        const post = await this.commentRepository.findOneBy({ id: createCommentDto.postid });
-        const user = await this.commentRepository.findOneBy({ id: createCommentDto.userid });
+        const post = await this.postsRepository.findOneBy({ id: createCommentDto.postid });
+        const user = await this.userRepository.findOneBy({ id: createCommentDto.userid });
 
         if (!post || !user) {
             throw new Error('指定された投稿IDまたはユーザーIDが存在しません');
@@ -38,9 +38,6 @@ export class CommentService {
             where: { 
                 postid: { 
                     id: id 
-                },
-                userid: {
-                    id: id
                 }
             }
         });
