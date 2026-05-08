@@ -58,9 +58,16 @@ TypeOrmModule.forRoot({
   username: process.env.DB_USER ?? 'user',
   password: process.env.DB_PASSWORD ?? 'password',
   database: process.env.DB_NAME ?? 'mydb',
+  charset: 'utf8mb4',
   autoLoadEntities: true,
   synchronize: (process.env.DB_SYNCHRONIZE ?? 'false') === 'true',
+  timezone: 'Z',
 })
+```
+
+MySQLへ接続するときの文字コード指定
+```bash
+docker exec -it mysql_db mysql --default-character-set=utf8mb4 -u root -p
 ```
 
 ### ⚠️ 注意

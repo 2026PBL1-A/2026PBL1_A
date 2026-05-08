@@ -27,6 +27,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
       username: process.env.DB_USER ?? 'user',
       password: process.env.DB_PASSWORD ?? 'password',
       database: process.env.DB_NAME ?? 'my_app_db',
+      charset: 'utf8mb4',
       autoLoadEntities: true,
       synchronize: shouldSynchronize,
       timezone: 'Z', // UTCで日時を保存する
