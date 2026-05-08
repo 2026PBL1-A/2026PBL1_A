@@ -4,7 +4,7 @@ import { Repository, DeepPartial } from 'typeorm';
 import { CreateAnswerDto} from './dto/create-answer.dto';
 import { Answer } from './entities/answer.entity';
 import { User } from '../user/entities/user.entity';
-import { Question } from '../questions/entities/question.entity';
+import { Questions } from '../questions/entities/questions.entity';
 
 //answerテーブルに対するデータ操作を担当するサービス
 @Injectable()
@@ -14,8 +14,8 @@ export class AnswerService {
         private readonly answerRepository: Repository<Answer>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-        @InjectRepository(Question)
-        private readonly questionRepository: Repository<Question>,
+        @InjectRepository(Questions)
+        private readonly questionRepository: Repository<Questions>,
     ) {}
 
     // DTOをAnswerエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
@@ -38,9 +38,6 @@ export class AnswerService {
             where: { 
                 questionid: { 
                     id: id 
-                },
-                userid: {
-                    id: id
                 }
             }
         });
@@ -72,9 +69,9 @@ export class AnswerService {
         }
 
         const sampleanswer: DeepPartial<Answer>[] = [
-            { comment: 'これは質問1のサンプル回答1です', questionid: { id: questions[0].id }, userid: { id: users[0].id } },
-            { comment: 'これは質問1のサンプル回答2です', questionid: { id: questions[0].id }, userid: { id: users[1].id } },
-            { comment: 'これは質問2のサンプル回答1です', questionid: { id: questions[1].id }, userid: { id: users[0].id } },
+            { comment: 'これは質問1のサンプル回答1です', questionid: { id: questions[0].id }, userid: { id: users[0].id }, score: 1 },
+            { comment: 'これは質問1のサンプル回答2です', questionid: { id: questions[0].id }, userid: { id: users[1].id }, score: 0 },
+            { comment: 'これは質問2のサンプル回答1です', questionid: { id: questions[1].id }, userid: { id: users[0].id }, score: 0 },
         ];
         return this.answerRepository.save(sampleanswer);
     }
