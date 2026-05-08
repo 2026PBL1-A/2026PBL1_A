@@ -20,23 +20,23 @@ export class CommentService {
 
     // DTOをCommentエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
     async create(createCommentDto: CreateCommentDto) {
-        const post = await this.postsRepository.findOneBy({ id: createCommentDto.postid });
-        const user = await this.userRepository.findOneBy({ id: createCommentDto.userid });
+        const post = await this.postsRepository.findOneBy({ id: createCommentDto.postId });
+        const user = await this.userRepository.findOneBy({ id: createCommentDto.userId });
 
         if (!post || !user) {
             throw new Error('指定された投稿IDまたはユーザーIDが存在しません');
         }
 
-        const comment = this.commentRepository.create({ comment: createCommentDto.comment, postid: post, userid: user  });
+        const comment = this.commentRepository.create({ comment: createCommentDto.comment, postId: post, userId: user  });
         return await this.commentRepository.save(comment);
     }
     
     // 投稿IDに基づいて全てのコメントを取得する
     async findAll(id: string) {
         return this.commentRepository.find({ 
-            relations: { postid: true, userid: true },
+            relations: { postId: true, userId: true },
             where: { 
-                postid: { 
+                postId: { 
                     id: id 
                 }
             }
@@ -69,9 +69,9 @@ export class CommentService {
         }
 
         const samplecomment: DeepPartial<Comment>[] = [
-            { comment: 'これは投稿1のサンプルコメント1です', postid: { id: posts[0].id }, userid: { id: users[0].id } },
-            { comment: 'これは投稿1のサンプルコメント2です', postid: { id: posts[0].id }, userid: { id: users[1].id } },
-            { comment: 'これは投稿2のサンプルコメント1です', postid: { id: posts[1].id }, userid: { id: users[0].id } },
+            { comment: 'これは投稿1のサンプルコメント1です', postId: { id: posts[0].id }, userId: { id: users[0].id }, score: 1 },
+            { comment: 'これは投稿1のサンプルコメント2です', postId: { id: posts[0].id }, userId: { id: users[1].id }, score: 2 },
+            { comment: 'これは投稿2のサンプルコメント1です', postId: { id: posts[1].id }, userId: { id: users[0].id }, score: 3 },
         ];
         return this.commentRepository.save(samplecomment);
     }
