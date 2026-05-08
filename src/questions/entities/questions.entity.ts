@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn,Column,CreateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn} from 'typeorm';
 
-@Entity('POSTS')
-export class Posts {
+@Entity('QUESTIONS')
+export class Questions {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
@@ -15,10 +15,7 @@ export class Posts {
     content!: string;
 
     @Column({ nullable: true })
-    tag?: string;//?入力なくてもok
-
-    @Column({ default: 0 })
-    score!: number;
+    tag?: string;
 
     @CreateDateColumn()
     created_at!: Date;
