@@ -12,12 +12,12 @@ export class Answer {
   //質問ID
   @ManyToOne((type) => Questions)
   @JoinColumn({ name: 'question_id' })
-  questionid!: Questions;
+  questionId!: Questions;
 
   //回答ユーザーID
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
-  userid!: User;
+  userId!: User;
 
   //回答内容
   @Column()
