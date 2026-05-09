@@ -24,8 +24,8 @@ export class Comment {
   comment!: string;
 
   //score　いいね数？
-  @Column({ default: 0 })
-  score!: number;
+  // @Column({ default: 0 })
+  // score!: number;
 
   //投稿日時(自動作成)
   @CreateDateColumn({ type: 'datetime', name: 'created_at'})
