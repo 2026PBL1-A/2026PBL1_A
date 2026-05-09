@@ -8,8 +8,13 @@ import {
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentService } from './comment.service';
 
-// コメントデータのCRUD(作成、取得)を行うコントローラー
+// requestからユーザーIDと投稿IDを取得するためのインターフェース
+interface AuthenticatedRequest extends Request {
+  user: {userId: string};
+  post: { postId: string };
+}
 
+// コメントデータのCRUD(作成、取得)を行うコントローラー
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
@@ -18,6 +23,11 @@ export class CommentController {
   @Get('post/:id')
   findAll(@Param('id') id: string) {
     return this.commentService.findAll(id);
+  }
+
+  @Get('post/:postId')
+  findByPostId(@Param('postId') postId: string) {
+    return this.commentService.findByPostId(postId);
   }
 
   // コメントのidを指定してデータ取得
