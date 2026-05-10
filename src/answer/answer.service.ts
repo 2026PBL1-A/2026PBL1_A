@@ -32,13 +32,19 @@ export class AnswerService {
     }
 
     // 質問IDに基づいて全ての回答を取得する
-    async findAll(id: string) {
+    async findByQuestionId(questionId: string) {
         return this.answerRepository.find({ 
-            relations: { questionId: true, userId: true },
+            relations: { 
+                questionId: true, 
+                userId: true 
+            },
             where: { 
                 questionId: { 
-                    id: id 
+                    id: questionId 
                 }
+            },
+            order: {
+                created_at: 'ASC'
             }
         });
     }
@@ -70,8 +76,8 @@ export class AnswerService {
 
         const sampleanswer: DeepPartial<Answer>[] = [
             { comment: 'これは質問1のサンプル回答1です', questionId: { id: questions[0].id }, userId: { id: users[0].id }, score: 1 },
-            { comment: 'これは質問1のサンプル回答2です', questionId: { id: questions[0].id }, userId: { id: users[1].id }, score: 0 },
-            { comment: 'これは質問2のサンプル回答1です', questionId: { id: questions[1].id }, userId: { id: users[0].id }, score: 0 },
+            { comment: 'これは質問1のサンプル回答2です', questionId: { id: questions[0].id }, userId: { id: users[1].id }, score: 2 },
+            { comment: 'これは質問2のサンプル回答1です', questionId: { id: questions[1].id }, userId: { id: users[0].id }, score: 3 },
         ];
         return this.answerRepository.save(sampleanswer);
     }
