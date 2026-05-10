@@ -31,23 +31,12 @@ export class CommentService {
         return await this.commentRepository.save(comment);
     }
     
+    //投稿IDに基づいて取得する
     async findByPostId(postId: string) {
         return this.commentRepository.find({ 
             relations: { postId: true, userId: true },
             where: { postId: { id: postId } },
             order: { created_at: 'ASC' }
-        });
-    }
-
-    // 投稿IDに基づいて全てのコメントを取得する
-    async findAll(id: string) {
-        return this.commentRepository.find({ 
-            relations: { postId: true, userId: true },
-            where: { 
-                postId: { 
-                    id: id 
-                }
-            }
         });
     }
 

@@ -19,12 +19,7 @@ interface AuthenticatedRequest extends Request {
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  // 投稿IDに基づいて全てのコメントデータの取得
-  @Get('post/:id')
-  findAll(@Param('id') id: string) {
-    return this.commentService.findAll(id);
-  }
-
+  // 投稿IDを指定してコメントデータ取得
   @Get('post/:postId')
   findByPostId(@Param('postId') postId: string) {
     return this.commentService.findByPostId(postId);
