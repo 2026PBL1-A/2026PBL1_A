@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn,Column,CreateDateColumn, OneToMany } from "typeorm";
+import { ProfileTag } from "../../profile-tags/entities/profile-tags.entity";
 
 // Profilesテーブルに対応するエンティティクラス
 @Entity('PROFILES')
@@ -14,6 +15,9 @@ export class Profile {
   // 自己紹介文
   @Column({ name: 'bio', type: 'text', nullable: true })
   bio?: string;
+
+  @OneToMany(() => ProfileTag, (profileTag) => profileTag.profile)
+  profileTags!: ProfileTag[];
 
   // アバターのURL（現在開発中）
   // @Column({ name: 'avatar_url', type: 'varchar', length: 255, nullable: true })
