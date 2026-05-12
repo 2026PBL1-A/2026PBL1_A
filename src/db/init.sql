@@ -116,3 +116,10 @@ CREATE TABLE IF NOT EXISTS POST_SCORE (
     FOREIGN KEY (user_id) REFERENCES USERS(id)
         ON DELETE CASCADE
 );
+
+-- answer_scoreテーブル作成(テーブル大文字)
+CREATE TABLE IF NOT EXISTS ANSWER_SCORE (
+  answer_id VARCHAR(36) NOT NULL,
+  user_id VARCHAR(36) NOT NULL,
+  PRIMARY KEY (answer_id, user_id)
+);
