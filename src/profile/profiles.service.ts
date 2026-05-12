@@ -35,8 +35,7 @@ export class ProfileService {
         // エンティティを作成
         const profile = this.profileRepository.create({
             user_id: userId,
-            bio: createProfileDto.bio,
-            tag: createProfileDto.tag,
+            bio: createProfileDto.bio
             // avatarUrl: createProfileDto.avatarUrl,
         });
 

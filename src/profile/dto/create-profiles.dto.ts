@@ -6,10 +6,6 @@ export class CreateProfileDto {
     @IsOptional()
     bio?: string;
 
-    @IsString()
-    @IsOptional()
-    tag?: string;
-
     // アバターURL（現在開発中）
     // @IsString()
     // @IsOptional()

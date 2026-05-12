@@ -15,10 +15,6 @@ export class Profile {
   @Column({ name: 'bio', type: 'text', nullable: true })
   bio?: string;
 
-  // 習得技術スタック
-  @Column({ name: 'tag', type: 'varchar', length: 255, nullable: true })
-  tag?: string;
-
   // アバターのURL（現在開発中）
   // @Column({ name: 'avatar_url', type: 'varchar', length: 255, nullable: true })
   // avatarUrl?: string;
