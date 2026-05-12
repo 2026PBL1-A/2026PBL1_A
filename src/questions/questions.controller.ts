@@ -17,7 +17,6 @@ export class QuestionsController {
         return this.questionsService.seed();
     }
 
-
     @UseGuards(JwtAuthGuard)
     @Post()//新規作成
     create(

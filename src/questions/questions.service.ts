@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Questions } from './entities/questions.entity';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { QuestionTag } from '../question-tags/entities/question-tags.entity';
 
 @Injectable()
 export class QuestionsService {
     constructor(
         @InjectRepository(Questions)
         private questionsRepository: Repository<Questions>,
+        @InjectRepository(QuestionTag)
+        private questionTagRepository: Repository<QuestionTag>,
     ) {}
 
     async seed() {
@@ -36,21 +39,46 @@ export class QuestionsService {
     async createQuestion(createQuestionDto: CreateQuestionDto, userId: string): Promise<Questions> {
         const question = this.questionsRepository.create({
             user_id: userId,
-            ...createQuestionDto,
+            title: createQuestionDto.title,
+            content: createQuestionDto.content,
         });
-        return await this.questionsRepository.save(question);
+        const savedQuestion = await this.questionsRepository.save(question);
+
+        if (createQuestionDto.tag_ids && createQuestionDto.tag_ids.length > 0) {
+            const questionTags = createQuestionDto.tag_ids.map((tag_id) =>
+                this.questionTagRepository.create({
+                    question_id: savedQuestion.id,
+                    tag_id,
+                })
+            );
+            await this.questionTagRepository.save(questionTags);
+        }
+
+        return savedQuestion;
     }
     
 //全件取得
     async findAll(): Promise<Questions[]> {
         return this.questionsRepository.find({
             order: { created_at: 'DESC' },
+            relations: {
+                questionTags: {
+                    tag: true,
+                },
+            },
         });
     }
 
 //ID取得
     async findOne(id: string): Promise<Questions > {
-        const question = await this.questionsRepository.findOneBy({ id });
+        const question = await this.questionsRepository.findOne({
+            where: { id },
+            relations: {
+                questionTags: {
+                    tag: true,
+                },
+            },
+        });
         if (!question) {
             throw new NotFoundException('質問が見つかりません');
         }
