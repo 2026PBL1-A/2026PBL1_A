@@ -8,6 +8,7 @@ import { CommentModule } from './comment/comment.module';
 import { ProfileModule } from './profile/profiles.module';
 import { QuestionsModule } from './questions/questions.module';
 import { AnswerModule } from './answer/answer.module';
+import { TagsModule } from './tags/tags.module';
 
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
@@ -47,6 +48,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     QuestionsModule,
     // 回答関連APIを提供するモジュール
     AnswerModule,
+    // タグ関連APIを提供するモジュール
+    TagsModule,
   ],
 })
 export class AppModule {}
