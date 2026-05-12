@@ -54,6 +54,15 @@ export class AnswerService {
         return this.answerRepository.findOneBy({ id });
     }
 
+    // scoreを更新する
+    async updateScore(answerId: string) {
+        if (!answerId) {
+            throw new Error('回答IDが存在しません');
+        }
+        await this.answerRepository.increment({ id: answerId }, 'score', 1);
+        return this.findOne(answerId);
+    }
+
     // 必要なら。指定IDの回答情報を更新し、その後最新の状態を取得して返す
     /*async update(id: string, updateAnswerDto: CreateAnswerDto) {
         await this.answerRepository.update(id, updateAnswerDto);
