@@ -42,13 +42,11 @@ export class PostsService {
         const samples: CreatePostDto[] = [
             {
                 title: 'first Post',
-                content: 'This is the first post.',
-                tag: 'sample'
+                content: 'This is the first post.'
             },
             {
                 title: 'second Post',
-                content: 'This is the second post',
-                tag: 'sample2'
+                content: 'This is the second post'
             },
         ];
         const posts = samples.map(sample => 

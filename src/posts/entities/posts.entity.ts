@@ -14,9 +14,6 @@ export class Posts {
     @Column('text')
     content!: string;
 
-    @Column({ nullable: true })
-    tag?: string;//?入力なくてもok
-
     @Column({ default: 0 })
     score!: number;
 
