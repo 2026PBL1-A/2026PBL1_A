@@ -6,11 +6,12 @@ import { Profile } from './entities/profiles.entity';
 import { User } from '../user/entities/user.entity';
 import { Posts } from '../posts/entities/posts.entity';
 import { Questions } from '../questions/entities/questions.entity';
+import { ProfileTag } from '../profile-tags/entities/profile-tags.entity';
 
 // Profile機能のDI設定をまとめるモジュール
 @Module({
   // ProfileエンティティのRepositoryをServiceで利用可能にする
-  imports: [TypeOrmModule.forFeature([Profile, User, Posts, Questions])],
+  imports: [TypeOrmModule.forFeature([Profile, User, Posts, Questions, ProfileTag])],
   controllers: [ProfileController],
   providers: [ProfileService],
   exports: [ProfileService],
