@@ -16,13 +16,11 @@ export class QuestionsService {
         const samples: CreateQuestionDto[] = [
             {
                 title: 'first Question',
-                content: 'This is the first question.',
-                tag: 'sample'
+                content: 'This is the first question.'
             },
             {
                 title: 'second Question',
-                content: 'This is the second question.',
-                tag: 'sample2'
+                content: 'This is the second question.'
                 },
             ];
         const questions = samples.map(sample =>

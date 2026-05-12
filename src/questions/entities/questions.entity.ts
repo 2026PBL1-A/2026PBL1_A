@@ -14,9 +14,6 @@ export class Questions {
     @Column('text')
     content!: string;
 
-    @Column({ nullable: true })
-    tag?: string;
-
     @CreateDateColumn()
     created_at!: Date;
 }

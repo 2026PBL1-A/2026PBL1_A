@@ -14,9 +14,4 @@ export class CreateQuestionDto {
     @Transform(({ value }) => value.trim()) // 空白入力のみを防止
     @MaxLength(5000,{ message: '5000文字以内で入力してください' })
     content!: string
-
-    @IsString()
-    @IsOptional()
-    @MaxLength(20,{ message: '20文字以内で入力してください' })
-    tag?: string;
 } 
