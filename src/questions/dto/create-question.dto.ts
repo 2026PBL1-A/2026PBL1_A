@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional, IsString, MinLength, MaxLength, } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, MaxLength, } from 'class-validator';
 
 export class CreateQuestionDto {
     @IsString()
@@ -14,4 +14,9 @@ export class CreateQuestionDto {
     @Transform(({ value }) => value.trim()) // 空白入力のみを防止
     @MaxLength(5000,{ message: '5000文字以内で入力してください' })
     content!: string
+
+    @IsOptional()
+    @IsArray()
+    @IsUUID('4', { each: true })
+    tag_ids?: string[];
 } 

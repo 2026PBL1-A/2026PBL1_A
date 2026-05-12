@@ -292,7 +292,7 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/<postId>
 ```
 
-### 投稿作成（JWT必須）
+### 投稿作成（JWT必須、タグなし）
 
 ```powershell
 $postBody = @{
@@ -307,10 +307,63 @@ Invoke-RestMethod -Method Post `
   -Body $postBody
 ```
 
+### 投稿作成（JWT必須、タグ複数指定）
+
+```powershell
+$postBody = @{
+  title = "タイトル（タグ付き）"
+  content = "本文内容（タグ付き）"
+  tag_ids = @("uuid-1", "uuid-2")
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/posts `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $postBody
+```
+
 ### 投稿仮データ投入
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
+```
+
+### 質問作成（JWT必須、タグなし）
+
+```powershell
+$questionBody = @{
+  title = "質問タイトル"
+  content = "質問本文"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/questions `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $questionBody
+```
+
+### 質問作成（JWT必須、タグ複数指定）
+
+```powershell
+$questionBody = @{
+  title = "質問タイトル（タグ付き）"
+  content = "質問本文（タグ付き）"
+  tag_ids = @("uuid-1", "uuid-2")
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/questions `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $questionBody
+```
+
+### 質問詳細取得（タグ情報込み）
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions/<questionId>
 ```
 
 ### タグ作成
@@ -448,7 +501,7 @@ curl -X GET http://localhost:5000/posts
 curl -X GET http://localhost:5000/posts/<postId>
 ```
 
-### 投稿作成（JWT必須）
+### 投稿作成（JWT必須、タグなし）
 
 ```bash
 curl -X POST http://localhost:5000/posts \
@@ -457,10 +510,43 @@ curl -X POST http://localhost:5000/posts \
   -d '{"title":"タイトル","content":"本文内容"}'
 ```
 
+### 投稿作成（JWT必須、タグ複数指定）
+
+```bash
+curl -X POST http://localhost:5000/posts \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"タイトル","content":"本文内容","tag_ids":["uuid-1","uuid-2"]}'
+```
+
 ### 投稿仮データ投入
 
 ```bash
 curl -X GET http://localhost:5000/posts/seed
+```
+
+### 質問作成（JWT必須、タグなし）
+
+```bash
+curl -X POST http://localhost:5000/questions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"質問タイトル","content":"質問本文"}'
+```
+
+### 質問作成（JWT必須、タグ複数指定）
+
+```bash
+curl -X POST http://localhost:5000/questions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"質問タイトル（タグ付き）","content":"質問本文（タグ付き）","tag_ids":["uuid-1","uuid-2"]}'
+```
+
+### 質問詳細取得（タグ情報込み）
+
+```bash
+curl -X GET http://localhost:5000/questions/<questionId>
 ```
 
 ### タグ作成
