@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 import { Profile } from './entities/profiles.entity';
 import { User } from '../user/entities/user.entity';
 import { Posts } from '../posts/entities/posts.entity';
@@ -135,5 +137,41 @@ export class ProfileService {
             where: { user_id: profile.user_id },
             order: { created_at: 'DESC' as any },
         });
+    }
+
+    // パスワードを更新する
+    async updatePassword(userId: string, updatePasswordDto: UpdatePasswordDto) {
+        // User の存在確認
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            select: { id: true, passwordHash: true },
+        });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        // 新しいパスワードと確認パスワードが一致しているか確認
+        if (updatePasswordDto.newPassword !== updatePasswordDto.confirmPassword) {
+            throw new BadRequestException('新しいパスワードと確認パスワードが一致しません');
+        }
+
+        // 現在のパスワードが正しいか確認
+        const isPasswordValid = await bcrypt.compare(
+            updatePasswordDto.currentPassword,
+            user.passwordHash || '',
+        );
+        if (!isPasswordValid) {
+            throw new UnauthorizedException('現在のパスワードが正しくありません');
+        }
+
+        // 新しいパスワードをハッシュ化
+        const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 10);
+
+        // パスワードを更新
+        await this.userRepository.update(userId, {
+            passwordHash: hashedPassword,
+        });
+
+        return { message: 'パスワードが正常に更新されました' };
     }
 }

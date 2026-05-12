@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 import { ProfileService } from './profiles.service';
 
 // userIdを取得するためのインターフェース
@@ -54,5 +55,16 @@ export class ProfileController {
 	@Get(':id/questions')
 	getQuestions(@Param('id') id: string) {
 		return this.profileService.findQuestionsByProfileId(id);
+	}
+
+	// パスワードを更新
+	@UseGuards(JwtAuthGuard)
+	@Patch('password')
+	updatePassword(
+		@Req() req: AuthenticatedRequest,
+		@Body() dto: UpdatePasswordDto,
+	) {
+		const userId = req.user.userId;
+		return this.profileService.updatePassword(userId, dto);
 	}
 }

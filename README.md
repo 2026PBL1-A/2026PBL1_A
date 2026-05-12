@@ -134,6 +134,7 @@ src/
 | GET    | /profiles      | 一覧取得 |
 | GET    | /profiles/:id  | 詳細取得 |
 | PATCH  | /profiles      | 更新（JWT必須） |
+| PATCH  | /profiles/password | パスワード更新（JWT必須） |
 | GET    | /profiles/:id/posts | プロフィール属性ユーザーの投稿一覧取得 |
 | GET    | /profiles/:id/questions | プロフィール属性ユーザーの質問一覧取得 |
 
@@ -242,6 +243,24 @@ Invoke-RestMethod -Method Patch `
   -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body $updateBody
+```
+
+### パスワード更新（JWT必須）
+
+`newPassword` は 8文字以上、`newPassword` と `confirmPassword` は一致させてください。
+
+```powershell
+$passwordBody = @{
+  currentPassword = "password123"
+  newPassword = "newpassword456"
+  confirmPassword = "newpassword456"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/profiles/password `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $passwordBody
 ```
 
 ### プロフィールのユーザー投稿取得
@@ -356,6 +375,17 @@ curl -X PATCH http://localhost:5000/profiles \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"username":"Updated User","bio":"新しい自己紹介"}'
+```
+
+### パスワード更新（JWT必須）
+
+`newPassword` は 8文字以上、`newPassword` と `confirmPassword` は一致させてください。
+
+```bash
+curl -X PATCH http://localhost:5000/profiles/password \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"currentPassword":"password123","newPassword":"newpassword456","confirmPassword":"newpassword456"}'
 ```
 
 ### プロフィールのユーザー投稿取得
