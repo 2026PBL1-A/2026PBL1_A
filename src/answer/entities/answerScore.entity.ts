@@ -1,10 +1,10 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, PrimaryColumn} from 'typeorm';
 
-@Entity('ANSWER_SCORES')
+@Entity('ANSWER_SCORE')
 export class AnswerScore {
-    @Column()
-    user_id!: string;
+    @PrimaryColumn({ name: 'user_id' })
+    userId!: string;
 
-    @Column()
-    answer_id!: string;
+    @PrimaryColumn({ name: 'answer_id' })
+    answerId!: string;
 }
