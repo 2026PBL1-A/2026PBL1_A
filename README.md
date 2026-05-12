@@ -152,6 +152,7 @@ src/
 | Method | Path | 内容 |
 | ------ | ---- | ---- |
 | POST | /tags | タグ新規作成 |
+| POST | /tags/seed | 仮データ投入 |
 | GET | /tags | 一覧取得 |
 | GET | /tags/ids?ids=id1,id2 | 複数IDで取得 |
 | GET | /tags/search?tag=name | タグ名で検索 |
@@ -325,6 +326,12 @@ Invoke-RestMethod -Method Post `
   -Body $tagBody
 ```
 
+### タグ仮データ投入
+
+```powershell
+Invoke-RestMethod -Method Post -Uri http://localhost:5000/tags/seed
+```
+
 ### タグ一覧取得
 
 ```powershell
@@ -462,6 +469,12 @@ curl -X GET http://localhost:5000/posts/seed
 curl -X POST http://localhost:5000/tags \
   -H "Content-Type: application/json" \
   -d '{"tag":"nestjs"}'
+```
+
+### タグ仮データ投入
+
+```bash
+curl -X POST http://localhost:5000/tags/seed
 ```
 
 ### タグ一覧取得

@@ -53,4 +53,20 @@ export class TagsService {
             where: { tag },
         });
     }
+
+    // 開発・テスト用にサンプルタグデータをDBへ登録する
+    async seed(): Promise<Tag[]> {
+        const samples: CreateTagDto[] = [
+            { tag: 'TypeScript' },
+            { tag: 'エラー修正' },
+            { tag: 'mysql' },
+        ];
+
+        const tags: Tag[] = [];
+        for (const sample of samples) {
+            tags.push(await this.create(sample));
+        }
+
+        return tags;
+    }
 }
