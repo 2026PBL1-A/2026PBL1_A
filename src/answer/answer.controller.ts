@@ -46,9 +46,9 @@ export class AnswerController {
   }
 
   // 回答のスコアを更新
-  @Post('score/:answerId')
-  updateScore(@Param('answerId') answerId: string) {
-    return this.answerService.updateScore(answerId);
+  @Post('score/:answerId/:userId')
+  updateScore(@Param('answerId') answerId: string, @Param('userId') userId: string) {
+    return this.answerService.updateScore(answerId, userId);
   }
 
   // 仮の回答データ作成
