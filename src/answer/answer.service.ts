@@ -5,7 +5,7 @@ import { CreateAnswerDto} from './dto/create-answer.dto';
 import { Answer } from './entities/answer.entity';
 import { User } from '../user/entities/user.entity';
 import { Questions } from '../questions/entities/questions.entity';
-import { AnswerScore } from './entities/answerScore.entity';
+import { AnswerScore } from '../answer-score/entities/answerScore.entity';
 
 //answerテーブルに対するデータ操作を担当するサービス
 @Injectable()
