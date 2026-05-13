@@ -241,21 +241,6 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles/<profileId>
 ```
 
-### プロフィール更新（JWT必須）
-
-```powershell
-$updateBody = @{
-  username = "Updated User"
-  bio = "新しい自己紹介"
-} | ConvertTo-Json
-
-Invoke-RestMethod -Method Patch `
-  -Uri http://localhost:5000/profiles `
-  -Headers @{ Authorization = "Bearer $token" } `
-  -ContentType "application/json" `
-  -Body $updateBody
-```
-
 ### プロフィール更新（JWT必須、タグ複数指定）
 
 ```powershell
@@ -314,21 +299,6 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/<postId>
 ```
 
-### 投稿作成（JWT必須、タグなし）
-
-```powershell
-$postBody = @{
-  title = "タイトル"
-  content = "本文内容"
-} | ConvertTo-Json
-
-Invoke-RestMethod -Method Post `
-  -Uri http://localhost:5000/posts `
-  -Headers @{ Authorization = "Bearer $token" } `
-  -ContentType "application/json" `
-  -Body $postBody
-```
-
 ### 投稿作成（JWT必須、タグ複数指定）
 
 ```powershell
@@ -349,21 +319,6 @@ Invoke-RestMethod -Method Post `
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
-```
-
-### 質問作成（JWT必須、タグなし）
-
-```powershell
-$questionBody = @{
-  title = "質問タイトル"
-  content = "質問本文"
-} | ConvertTo-Json
-
-Invoke-RestMethod -Method Post `
-  -Uri http://localhost:5000/questions `
-  -Headers @{ Authorization = "Bearer $token" } `
-  -ContentType "application/json" `
-  -Body $questionBody
 ```
 
 ### 質問作成（JWT必須、タグ複数指定）
@@ -485,15 +440,6 @@ curl -X GET http://localhost:5000/profiles
 curl -X GET http://localhost:5000/profiles/<profileId>
 ```
 
-### プロフィール更新（JWT必須）
-
-```bash
-curl -X PATCH http://localhost:5000/profiles \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"username":"Updated User","bio":"新しい自己紹介"}'
-```
-
 ### プロフィール更新（JWT必須、タグ複数指定）
 
 ```bash
@@ -538,15 +484,6 @@ curl -X GET http://localhost:5000/posts
 curl -X GET http://localhost:5000/posts/<postId>
 ```
 
-### 投稿作成（JWT必須、タグなし）
-
-```bash
-curl -X POST http://localhost:5000/posts \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"title":"タイトル","content":"本文内容"}'
-```
-
 ### 投稿作成（JWT必須、タグ複数指定）
 
 ```bash
@@ -560,15 +497,6 @@ curl -X POST http://localhost:5000/posts \
 
 ```bash
 curl -X GET http://localhost:5000/posts/seed
-```
-
-### 質問作成（JWT必須、タグなし）
-
-```bash
-curl -X POST http://localhost:5000/questions \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"title":"質問タイトル","content":"質問本文"}'
 ```
 
 ### 質問作成（JWT必須、タグ複数指定）
