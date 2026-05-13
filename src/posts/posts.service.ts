@@ -41,6 +41,11 @@ export class PostsService {
     async findAll(): Promise<Posts[]> {
         return this.postsRepository.find({
             order: { created_at: 'DESC' },
+            relations: {
+                postTags: {
+                    tag: true,
+                },
+            },
         });
     }
 
