@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NotFoundException, BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -10,6 +10,8 @@ import { Profile } from './entities/profiles.entity';
 import { User } from '../user/entities/user.entity';
 import { Posts } from '../posts/entities/posts.entity';
 import { Questions } from '../questions/entities/questions.entity';
+import { ProfileTag } from '../profile-tags/entities/profile-tags.entity';
+import { Tag } from '../tags/entities/tags.entity';
 
 //profileテーブルに対するデータ操作を担当するサービス(userテーブルのServiceから呼び出される)
 @Injectable()
@@ -23,6 +25,10 @@ export class ProfileService {
         private readonly postsRepository: Repository<Posts>,
         @InjectRepository(Questions)
         private readonly questionsRepository: Repository<Questions>,
+        @InjectRepository(ProfileTag)
+        private readonly profileTagRepository: Repository<ProfileTag>,
+        @InjectRepository(Tag)
+        private readonly tagRepository: Repository<Tag>,
     ) {}
 
     // DTOをProfileエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
@@ -72,6 +78,10 @@ export class ProfileService {
         const updatedUser = await this.userRepository.save(user);
         const updatedProfile = await this.profileRepository.save(profile);
 
+        if (updateProfileDto.tag_ids) {
+            await this.replaceProfileTags(updatedProfile.id, updateProfileDto.tag_ids);
+        }
+
         return {
             user: updatedUser,
             profile: updatedProfile,
@@ -80,7 +90,13 @@ export class ProfileService {
 
     // すべてのプロフィール、ユーザー名、メールアドレスを取得する
     async findAll() {
-        const profiles = await this.profileRepository.find();
+        const profiles = await this.profileRepository.find({
+            relations: {
+                profileTags: {
+                    tag: true,
+                },
+            },
+        });
         // 各プロフィールに紐づくユーザー情報を付与して返却
         return Promise.all(
             profiles.map(async (p) => {
@@ -97,7 +113,14 @@ export class ProfileService {
 
     // IDで1件取得する
     async findOne(id: string) {
-        const profile = await this.profileRepository.findOneBy({ id });
+        const profile = await this.profileRepository.findOne({
+            where: { id },
+            relations: {
+                profileTags: {
+                    tag: true,
+                },
+            },
+        });
         if (!profile) {
             throw new NotFoundException('Profile not found');
         }
@@ -106,6 +129,28 @@ export class ProfileService {
             profile,
             user: user ? { id: user.id, username: user.username, email: user.email } : null,
         };
+    }
+
+    private async replaceProfileTags(profileId: string, tagIds: string[]) {
+        await this.profileTagRepository.delete({ profile_id: profileId });
+
+        if (!tagIds.length) {
+            return;
+        }
+
+        const tags = await this.tagRepository.findBy({ id: In(tagIds) });
+        if (tags.length !== tagIds.length) {
+            throw new NotFoundException('指定されたタグが見つかりません');
+        }
+
+        const profileTags = tagIds.map((tag_id) =>
+            this.profileTagRepository.create({
+                profile_id: profileId,
+                tag_id,
+            }),
+        );
+
+        await this.profileTagRepository.save(profileTags);
     }
 
     // プロフィールIDから紐づくユーザーの投稿一覧を取得する

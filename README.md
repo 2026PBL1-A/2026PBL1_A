@@ -256,6 +256,28 @@ Invoke-RestMethod -Method Patch `
   -Body $updateBody
 ```
 
+### プロフィール更新（JWT必須、タグ複数指定）
+
+```powershell
+$updateBody = @{
+  username = "Updated User"
+  bio = "新しい自己紹介"
+  tag_ids = @("uuid-1", "uuid-2")
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/profiles `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $updateBody
+```
+
+### プロフィール詳細取得（タグ情報込み）
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles/<profileId>
+```
+
 ### パスワード更新（JWT必須）
 
 `newPassword` は 8文字以上、`newPassword` と `confirmPassword` は一致させてください。
@@ -470,6 +492,21 @@ curl -X PATCH http://localhost:5000/profiles \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"username":"Updated User","bio":"新しい自己紹介"}'
+```
+
+### プロフィール更新（JWT必須、タグ複数指定）
+
+```bash
+curl -X PATCH http://localhost:5000/profiles \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"Updated User","bio":"新しい自己紹介","tag_ids":["uuid-1","uuid-2"]}'
+```
+
+### プロフィール詳細取得（タグ情報込み）
+
+```bash
+curl -X GET http://localhost:5000/profiles/<profileId>
 ```
 
 ### パスワード更新（JWT必須）
