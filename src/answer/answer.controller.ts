@@ -39,6 +39,12 @@ export class AnswerController {
     return this.answerService.findOne(id);
   }
 
+  // 回答のスコアを取得  
+  @Get('score/:answerId')
+  getScore(@Param('answerId') answerId: string) {
+    return this.answerService.getScore(answerId);
+  }
+
   // 回答の作成
   @Post()
   create(@Body() createAnswerDto: CreateAnswerDto) {
