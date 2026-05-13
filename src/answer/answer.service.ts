@@ -57,16 +57,22 @@ export class AnswerService {
         return this.answerRepository.findOneBy({ id });
     }
 
+    // 回答のスコアを取得する
+    async getScore(answerId: string) {
+        const score = await this.answerScoreRepository.findOneBy({ answerId: answerId });
+        return score;
+    }
+
     // scoreを更新する
     async updateScore(answerId: string, userId: string) {
         if (!answerId || !userId) {
             throw new Error('回答IDとユーザーIDが指定されていません');
         }
         const answerScore = await this.answerScoreRepository.findOneBy({ answerId: answerId, userId: userId });
-        if (answerScore) {
-            throw new Error('既にスコアを更新済みです');
+        if (answerScore) {  // 既にスコアが存在する場合は削除して0にする
+            return this.answerScoreRepository.delete({ answerId: answerId, userId: userId });
         }
-        else {
+        else {  // スコアが存在しない場合は新規作成して1にする
             return this.answerScoreRepository.save({ answerId: answerId, userId: userId });
         }
     }
