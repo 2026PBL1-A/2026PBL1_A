@@ -161,7 +161,7 @@ Invoke-RestMethod -Method Post -Uri http://localhost:5000/user/seed
 
 ```powershell
 $loginBody = @{
-  email = "taro@example.com"
+  email = "taro@st.kobedenshi.ac.jp"
   password = "pass1234"
 } | ConvertTo-Json
 
@@ -186,7 +186,7 @@ Invoke-RestMethod -Method Get `
 ```powershell
 $body = @{
   name = "Test User"
-  email = "test@example.com"
+  email = "test@st.kobedenshi.ac.jp"
   password = "pass1234"
 } | ConvertTo-Json
 
