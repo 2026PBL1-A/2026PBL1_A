@@ -5,7 +5,7 @@ import { AnswerController } from './answer.controller';
 import { Answer } from './entities/answer.entity';
 import { Questions } from '../questions/entities/questions.entity';
 import { User } from '../user/entities/user.entity';
-import { AnswerScore } from './entities/answerScore.entity';
+import { AnswerScore } from '../answer-score/entities/answerScore.entity';
 
 // Answer機能のDI設定をまとめるモジュール
 @Module({
