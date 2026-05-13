@@ -99,9 +99,10 @@ export class UserService {
   // 開発・テスト用にサンプルユーザーデータをDBへ登録する
   async seed() {
     const samples: CreateUserDto[] = [
-      { name: 'Taro Yamada', email: 'taro@example.com', password: 'pass1234' },
-      { name: 'Hanako Sato', email: 'hanako@example.com', password: 'pass1234' },
-      { name: 'John Doe', email: 'john@example.com', password: 'pass1234' },
+      { name: 'Taro Yamada', email: 'taro@st.kobedenshi.ac.jp', password: 'pass1234' },
+      { name: 'Hanako Sato', email: 'hanako@st.kobedenshi.ac.jp', password: 'pass1234' },
+      { name: 'John Doe', email: 'john@st.kobedenshi.ac.jp', password: 'pass1234' },
+      { name: 'st user', email: 'kd1234@st.kobedenshi.ac.jp', password: 'pass1234' }
     ];
 
     // 開発用にサンプルユーザーを順に作成する

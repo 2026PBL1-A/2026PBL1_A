@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength, Matches } from 'class-validator';
 //ユーザーデータの作成に必要なデータの型とバリデーションを定義
 export class CreateUserDto {
     @IsString()
@@ -11,6 +11,7 @@ export class CreateUserDto {
     this.errorMessage = error.response.data.message[0];
     }*/
     name!: string;
+    @Matches(/^[a-zA-Z0-9]*@st\.kobedenshi\.ac\.jp$/, { message: 'stメールを入力してください' })
     @IsEmail()
     @IsNotEmpty({ message: '正しいメールアドレス形式で入力してください' })
     email!: string;
