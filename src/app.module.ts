@@ -33,6 +33,16 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
       autoLoadEntities: true,
       synchronize: shouldSynchronize,
       timezone: 'Z', // UTCで日時を保存する
+      // 接続安定化のための追加オプション
+      extra: {
+        connectionLimit: Number(process.env.DB_CONNECTION_LIMIT ?? 10),   // DB接続プールの最大接続数
+        connectTimeout: Number(process.env.DB_CONNECT_TIMEOUT ?? 10000),  // 接続タイムアウト（ms）
+        // mysql2 のソケットオプションとして keepAlive を有効にする
+        keepAlive: true,  // 接続がアイドル状態でも切断されないようにする（MySQLのタイムアウト対策）
+      },
+      // TypeORM の内部リトライ（Nest/TypeOrmModule がサポートする場合）
+      retryAttempts: Number(process.env.DB_RETRY_ATTEMPTS ?? 5),
+      retryDelay: Number(process.env.DB_RETRY_DELAY ?? 3000),
     }),
     // ユーザー関連APIを提供するモジュール
     UserModule,
@@ -42,7 +52,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     CommentModule,
     // プロフィール関連APIを提供するモジュール
     ProfileModule,
-    // 投稿関連APIを提供するモジュール]
+    // 投稿関連APIを提供するモジュール
     PostsModule,
     // 質問関連APIを提供するモジュール
     QuestionsModule,
