@@ -20,10 +20,11 @@ export class PostScoresController {
 
         const user = req.user as any;
 
-        return this.postScoresService.toggleScore(
+                return this.postScoresService.toggleScore(
             postId,
-            user.id,
+            user.userId,
         );
+
     }
 
     // スコア取得

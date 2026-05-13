@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PostScore } from './entities/post_scores.entity';
+import { Posts } from '../posts/entities/posts.entity';
 
 @Injectable()
 export class PostScoresService {
@@ -9,6 +10,8 @@ export class PostScoresService {
     constructor(
         @InjectRepository(PostScore)
         private postScoresRepository: Repository<PostScore>,
+        @InjectRepository(Posts)
+        private postsRepository: Repository<Posts>,
     ) {}
 
     // 切り替え
@@ -26,22 +29,25 @@ export class PostScoresService {
                 post_id: postId,
                 user_id: userId,
             });
+        } else {
+            // いいね追加
+            const score = this.postScoresRepository.create({
+                post_id: postId,
+                user_id: userId,
+            });
 
-            return {
-                liked: false,
-            };
+            await this.postScoresRepository.save(score);
         }
 
-        // いいね追加
-        const score = this.postScoresRepository.create({
-            post_id: postId,
-            user_id: userId,
+        // ★ POST_SCOREテーブルのレコード数をカウントして POSTS.score を更新
+        const count = await this.postScoresRepository.count({
+            where: { post_id: postId },
         });
-
-        await this.postScoresRepository.save(score);
+        await this.postsRepository.update(postId, { score: count });
 
         return {
-            liked: true,
+            liked: !exists,
+            score: count,
         };
     }
 
