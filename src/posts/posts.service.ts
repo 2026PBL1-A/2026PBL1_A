@@ -37,16 +37,39 @@ export class PostsService {
         return savedPost;
     }
 
-//全件取得
-    async findAll(): Promise<Posts[]> {
-        return this.postsRepository.find({
-            order: { created_at: 'DESC' },
-            relations: {
-                postTags: {
-                    tag: true,
+//全件取得（オプション: タグで絞り込み可能）
+    async findAll(tagIds: string[] = []): Promise<Posts[]> {
+        // 重複排除と空文字列をフィルタリング
+        const uniqueTagIds = [...new Set(tagIds.filter(Boolean))];
+
+        // タグ指定なし: 全投稿をタグ情報付きで返す（降順）
+        if (!uniqueTagIds.length) {
+            return this.postsRepository.find({
+                order: { created_at: 'DESC' },
+                relations: {
+                    postTags: {
+                        tag: true,
+                    },
                 },
-            },
-        });
+            });
+        }
+
+        // 指定タグを「いずれか1つでも含む」投稿IDをサブクエリで抽出
+        const subQuery = this.postsRepository
+            .createQueryBuilder('filteredPost')     // サブクエリのエイリアスを `filteredPost` に変更
+            .select('DISTINCT filteredPost.id')     // 重複排除し、投稿IDだけ取得
+            .innerJoin('filteredPost.postTags', 'filteredPostTag')      // 投稿とタグの中間テーブルを結合
+            .where('filteredPostTag.tag_id IN (:...tagIds)', { tagIds: uniqueTagIds });     // 指定タグのいずれかを持つ投稿を抽出
+
+        // サブクエリの投稿をすべて取得し、タグ情報も結合（降順）
+        return this.postsRepository
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.postTags', 'postTag')  // 投稿とタグの中間テーブルを結合してタグIDを取得
+            .leftJoinAndSelect('postTag.tag', 'tag')        // タグの詳細情報も結合
+            .where(`post.id IN (${subQuery.getQuery()})`)   // サブクエリで抽出された投稿IDをもとに投稿を取得
+            .setParameters(subQuery.getParameters())        // サブクエリのパラメータを引き継ぐ
+            .orderBy('post.created_at', 'DESC')             // 作成日時の降順でソート
+            .getMany();                                     // 結果を取得
     }
 
 //IDで取得

@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param, Req, UseGuards, } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Req, UseGuards, Query } from '@nestjs/common';
 import { Request } from 'express';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -28,8 +28,9 @@ export class QuestionsController {
     }
 
     @Get()//全件取得
-    findAll() {
-        return this.questionsService.findAll();
+    findAll(@Query('tag_ids') tagIds?: string) {
+        const tagIdArray = tagIds ? tagIds.split(',').map((id) => id.trim()).filter(Boolean) : [];
+        return this.questionsService.findAll(tagIdArray);
     }
 
     @Get(':id')//指定した質問を取得
