@@ -144,6 +144,7 @@ src/
 | ------ | ---------- | ------ |
 | POST   | /posts     | 新規作成（JWT必須） |
 | GET    | /posts     | 一覧取得 |
+| GET    | /posts/search?q=keyword | タイトル・本文・タグ名で部分一致検索（OR / 大文字小文字無視） |
 | GET    | /posts/:id | 詳細取得 |
 | GET    | /posts/seed | 仮データ投入 |
 
@@ -255,6 +256,13 @@ Invoke-RestMethod -Method Patch `
   -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body $updateBody
+```
+
+### 投稿検索（タイトル・本文・タグ名を部分一致で検索）
+
+```powershell
+Invoke-RestMethod -Method Get `
+  -Uri "http://localhost:5000/posts/search?q=first"
 ```
 
 ### プロフィール詳細取得（タグ情報込み）
@@ -476,6 +484,12 @@ curl -X GET http://localhost:5000/profiles/<profileId>/posts
 
 ```bash
 curl -X GET http://localhost:5000/posts
+```
+
+### 投稿検索（タイトル・本文・タグ名を部分一致で検索）
+
+```bash
+curl -X GET "http://localhost:5000/posts/search?q=first"
 ```
 
 ### 投稿詳細取得

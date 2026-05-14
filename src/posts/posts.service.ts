@@ -64,12 +64,40 @@ export class PostsService {
         // サブクエリの投稿をすべて取得し、タグ情報も結合（降順）
         return this.postsRepository
             .createQueryBuilder('post')
-            .leftJoinAndSelect('post.postTags', 'postTag')  // 投稿とタグの中間テーブルを結合してタグIDを取得
+            .leftJoinAndSelect('post.postTags', 'postTag')  // 投稿とタグの中間テーブルを結合してタグIDを取得（タグなし投稿も取得するため、LEFT JOIN）
             .leftJoinAndSelect('postTag.tag', 'tag')        // タグの詳細情報も結合
             .where(`post.id IN (${subQuery.getQuery()})`)   // サブクエリで抽出された投稿IDをもとに投稿を取得
             .setParameters(subQuery.getParameters())        // サブクエリのパラメータを引き継ぐ
             .orderBy('post.created_at', 'DESC')             // 作成日時の降順でソート
             .getMany();                                     // 結果を取得
+    }
+
+    //文字列検索（タイトル・本文・タグ名で部分一致, OR, 大文字小文字区別なし）
+    async searchPosts(query: string): Promise<Posts[]> {
+        const keyword = query.trim();
+
+        // キーワードが空の場合は全件取得
+        if (!keyword) {
+            return [];
+        }
+
+        // 検索キーワードを小文字に変換し、部分一致のためにワイルドカードを追加
+        const likeKeyword = `%${keyword.toLowerCase()}%`;
+
+        // タイトル、本文、タグ名のいずれかにキーワードが部分一致する投稿を取得
+        return this.postsRepository
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.postTags', 'postTag')      // 投稿とタグの中間テーブルを結合して、タグIDを取得
+            .leftJoinAndSelect('postTag.tag', 'tag')        // タグの詳細情報も結合
+
+            // タイトル、本文、タグ名のいずれかにキーワードが部分一致する投稿を検索（LOWER関数で小文字化して大文字小文字区別なしに）
+            .where('LOWER(post.title) LIKE :keyword', { keyword: likeKeyword })     // タイトルに部分一致
+            .orWhere('LOWER(post.content) LIKE :keyword', { keyword: likeKeyword })     // 本文に部分一致
+            .orWhere('LOWER(tag.tag) LIKE :keyword', { keyword: likeKeyword })      // タグ名に部分一致
+            
+            .distinct(true)     // 重複排除
+            .orderBy('post.created_at', 'DESC')     // 作成日時の降順でソート
+            .getMany();     // 結果を取得
     }
 
 //IDで取得
