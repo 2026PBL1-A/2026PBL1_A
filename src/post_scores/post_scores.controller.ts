@@ -1,11 +1,15 @@
-import { Controller, Post, Get, Param, Req, UseGuards, } from '@nestjs/common';
+import { Controller, Post, Get, Param, Req, UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import type { Request } from 'express';
 import { PostScoresService } from './post_scores.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+interface AuthenticatedRequest extends Request {
+    user: { userId: string };
+    postId: {postId: string};
+}
+
 @Controller('post-scores')
 export class PostScoresController {
-
     constructor(
         private readonly postScoresService: PostScoresService,
     ) {}
@@ -13,26 +17,22 @@ export class PostScoresController {
     // いいね切り替え
     @UseGuards(JwtAuthGuard)
     @Post(':postId')
-    toggleScore(
-        @Param('postId') postId: string,
-        @Req() req: Request,
-    ) {
-
-        const user = req.user as any;
-
-                return this.postScoresService.toggleScore(
+    async toggleScore(
+        @Param('postId', new ParseUUIDPipe()) postId: string,
+        @Req() req: AuthenticatedRequest,
+    )  {
+        return await this.postScoresService.toggleScore(
             postId,
-            user.userId,
+            req.user.userId
         );
-
     }
 
     // スコア取得
     @Get(':postId')
-    getScore(
-        @Param('postId') postId: string,
+    async getScore(
+        @Param('postId', new ParseUUIDPipe()) postId: string,
     ) {
 
-        return this.postScoresService.getScore(postId);
+        return await this.postScoresService.getScore(postId);
     }
 }

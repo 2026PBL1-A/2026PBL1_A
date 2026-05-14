@@ -10,5 +10,6 @@ import { Posts } from '../posts/entities/posts.entity';  // ← 追加
     ],
     controllers: [PostScoresController],
     providers: [PostScoresService],
+    exports: [PostScoresService],
 })
 export class PostScoresModule {}

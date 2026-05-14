@@ -75,9 +75,9 @@ CREATE TABLE IF NOT EXISTS ANSWERS (
 );
 
 -- post_scoreテーブル作成(テーブル大文字)
-CREATE TABLE POST_SCORE (
-    post_id CHAR(36) NOT NULL,
-    user_id CHAR(36) NOT NULL,
+CREATE TABLE IF NOT EXISTS POST_SCORE (
+    post_id VARCHAR(36) NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
 
     PRIMARY KEY (post_id, user_id),
     FOREIGN KEY (post_id) REFERENCES POSTS(id)
