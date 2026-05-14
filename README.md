@@ -258,11 +258,11 @@ Invoke-RestMethod -Method Patch `
   -Body $updateBody
 ```
 
-### 投稿検索（タイトル・本文・タグ名を部分一致で検索）
+### 投稿複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
 
 ```powershell
 Invoke-RestMethod -Method Get `
-  -Uri "http://localhost:5000/posts/search?q=first"
+  -Uri "http://localhost:5000/posts/search?q=sql%20エラー"
 ```
 
 ### プロフィール詳細取得（タグ情報込み）
@@ -486,10 +486,10 @@ curl -X GET http://localhost:5000/profiles/<profileId>/posts
 curl -X GET http://localhost:5000/posts
 ```
 
-### 投稿検索（タイトル・本文・タグ名を部分一致で検索）
+### 投稿複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
 
 ```bash
-curl -X GET "http://localhost:5000/posts/search?q=first"
+curl -X GET "http://localhost:5000/posts/search?q=sql%20エラー"
 ```
 
 ### 投稿詳細取得

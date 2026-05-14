@@ -72,32 +72,40 @@ export class PostsService {
             .getMany();                                     // 結果を取得
     }
 
-    //文字列検索（タイトル・本文・タグ名で部分一致, OR, 大文字小文字区別なし）
+    //文字列検索（複数キーワード対応、空白区切り / タイトル・本文・タグ名で部分一致 / AND / 大文字小文字区別なし）
     async searchPosts(query: string): Promise<Posts[]> {
-        const keyword = query.trim();
+        const keywords = query
+            .trim()     // 前後の空白を削除
+            .split(/\s+/)       // 空白で分割（複数キーワード対応）
+            .filter(Boolean);       // 空文字列を除外
 
-        // キーワードが空の場合は全件取得
-        if (!keyword) {
+        // キーワードが空の場合は空配列を返す
+        if (keywords.length === 0) {
             return [];
         }
 
-        // 検索キーワードを小文字に変換し、部分一致のためにワイルドカードを追加
-        const likeKeyword = `%${keyword.toLowerCase()}%`;
-
-        // タイトル、本文、タグ名のいずれかにキーワードが部分一致する投稿を取得
-        return this.postsRepository
+        // クエリビルダーを使用して、キーワードがタイトル・本文・タグ名のいずれかに部分一致する投稿を検索
+        let queryBuilder = this.postsRepository
             .createQueryBuilder('post')
-            .leftJoinAndSelect('post.postTags', 'postTag')      // 投稿とタグの中間テーブルを結合して、タグIDを取得
-            .leftJoinAndSelect('postTag.tag', 'tag')        // タグの詳細情報も結合
+            .leftJoinAndSelect('post.postTags', 'postTag')      // 投稿とタグの中間テーブルを結合してタグIDを取得
+            .leftJoinAndSelect('postTag.tag', 'tag');       // タグの詳細情報も結合
 
-            // タイトル、本文、タグ名のいずれかにキーワードが部分一致する投稿を検索（LOWER関数で小文字化して大文字小文字区別なしに）
-            .where('LOWER(post.title) LIKE :keyword', { keyword: likeKeyword })     // タイトルに部分一致
-            .orWhere('LOWER(post.content) LIKE :keyword', { keyword: likeKeyword })     // 本文に部分一致
-            .orWhere('LOWER(tag.tag) LIKE :keyword', { keyword: likeKeyword })      // タグ名に部分一致
+        // 各キーワードについて、タイトル・本文・タグ名のいずれかに部分一致する条件を AND で繋ぐ
+        keywords.forEach((keyword, index) => {
+            const likeKeyword = `%${keyword.toLowerCase()}%`;       // キーワードを小文字化
             
-            .distinct(true)     // 重複排除
-            .orderBy('post.created_at', 'DESC')     // 作成日時の降順でソート
-            .getMany();     // 結果を取得
+            // タイトル・本文・タグ名のいずれかに部分一致する条件を追加
+            queryBuilder = queryBuilder
+                .andWhere(
+                    `(LOWER(post.title) LIKE :keyword${index} OR LOWER(post.content) LIKE :keyword${index} OR LOWER(tag.tag) LIKE :keyword${index})`
+                )
+                .setParameter(`keyword${index}`, likeKeyword);      // パラメータ名にインデックスを付与して重複を避ける
+        });
+
+        return queryBuilder
+            .distinct(true)
+            .orderBy('post.created_at', 'DESC')
+            .getMany();
     }
 
 //IDで取得
