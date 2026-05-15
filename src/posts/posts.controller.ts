@@ -33,6 +33,11 @@ export class PostsController {
         return this.postsService.findAll(tagIdArray);
     }
 
+    @Get('search')//文字列検索（タイトル・本文・タグ名）
+    search(@Query('q') query?: string) {
+        return this.postsService.searchPosts(query ?? '');
+    }
+
     @Get(':id')//指定した投稿を取得
     findOne(@Param('id') id: string) {
         return this.postsService.findOne(id);
