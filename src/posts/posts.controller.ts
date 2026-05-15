@@ -34,8 +34,8 @@ export class PostsController {
     }
 
     @Get('search')//文字列検索（タイトル・本文・タグ名）
-    search(@Query('q') query?: string) {
-        return this.postsService.searchPosts(query ?? '');
+    search(@Query('keyword') keyword?: string) {
+        return this.postsService.searchPosts(keyword ?? '');
     }
 
     @Get(':id')//指定した投稿を取得

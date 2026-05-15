@@ -73,8 +73,8 @@ export class PostsService {
     }
 
     //文字列検索（複数キーワード対応、空白区切り / タイトル・本文・タグ名で部分一致 / AND / 大文字小文字区別なし）
-    async searchPosts(query: string): Promise<Posts[]> {
-        const keywords = query
+    async searchPosts(keyword: string): Promise<Posts[]> {
+        const keywords = keyword
             .trim()     // 前後の空白を削除
             .split(/\s+/)       // 空白で分割（複数キーワード対応）
             .filter(Boolean);       // 空文字列を除外
