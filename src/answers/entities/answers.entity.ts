@@ -4,7 +4,7 @@ import { Questions } from '../../questions/entities/questions.entity';
 
 // Answersテーブルに対応するエンティティクラス
 @Entity('ANSWERS')
-export class Answer {
+export class Answers {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
   id!: string;

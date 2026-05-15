@@ -6,7 +6,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { CreateAnswerDto } from './dto/create-answer.dto';
-import { AnswerService } from './answers.service';
+import { AnswersService } from './answers.service';
 
 // requestからユーザーIDと質問IDを取得するインターフェース
 interface AuthenticatedRequest extends Request {
@@ -20,8 +20,8 @@ interface AuthenticatedRequest extends Request {
 
 // 回答データのCRUD(作成、取得)を行うコントローラー
 @Controller('answer')
-export class AnswerController {
-  constructor(private readonly answerService: AnswerService) {}
+export class AnswersController {
+  constructor(private readonly answerService: AnswersService) {}
 
   // 質問IDに基づいて全ての回答
   // データの取得
