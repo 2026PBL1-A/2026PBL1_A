@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
 import { OneToMany } from 'typeorm';
-import { PostTag } from '../../post-tags/entities/post-tags.entity';
-import { QuestionTag } from '../../question-tags/entities/question-tags.entity';
-import { ProfileTag } from '../../profile-tags/entities/profile-tags.entity';
+import { PostTags } from '../../post-tags/entities/post-tags.entity';
+import { QuestionTags } from '../../question-tags/entities/question-tags.entity';
+import { ProfileTags } from '../../profile-tags/entities/profile-tags.entity';
 
 @Entity('TAGS')
 export class Tag {
@@ -12,12 +12,12 @@ export class Tag {
     @Column({ unique: true })
     tag!: string;
 
-    @OneToMany(() => PostTag, (postTag) => postTag.tag)
-    postTags!: PostTag[];
+    @OneToMany(() => PostTags, (postTags) => postTags.tag)
+    postTags!: PostTags[];
 
-    @OneToMany(() => QuestionTag, (questionTag) => questionTag.tag)
-    questionTags!: QuestionTag[];
+    @OneToMany(() => QuestionTags, (questionTags) => questionTags.tag)
+    questionTags!: QuestionTags[];
 
-    @OneToMany(() => ProfileTag, (profileTag) => profileTag.tag)
-    profileTags!: ProfileTag[];
+    @OneToMany(() => ProfileTags, (profileTags) => profileTags.tag)
+    profileTags!: ProfileTags[];
 }
