@@ -95,19 +95,19 @@ cp .env.example .env
 
 ```bash
 src/
-├── user/
+├── users/
 │   ├── entities/
 │   ├── dto/
-│   ├── user.controller.ts
-│   ├── user.service.ts
-│   └── user.module.ts
+│   ├── users.controller.ts
+│   ├── users.service.ts
+│   └── users.module.ts
 ```
 
 ---
 
 ## 🧩 現在のAPI一覧
 
-ベースパス：`/auth`, `/user`, `/profiles`, `/posts`
+ベースパス：`/auth`, `/users`, `/profiles`, `/posts`
 
 ### 認証
 
@@ -119,12 +119,12 @@ src/
 
 | Method | Path       | 内容     |
 | ------ | ---------- | ------ |
-| POST   | /user      | ユーザー作成 |
-| GET    | /user      | 一覧取得（JWT必須） |
-| GET    | /user/:id  | 詳細取得（JWT必須） |
-| PATCH  | /user/:id  | 更新（JWT必須） |
-| DELETE | /user/:id  | 削除（JWT必須） |
-| POST   | /user/seed | 仮データ投入 |
+| POST   | /users     | ユーザー作成 |
+| GET    | /users     | 一覧取得（JWT必須） |
+| GET    | /users/:id | 詳細取得（JWT必須） |
+| PATCH  | /users/:id | 更新（JWT必須） |
+| DELETE | /users/:id | 削除（JWT必須） |
+| POST   | /users/seed| 仮データ投入 |
 
 ### プロフィール
 
@@ -165,7 +165,7 @@ src/
 ### 仮データ投入
 
 ```powershell
-Invoke-RestMethod -Method Post -Uri http://localhost:5000/user/seed
+Invoke-RestMethod -Method Post -Uri http://localhost:5000/users/seed
 ```
 
 ### ログイン（JWT取得）
@@ -188,7 +188,7 @@ $token = $loginRes.access_token
 
 ```powershell
 Invoke-RestMethod -Method Get `
-  -Uri http://localhost:5000/user `
+  -Uri http://localhost:5000/users `
   -Headers @{ Authorization = "Bearer $token" }
 ```
 
@@ -202,7 +202,7 @@ $body = @{
 } | ConvertTo-Json
 
 Invoke-RestMethod -Method Post `
-  -Uri http://localhost:5000/user `
+  -Uri http://localhost:5000/users `
   -ContentType "application/json" `
   -Body $body
 ```
@@ -215,7 +215,7 @@ $updateBody = @{
 } | ConvertTo-Json
 
 Invoke-RestMethod -Method Patch `
-  -Uri http://localhost:5000/user/<id> `
+  -Uri http://localhost:5000/users/<id> `
   -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body $updateBody
@@ -225,7 +225,7 @@ Invoke-RestMethod -Method Patch `
 
 ```powershell
 Invoke-RestMethod -Method Delete `
-  -Uri http://localhost:5000/user/<id> `
+  -Uri http://localhost:5000/users/<id> `
   -Headers @{ Authorization = "Bearer $token" }
 ```
 
@@ -383,7 +383,7 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/tags/search?tag=nestjs
 ### 仮データ投入
 
 ```bash
-curl -X POST http://localhost:5000/user/seed
+curl -X POST http://localhost:5000/users/seed
 ```
 
 ### ログイン（JWT取得）
@@ -400,14 +400,14 @@ echo "$TOKEN"
 ### 一覧取得
 
 ```bash
-curl -X GET http://localhost:5000/user \
+curl -X GET http://localhost:5000/users \
   -H "Authorization: Bearer $TOKEN"
 ```
 
 ### ユーザー作成
 
 ```bash
-curl -X POST http://localhost:5000/user \
+curl -X POST http://localhost:5000/users \
   -H "Content-Type: application/json" \
   -d '{"name":"Test User","email":"test@example.com","password":"pass1234"}'
 ```
@@ -415,7 +415,7 @@ curl -X POST http://localhost:5000/user \
 ### ユーザー更新（JWT必須）
 
 ```bash
-curl -X PATCH http://localhost:5000/user/<id> \
+curl -X PATCH http://localhost:5000/users/<id> \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"name":"Updated User"}'
@@ -424,7 +424,7 @@ curl -X PATCH http://localhost:5000/user/<id> \
 ### ユーザー削除（JWT必須）
 
 ```bash
-curl -X DELETE http://localhost:5000/user/<id> \
+curl -X DELETE http://localhost:5000/users/<id> \
   -H "Authorization: Bearer $TOKEN"
 ```
 
