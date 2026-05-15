@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AnswerService } from './answer.service';
-import { AnswerController } from './answer.controller';
-import { Answer } from './entities/answer.entity';
+import { AnswerService } from './answers.service';
+import { AnswerController } from './answers.controller';
+import { Answer } from './entities/answers.entity';
 import { Questions } from '../questions/entities/questions.entity';
 import { User } from '../user/entities/user.entity';
 
