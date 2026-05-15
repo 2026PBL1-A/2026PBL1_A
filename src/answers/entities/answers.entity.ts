@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
+import { Users } from '../../users/entities/users.entity';
 import { Questions } from '../../questions/entities/questions.entity';
 
 // Answersテーブルに対応するエンティティクラス
@@ -15,9 +15,9 @@ export class Answers {
   questionId!: Questions;
 
   //回答ユーザーID
-  @ManyToOne(() => User)
+  @ManyToOne(() => Users)
   @JoinColumn({ name: 'user_id' })
-  userId!: User;
+  userId!: Users;
 
   //回答内容
   @Column()

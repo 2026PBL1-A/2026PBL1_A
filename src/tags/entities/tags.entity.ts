@@ -5,7 +5,7 @@ import { QuestionTags } from '../../question-tags/entities/question-tags.entity'
 import { ProfileTags } from '../../profile-tags/entities/profile-tags.entity';
 
 @Entity('TAGS')
-export class Tag {
+export class Tags {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 

@@ -4,16 +4,16 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { Users } from './entities/users.entity';
 import { ProfilesService } from '../profiles/profiles.service';
 
 // Userテーブルに対するデータ操作を担当するサービス
 // ユーザー作成時には自動でid,user_id以外が空のプロフィール（`PROFILES`）を作成する
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(Users)
+    private readonly userRepository: Repository<Users>,
     private readonly profilesService: ProfilesService,
   ) {}
 
@@ -107,7 +107,7 @@ export class UserService {
 
     // 開発用にサンプルユーザーを順に作成する
     // createUserWithProfile を使うことで各ユーザーに対応する空プロフィールも作成される
-    const users: User[] = [];
+    const users: Users[] = [];
     for (const sample of samples) {
       users.push(await this.createUserWithProfile(sample));
     }

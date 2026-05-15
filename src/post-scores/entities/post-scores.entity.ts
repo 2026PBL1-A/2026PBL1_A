@@ -5,7 +5,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Posts } from '../../posts/entities/posts.entity';
-import { User } from '../../user/entities/user.entity';
+import { Users } from '../../users/entities/users.entity';
 
 @Entity('POST_SCORES')
 export class PostScores {
@@ -27,7 +27,7 @@ postId!: string;
   @JoinColumn({ name: 'post_id' })
   post!: Posts;
 
-  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Users, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user!: User;
+  user!: Users;
 }

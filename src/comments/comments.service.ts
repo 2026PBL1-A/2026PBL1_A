@@ -3,7 +3,7 @@ import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateCommentDto} from './dto/create-comment.dto';
 import { Comments } from './entities/comments.entity';
-import { User } from '../user/entities/user.entity';
+import { Users } from '../users/entities/users.entity';
 import { Posts } from '../posts/entities/posts.entity';
 
 //commentテーブルに対するデータ操作を担当するサービス
@@ -12,8 +12,8 @@ export class CommentsService {
     constructor(
         @InjectRepository(Comments)
         private readonly commentRepository: Repository<Comments>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
+        @InjectRepository(Users)
+        private readonly userRepository: Repository<Users>,
         @InjectRepository(Posts)
         private readonly postsRepository: Repository<Posts>,
     ) {}

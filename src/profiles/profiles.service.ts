@@ -7,11 +7,11 @@ import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { Profiles } from './entities/profiles.entity';
-import { User } from '../user/entities/user.entity';
+import { Users } from '../users/entities/users.entity';
 import { Posts } from '../posts/entities/posts.entity';
 import { Questions } from '../questions/entities/questions.entity';
-import { ProfileTag } from '../profile-tags/entities/profile-tags.entity';
-import { Tag } from '../tags/entities/tags.entity';
+import { ProfileTags } from '../profile-tags/entities/profile-tags.entity';
+import { Tags } from '../tags/entities/tags.entity';
 
 //profileテーブルに対するデータ操作を担当するサービス(userテーブルのServiceから呼び出される)
 @Injectable()
@@ -19,16 +19,16 @@ export class ProfilesService {
     constructor(
         @InjectRepository(Profiles)
         private readonly profileRepository: Repository<Profiles>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
+        @InjectRepository(Users)
+        private readonly userRepository: Repository<Users>,
         @InjectRepository(Posts)
         private readonly postsRepository: Repository<Posts>,
         @InjectRepository(Questions)
         private readonly questionsRepository: Repository<Questions>,
-        @InjectRepository(ProfileTag)
-        private readonly profileTagRepository: Repository<ProfileTag>,
-        @InjectRepository(Tag)
-        private readonly tagRepository: Repository<Tag>,
+        @InjectRepository(ProfileTags)
+        private readonly profileTagRepository: Repository<ProfileTags>,
+        @InjectRepository(Tags)
+        private readonly tagRepository: Repository<Tags>,
     ) {}
 
     // DTOをProfileエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
