@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-// Userテーブルに対応するエンティティクラス
+// Usersテーブルに対応するエンティティクラス
 @Entity('USERS')
-export class User {
+export class Users {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
   id!: string;

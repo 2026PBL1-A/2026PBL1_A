@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Posts } from '../../posts/entities/posts.entity';
-import { Tag } from '../../tags/entities/tags.entity';
+import { Tags } from '../../tags/entities/tags.entity';
 
 @Entity('POST_TAGS')
 export class PostTags {
@@ -14,7 +14,7 @@ export class PostTags {
     @JoinColumn({ name: 'post_id' })
     post: Posts;
 
-    @ManyToOne(() => Tag, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Tags, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'tag_id' })
-    tag: Tag;
+    tag: Tags;
 }

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserController } from './users.controller';
+import { UsersService } from './users.service';
 
 //ユーザーデータ操作コントローラーの仮オブジェクト(モック)を作成して自動テストを行う
 
@@ -12,7 +12,7 @@ describe('UserController', () => {
       controllers: [UserController],
       providers: [
         {
-          provide: UserService,
+          provide: UsersService,
           useValue: {
             seed: jest.fn(),
             create: jest.fn(),

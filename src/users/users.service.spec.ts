@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { UserService } from './user.service';
-import { User } from './entities/user.entity';
+import { UsersService } from './users.service';
+import { Users } from './entities/users.entity';
 
-describe('UserService', () => {
-  let service: UserService;
+describe('UsersService', () => {
+  let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UserService,
+        UsersService,
         {
           // Serviceが注入するRepositoryをモックで置き換える
-          provide: getRepositoryToken(User),
+          provide: getRepositoryToken(Users),
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
@@ -28,7 +28,7 @@ describe('UserService', () => {
     }).compile();
 
     // テスト対象のServiceインスタンスを取得
-    service = module.get<UserService>(UserService);
+    service = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {

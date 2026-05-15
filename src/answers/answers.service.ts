@@ -3,7 +3,7 @@ import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateAnswerDto} from './dto/create-answer.dto';
 import { Answers } from './entities/answers.entity';
-import { User } from '../user/entities/user.entity';
+import { Users } from '../users/entities/users.entity';
 import { Questions } from '../questions/entities/questions.entity';
 
 //answerテーブルに対するデータ操作を担当するサービス
@@ -12,8 +12,8 @@ export class AnswersService {
     constructor(
         @InjectRepository(Answers)
         private readonly answerRepository: Repository<Answers>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
+        @InjectRepository(Users)
+        private readonly userRepository: Repository<Users>,
         @InjectRepository(Questions)
         private readonly questionRepository: Repository<Questions>,
     ) {}
