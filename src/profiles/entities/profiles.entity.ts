@@ -3,7 +3,7 @@ import { ProfileTag } from "../../profile-tags/entities/profile-tags.entity";
 
 // Profilesテーブルに対応するエンティティクラス
 @Entity('PROFILES')
-export class Profile {
+export class Profiles {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
   id!: string;

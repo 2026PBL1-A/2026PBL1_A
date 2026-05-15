@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { ProfileService } from './profiles.service';
+import { ProfilesService } from './profiles.service';
 
 // userIdを取得するためのインターフェース
 interface AuthenticatedRequest extends Request {
@@ -13,7 +13,7 @@ interface AuthenticatedRequest extends Request {
 
 @Controller('profiles')
 export class ProfileController {
-	constructor(private readonly profileService: ProfileService) {}
+	constructor(private readonly profileService: ProfilesService) {}
 
 	@UseGuards(JwtAuthGuard)
 	@Post()//新規作成
