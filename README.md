@@ -262,7 +262,7 @@ Invoke-RestMethod -Method Patch `
 
 ```powershell
 Invoke-RestMethod -Method Get `
-  -Uri "http://localhost:5000/posts/search?q=sql%20エラー"
+  -Uri "http://localhost:5000/posts/search?keyword=sql%20エラー"
 ```
 
 ### プロフィール詳細取得（タグ情報込み）
