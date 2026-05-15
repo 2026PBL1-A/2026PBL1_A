@@ -14,7 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 //ユーザーデータのCRUD(作成、取得、更新、削除)を行うコントローラー
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly usersService: UsersService) {}
 

@@ -15,8 +15,8 @@ interface AuthenticatedRequest extends Request {
 }
 
 // コメントデータのCRUD(作成、取得)を行うコントローラー
-@Controller('comment')
-export class CommentController {
+@Controller('comments')
+export class CommentsController {
   constructor(private readonly commentService: CommentsService) {}
 
   // 投稿IDを指定してコメントデータ取得
