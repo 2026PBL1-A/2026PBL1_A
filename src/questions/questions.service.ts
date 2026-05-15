@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Brackets } from 'typeorm';
 import { Questions } from './entities/questions.entity';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { QuestionTags } from '../question-tags/entities/question-tags.entity';
@@ -15,7 +15,7 @@ export class QuestionsService {
     ) {}
 
     async seed() {
-        const userId = 'a4887349-4616-4473-88ca-e41e108d00c3'; // 仮のユーザーID
+        const userId = '95f421e2-78f3-4b54-be5c-fab014e64f32'; // 仮のユーザーID
         const samples: CreateQuestionDto[] = [
             {
                 title: 'first Question',
@@ -106,5 +106,56 @@ export class QuestionsService {
             throw new NotFoundException('質問が見つかりません');
         }
         return question;
+    }
+
+//キーワードで質問を検索して結果を取得
+    async searchQuestionsByKeyword(keyword: string): Promise<Questions[]> {
+        // キーワードをスペースで分割して複数のキーワードを処理。単体でも大丈夫
+        const keywords: string[] = keyword.split(/[\s　]+/);
+        const keywordslength = keywords.length;
+        
+        // キーワードが空の場合は空の配列を返す
+        if (keywordslength === 0) {
+            return [];
+        }
+        
+        const queryBuilder = this.questionsRepository
+            .createQueryBuilder('question')
+            .leftJoinAndSelect('question.questionTags', 'questionTag')
+            .leftJoinAndSelect('questionTag.tag', 'tag');
+        
+        // キーワードごとに動的にwhere追加してインジェクション対策
+        keywords.forEach((kw, index) => {
+            // パラメータ名が重複しないようにindexを付与。例:keyword0, keyword1
+            const paramName = `keyword${index}`;
+            const condition = new Brackets((qb) => {
+                qb.where(`question.title LIKE :${paramName}`, { [paramName]: `%${kw}%` })
+                .orWhere(`question.content LIKE :${paramName}`, { [paramName]: `%${kw}%` })
+                .orWhere(`tag.tag LIKE :${paramName}`, { [paramName]: `%${kw}%` });
+            });
+            if (index === 0) {
+                queryBuilder.where(condition);
+            } 
+            else {
+                queryBuilder.andWhere(condition);
+            }
+        });
+
+        return queryBuilder
+        .orderBy('question.created_at', 'DESC')
+        .getMany();
+        // // キーワードがスペースを含まない場合は、そのキーワードでそのまま検索
+        // else {
+        //     return this.questionsRepository
+        //         .createQueryBuilder('question')
+        //         // questionとquestionTag、questionTagとtagを結合
+        //         .leftJoinAndSelect('question.questionTags', 'questionTag')
+        //         .leftJoinAndSelect('questionTag.tag', 'tag')
+        //         // タイトル、内容、タグ名にキーワードが含まれる質問を検索
+        //         .where('question.title LIKE :keyword OR question.content LIKE :keyword OR tag.tag LIKE :keyword', { keyword: `%${keyword}%` })
+        //         .orderBy('question.created_at', 'DESC')
+        //         .getMany();
+        // }
+    
     }
 };

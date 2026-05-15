@@ -64,12 +64,48 @@ export class PostsService {
         // サブクエリの投稿をすべて取得し、タグ情報も結合（降順）
         return this.postsRepository
             .createQueryBuilder('post')
-            .leftJoinAndSelect('post.postTags', 'postTag')  // 投稿とタグの中間テーブルを結合してタグIDを取得
+            .leftJoinAndSelect('post.postTags', 'postTag')  // 投稿とタグの中間テーブルを結合してタグIDを取得（タグなし投稿も取得するため、LEFT JOIN）
             .leftJoinAndSelect('postTag.tag', 'tag')        // タグの詳細情報も結合
             .where(`post.id IN (${subQuery.getQuery()})`)   // サブクエリで抽出された投稿IDをもとに投稿を取得
             .setParameters(subQuery.getParameters())        // サブクエリのパラメータを引き継ぐ
             .orderBy('post.created_at', 'DESC')             // 作成日時の降順でソート
             .getMany();                                     // 結果を取得
+    }
+
+    //文字列検索（複数キーワード対応、空白区切り / タイトル・本文・タグ名で部分一致 / AND / 大文字小文字区別なし）
+    async searchPosts(keyword: string): Promise<Posts[]> {
+        const keywords = keyword
+            .trim()     // 前後の空白を削除
+            .split(/\s+/)       // 空白で分割（複数キーワード対応）
+            .filter(Boolean);       // 空文字列を除外
+
+        // キーワードが空の場合は空配列を返す
+        if (keywords.length === 0) {
+            return [];
+        }
+
+        // クエリビルダーを使用して、キーワードがタイトル・本文・タグ名のいずれかに部分一致する投稿を検索
+        let queryBuilder = this.postsRepository
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.postTags', 'postTag')      // 投稿とタグの中間テーブルを結合してタグIDを取得
+            .leftJoinAndSelect('postTag.tag', 'tag');       // タグの詳細情報も結合
+
+        // 各キーワードについて、タイトル・本文・タグ名のいずれかに部分一致する条件を AND で繋ぐ
+        keywords.forEach((keyword, index) => {
+            const likeKeyword = `%${keyword.toLowerCase()}%`;       // キーワードを小文字化
+            
+            // タイトル・本文・タグ名のいずれかに部分一致する条件を追加
+            queryBuilder = queryBuilder
+                .andWhere(
+                    `(LOWER(post.title) LIKE :keyword${index} OR LOWER(post.content) LIKE :keyword${index} OR LOWER(tag.tag) LIKE :keyword${index})`
+                )
+                .setParameter(`keyword${index}`, likeKeyword);      // パラメータ名にインデックスを付与して重複を避ける
+        });
+
+        return queryBuilder
+            .distinct(true)
+            .orderBy('post.created_at', 'DESC')
+            .getMany();
     }
 
 //IDで取得

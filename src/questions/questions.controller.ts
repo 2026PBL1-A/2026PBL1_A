@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 interface AuthenticatedRequest extends Request {
     user: { userId: string };
+    keyword: {keyword: string};
 }
 
 @Controller('questions')
@@ -33,8 +34,15 @@ export class QuestionsController {
         return this.questionsService.findAll(tagIdArray);
     }
 
+    @Get('search')//キーワードで質問を検索
+    searchQuestionsByKeyword(@Query('keyword') keyword: string) {
+        return this.questionsService.searchQuestionsByKeyword(keyword);
+    }
+    
     @Get(':id')//指定した質問を取得
     findOne(@Param('id') id: string) {
         return this.questionsService.findOne(id);
     }
+
+
 }

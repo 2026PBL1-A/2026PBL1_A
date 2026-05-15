@@ -144,6 +144,7 @@ src/
 | ------ | ---------- | ------ |
 | POST   | /posts     | 新規作成（JWT必須） |
 | GET    | /posts     | 一覧取得 |
+| GET    | /posts/search?q=keyword | タイトル・本文・タグ名で部分一致検索（OR / 大文字小文字無視） |
 | GET    | /posts/:id | 詳細取得 |
 | GET    | /posts/seed | 仮データ投入 |
 
@@ -257,6 +258,13 @@ Invoke-RestMethod -Method Patch `
   -Body $updateBody
 ```
 
+### 投稿複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
+
+```powershell
+Invoke-RestMethod -Method Get `
+  -Uri "http://localhost:5000/posts/search?keyword=sql%20エラー"
+```
+
 ### プロフィール詳細取得（タグ情報込み）
 
 ```powershell
@@ -341,6 +349,12 @@ Invoke-RestMethod -Method Post `
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions/<questionId>
+```
+
+### 質問複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:5000/questions/search?keyword=test%20mysql"
 ```
 
 ### タグ作成
@@ -478,6 +492,12 @@ curl -X GET http://localhost:5000/profiles/<profileId>/posts
 curl -X GET http://localhost:5000/posts
 ```
 
+### 投稿複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
+
+```bash
+curl -X GET "http://localhost:5000/posts/search?q=sql%20エラー"
+```
+
 ### 投稿詳細取得
 
 ```bash
@@ -512,6 +532,12 @@ curl -X POST http://localhost:5000/questions \
 
 ```bash
 curl -X GET http://localhost:5000/questions/<questionId>
+```
+
+### 質問複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
+
+```bash
+curl -G 'http://localhost:5000/questions/search' --data-urlencode 'q=test%20mysql'
 ```
 
 ### タグ作成
