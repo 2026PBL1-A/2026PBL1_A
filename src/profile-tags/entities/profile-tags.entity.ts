@@ -3,7 +3,7 @@ import { Profiles } from '../../profiles/entities/profiles.entity';
 import { Tag } from '../../tags/entities/tags.entity';
 
 @Entity('PROFILE_TAGS')
-export class ProfileTag {
+export class ProfileTags {
   @PrimaryColumn({ type: 'varchar', length: 36 })
   profile_id: string;
 
