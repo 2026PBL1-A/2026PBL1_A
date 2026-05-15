@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
-import { ProfileModule } from '../profile/profiles.module';
+import { ProfileModule } from '../profiles/profiles.module';
 
 // User機能のDI設定をまとめるモジュール
 @Module({

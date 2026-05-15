@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { Profile } from './entities/profiles.entity';
+import { Profiles } from './entities/profiles.entity';
 import { User } from '../user/entities/user.entity';
 import { Posts } from '../posts/entities/posts.entity';
 import { Questions } from '../questions/entities/questions.entity';
@@ -15,10 +15,10 @@ import { Tag } from '../tags/entities/tags.entity';
 
 //profileテーブルに対するデータ操作を担当するサービス(userテーブルのServiceから呼び出される)
 @Injectable()
-export class ProfileService {
+export class ProfilesService {
     constructor(
-        @InjectRepository(Profile)
-        private readonly profileRepository: Repository<Profile>,
+        @InjectRepository(Profiles)
+        private readonly profileRepository: Repository<Profiles>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(Posts)

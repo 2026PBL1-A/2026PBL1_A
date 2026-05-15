@@ -5,7 +5,7 @@ import { UserModule } from './user/user.module';
 import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
-import { ProfileModule } from './profile/profiles.module';
+import { ProfilesModule } from './profiles/profiles.module';
 import { QuestionsModule } from './questions/questions.module';
 import { AnswersModule } from './answers/answer.module';
 import { TagsModule } from './tags/tags.module';
@@ -52,7 +52,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     // コメント関連APIを提供するモジュール
     CommentsModule,
     // プロフィール関連APIを提供するモジュール
-    ProfileModule,
+    ProfilesModule,
     // 投稿関連APIを提供するモジュール
     PostsModule,
     // 質問関連APIを提供するモジュール

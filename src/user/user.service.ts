@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { ProfileService } from '../profile/profiles.service';
+import { ProfilesService } from '../profiles/profiles.service';
 
 // Userテーブルに対するデータ操作を担当するサービス
 // ユーザー作成時には自動でid,user_id以外が空のプロフィール（`PROFILES`）を作成する
@@ -14,7 +14,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly profileService: ProfileService,
+    private readonly profilesService: ProfilesService,
   ) {}
 
   private async createUserWithProfile(createUserDto: CreateUserDto) {
@@ -41,7 +41,7 @@ export class UserService {
     // ユーザーを保存し、保存後にプロフィールを作成
     // 空オブジェクト `{}` を渡すことで `id` と `user_id` のみが設定される
     const saved = await this.userRepository.save(user);
-    await this.profileService.create({}, saved.id);
+    await this.profilesService.create({}, saved.id);
 
     // 保存したユーザーを返す
     return saved;
