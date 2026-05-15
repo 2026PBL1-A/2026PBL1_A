@@ -4,7 +4,7 @@ import { Posts } from '../../posts/entities/posts.entity';
 
 // Commentsテーブルに対応するエンティティクラス
 @Entity('COMMENTS')
-export class Comment {
+export class Comments {
   // 主キー（UUID文字列）
   @PrimaryGeneratedColumn('uuid')
   id!: string;

@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateCommentDto} from './dto/create-comment.dto';
-import { Comment } from './entities/comment.entity';
+import { Comments } from './entities/comments.entity';
 import { User } from '../user/entities/user.entity';
 import { Posts } from '../posts/entities/posts.entity';
 
 //commentテーブルに対するデータ操作を担当するサービス
 @Injectable()
-export class CommentService {
+export class CommentsService {
     constructor(
-        @InjectRepository(Comment)
-        private readonly commentRepository: Repository<Comment>,
+        @InjectRepository(Comments)
+        private readonly commentRepository: Repository<Comments>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(Posts)
@@ -65,7 +65,7 @@ export class CommentService {
             throw new Error('User または Post のデータが存在しないため、先に作ってください。');
         }
 
-        const samplecomment: DeepPartial<Comment>[] = [
+        const samplecomment: DeepPartial<Comments>[] = [
             { comment: 'これは投稿1のサンプルコメント1です', postId: { id: posts[0].id }, userId: { id: users[0].id }},
             { comment: 'これは投稿1のサンプルコメント2です', postId: { id: posts[0].id }, userId: { id: users[1].id }},
             { comment: 'これは投稿2のサンプルコメント1です', postId: { id: posts[1].id }, userId: { id: users[0].id }},

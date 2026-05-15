@@ -6,7 +6,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { CommentService } from './comment.service';
+import { CommentsService } from './comments.service';
 
 // requestからユーザーIDと投稿IDを取得するためのインターフェース
 interface AuthenticatedRequest extends Request {
@@ -17,7 +17,7 @@ interface AuthenticatedRequest extends Request {
 // コメントデータのCRUD(作成、取得)を行うコントローラー
 @Controller('comment')
 export class CommentController {
-  constructor(private readonly commentService: CommentService) {}
+  constructor(private readonly commentService: CommentsService) {}
 
   // 投稿IDを指定してコメントデータ取得
   @Get('post/:postId')

@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
-import { CommentModule } from './comment/comment.module';
+import { CommentsModule } from './comments/comments.module';
 import { ProfileModule } from './profile/profiles.module';
 import { QuestionsModule } from './questions/questions.module';
 import { AnswersModule } from './answers/answer.module';
@@ -50,7 +50,7 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     // 認証関連APIを提供するモジュール
     AuthModule,
     // コメント関連APIを提供するモジュール
-    CommentModule,
+    CommentsModule,
     // プロフィール関連APIを提供するモジュール
     ProfileModule,
     // 投稿関連APIを提供するモジュール
