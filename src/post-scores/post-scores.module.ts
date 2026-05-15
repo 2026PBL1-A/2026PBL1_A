@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostScores } from './entities/post_scores.entity';
-import { PostScoresService } from './post_scores.service';
-import { PostScoresController } from './post_scores.controller';
+import { PostScores } from './entities/post-scores.entity';
+import { PostScoresService } from './post-scores.service';
+import { PostScoresController } from './post-scores.controller';
 import { Posts } from '../posts/entities/posts.entity';  // ← 追加
 @Module({
     imports: [

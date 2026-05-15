@@ -9,7 +9,7 @@ import { ProfileModule } from './profile/profiles.module';
 import { QuestionsModule } from './questions/questions.module';
 import { AnswersModule } from './answers/answer.module';
 import { TagsModule } from './tags/tags.module';
-import { PostScoresModule } from './post_scores/post_scores.module';
+import { PostScoresModule } from './post-scores/post-scores.module';
 
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
