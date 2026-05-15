@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateAnswerDto} from './dto/create-answer.dto';
-import { Answer } from './entities/answers.entity';
+import { Answers } from './entities/answers.entity';
 import { User } from '../user/entities/user.entity';
 import { Questions } from '../questions/entities/questions.entity';
 
 //answerテーブルに対するデータ操作を担当するサービス
 @Injectable()
-export class AnswerService {
+export class AnswersService {
     constructor(
-        @InjectRepository(Answer)
-        private readonly answerRepository: Repository<Answer>,
+        @InjectRepository(Answers)
+        private readonly answerRepository: Repository<Answers>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(Questions)
@@ -74,7 +74,7 @@ export class AnswerService {
             throw new Error('User または Question のデータが存在しないため、先に作ってください。');
         }
 
-        const sampleanswer: DeepPartial<Answer>[] = [
+        const sampleanswer: DeepPartial<Answers>[] = [
             { comment: 'これは質問1のサンプル回答1です', questionId: { id: questions[0].id }, userId: { id: users[0].id }, score: 1 },
             { comment: 'これは質問1のサンプル回答2です', questionId: { id: questions[0].id }, userId: { id: users[1].id }, score: 2 },
             { comment: 'これは質問2のサンプル回答1です', questionId: { id: questions[1].id }, userId: { id: users[0].id }, score: 3 },

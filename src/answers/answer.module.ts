@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AnswerService } from './answers.service';
-import { AnswerController } from './answers.controller';
-import { Answer } from './entities/answers.entity';
+import { AnswersService } from './answers.service';
+import { AnswersController } from './answers.controller';
+import { Answers } from './entities/answers.entity';
 import { Questions } from '../questions/entities/questions.entity';
 import { User } from '../user/entities/user.entity';
 
 // Answer機能のDI設定をまとめるモジュール
 @Module({
   // AnswerエンティティのRepositoryをServiceで利用可能にする
-  imports: [TypeOrmModule.forFeature([Answer, Questions, User])],
-  controllers: [AnswerController],
-  providers: [AnswerService],
-  exports: [AnswerService],
+  imports: [TypeOrmModule.forFeature([Answers, Questions, User])],
+  controllers: [AnswersController],
+  providers: [AnswersService],
+  exports: [AnswersService],
 })
-export class AnswerModule {}
+export class AnswersModule {}
