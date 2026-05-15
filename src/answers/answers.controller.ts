@@ -19,7 +19,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 // 回答データのCRUD(作成、取得)を行うコントローラー
-@Controller('answer')
+@Controller('answers')
 export class AnswersController {
   constructor(private readonly answerService: AnswersService) {}
 

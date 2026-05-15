@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProfileController } from './profiles.controller';
+import { ProfilesController } from './profiles.controller';
 import { ProfilesService } from './profiles.service';
 import { Profiles } from './entities/profiles.entity';
 import { Users } from '../users/entities/users.entity';
@@ -13,7 +13,7 @@ import { Tags } from '../tags/entities/tags.entity';
 @Module({
   // ProfilesエンティティのRepositoryをServiceで利用可能にする
   imports: [TypeOrmModule.forFeature([Profiles, Users, Posts, Questions, ProfileTags, Tags])],
-  controllers: [ProfileController],
+  controllers: [ProfilesController],
   providers: [ProfilesService],
   exports: [ProfilesService],
 })

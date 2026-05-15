@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
 import { ProfilesModule } from './profiles/profiles.module';
 import { QuestionsModule } from './questions/questions.module';
-import { AnswersModule } from './answers/answer.module';
+import { AnswersModule } from './answers/answers.module';
 import { TagsModule } from './tags/tags.module';
 import { PostScoresModule } from './post-scores/post-scores.module';
 

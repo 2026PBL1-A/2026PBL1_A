@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentsService } from './comments.service';
-import { CommentController } from './comments.controller';
+import { CommentsController } from './comments.controller';
 import { Comments } from './entities/comments.entity';
 import { Posts } from '../posts/entities/posts.entity';
 import { Users } from '../users/entities/users.entity';
@@ -10,7 +10,7 @@ import { Users } from '../users/entities/users.entity';
 @Module({
   // CommentエンティティのRepositoryをServiceで利用可能にする
   imports: [TypeOrmModule.forFeature([Comments, Posts, Users])],
-  controllers: [CommentController],
+  controllers: [CommentsController],
   providers: [CommentsService],
   exports: [CommentsService],
 })

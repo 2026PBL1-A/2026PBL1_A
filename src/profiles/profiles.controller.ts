@@ -12,7 +12,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 @Controller('profiles')
-export class ProfileController {
+export class ProfilesController {
 	constructor(private readonly profileService: ProfilesService) {}
 
 	@UseGuards(JwtAuthGuard)
