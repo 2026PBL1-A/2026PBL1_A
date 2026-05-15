@@ -3,15 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Questions } from './entities/questions.entity';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { QuestionTag } from '../question-tags/entities/question-tags.entity';
+import { QuestionTags } from '../question-tags/entities/question-tags.entity';
 
 @Injectable()
 export class QuestionsService {
     constructor(
         @InjectRepository(Questions)
         private questionsRepository: Repository<Questions>,
-        @InjectRepository(QuestionTag)
-        private questionTagRepository: Repository<QuestionTag>,
+        @InjectRepository(QuestionTags)
+        private questionTagsRepository: Repository<QuestionTags>,
     ) {}
 
     async seed() {
@@ -46,12 +46,12 @@ export class QuestionsService {
 
         if (createQuestionDto.tag_ids && createQuestionDto.tag_ids.length > 0) {
             const questionTags = createQuestionDto.tag_ids.map((tag_id) =>
-                this.questionTagRepository.create({
+                this.questionTagsRepository.create({
                     question_id: savedQuestion.id,
                     tag_id,
                 })
             );
-            await this.questionTagRepository.save(questionTags);
+            await this.questionTagsRepository.save(questionTags);
         }
 
         return savedQuestion;
