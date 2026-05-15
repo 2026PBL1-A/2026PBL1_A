@@ -23,10 +23,6 @@ export class Answers {
   @Column()
   comment!: string;
 
-  //いいね数
-  @Column({ default: 0 })
-  score!: number;
-
   //投稿日時(自動作成)
   @CreateDateColumn({ type: 'datetime', name: 'created_at'})
   created_at!: Date;

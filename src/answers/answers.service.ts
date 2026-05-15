@@ -5,6 +5,7 @@ import { CreateAnswerDto} from './dto/create-answer.dto';
 import { Answers } from './entities/answers.entity';
 import { Users } from '../users/entities/users.entity';
 import { Questions } from '../questions/entities/questions.entity';
+import { AnswerScores } from '../answer-scores/entities/answer-scores.entity';
 
 //answerテーブルに対するデータ操作を担当するサービス
 @Injectable()
@@ -16,6 +17,8 @@ export class AnswersService {
         private readonly userRepository: Repository<Users>,
         @InjectRepository(Questions)
         private readonly questionRepository: Repository<Questions>,
+        @InjectRepository(AnswerScores)
+        private readonly answerScoreRepository: Repository<AnswerScores>,
     ) {}
 
     // DTOをAnswerエンティティに変換し、DBへ保存する（バリデーション後のデータを永続化）
@@ -54,6 +57,26 @@ export class AnswersService {
         return this.answerRepository.findOneBy({ id });
     }
 
+    // 回答のスコアを取得する
+    async getScore(answerId: string) {
+        const score = await this.answerScoreRepository.findOneBy({ answerId: answerId });
+        return score;
+    }
+
+    // scoreを更新する
+    async updateScore(answerId: string, userId: string) {
+        if (!answerId || !userId) {
+            throw new Error('回答IDとユーザーIDが指定されていません');
+        }
+        const answerScore = await this.answerScoreRepository.findOneBy({ answerId: answerId, userId: userId });
+        if (answerScore) {  // 既にスコアが存在する場合は削除して0にする
+            return this.answerScoreRepository.delete({ answerId: answerId, userId: userId });
+        }
+        else {  // スコアが存在しない場合は新規作成して1にする
+            return this.answerScoreRepository.save({ answerId: answerId, userId: userId });
+        }
+    }
+
     // 必要なら。指定IDの回答情報を更新し、その後最新の状態を取得して返す
     /*async update(id: string, updateAnswerDto: CreateAnswerDto) {
         await this.answerRepository.update(id, updateAnswerDto);
@@ -75,9 +98,9 @@ export class AnswersService {
         }
 
         const sampleanswer: DeepPartial<Answers>[] = [
-            { comment: 'これは質問1のサンプル回答1です', questionId: { id: questions[0].id }, userId: { id: users[0].id }, score: 1 },
-            { comment: 'これは質問1のサンプル回答2です', questionId: { id: questions[0].id }, userId: { id: users[1].id }, score: 2 },
-            { comment: 'これは質問2のサンプル回答1です', questionId: { id: questions[1].id }, userId: { id: users[0].id }, score: 3 },
+            { comment: 'これは質問1のサンプル回答1です', questionId: { id: questions[0].id }, userId: { id: users[0].id }},
+            { comment: 'これは質問1のサンプル回答2です', questionId: { id: questions[0].id }, userId: { id: users[1].id }},
+            { comment: 'これは質問2のサンプル回答1です', questionId: { id: questions[1].id }, userId: { id: users[0].id }},
         ];
         return this.answerRepository.save(sampleanswer);
     }

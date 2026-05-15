@@ -16,6 +16,9 @@ interface AuthenticatedRequest extends Request {
   question: {
     questionId: string;
   }
+  answer: {
+    answerId: string;
+  }
 }
 
 // 回答データのCRUD(作成、取得)を行うコントローラー
@@ -36,9 +39,22 @@ export class AnswersController {
     return this.answerService.findOne(id);
   }
 
+  // 回答のスコアを取得  
+  @Get('score/:answerId')
+  getScore(@Param('answerId') answerId: string) {
+    return this.answerService.getScore(answerId);
+  }
+
+  // 回答の作成
   @Post()
   create(@Body() createAnswerDto: CreateAnswerDto) {
     return this.answerService.create(createAnswerDto);
+  }
+
+  // 回答のスコアを更新
+  @Post('score/:answerId/:userId')
+  updateScore(@Param('answerId') answerId: string, @Param('userId') userId: string) {
+    return this.answerService.updateScore(answerId, userId);
   }
 
   // 仮の回答データ作成
