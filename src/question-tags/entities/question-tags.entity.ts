@@ -3,7 +3,7 @@ import { Questions } from '../../questions/entities/questions.entity';
 import { Tag } from '../../tags/entities/tags.entity';
 
 @Entity('QUESTION_TAGS')
-export class QuestionTag {
+export class QuestionTags {
   @PrimaryColumn({ type: 'varchar', length: 36 })
   question_id: string;
 
