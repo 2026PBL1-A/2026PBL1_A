@@ -7,8 +7,8 @@ import {
 import { Posts } from '../../posts/entities/posts.entity';
 import { User } from '../../user/entities/user.entity';
 
-@Entity('POST_SCORE')
-export class PostScore {
+@Entity('POST_SCORES')
+export class PostScores {
   @PrimaryColumn({
   type: 'char',
   length: 36,

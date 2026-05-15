@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostScore } from './entities/post_scores.entity';
+import { PostScores } from './entities/post_scores.entity';
 import { Posts } from '../posts/entities/posts.entity';
 
 @Injectable()
 export class PostScoresService {
     constructor(
-        @InjectRepository(PostScore)
-        private readonly postScoresRepository: Repository<PostScore>,
+        @InjectRepository(PostScores)
+        private readonly postScoresRepository: Repository<PostScores>,
 
         @InjectRepository(Posts)
         private readonly postsRepository: Repository<Posts>,
@@ -37,7 +37,7 @@ export class PostScoresService {
             await this.postScoresRepository.save(postScore);
         }
 
-        // ★ POST_SCOREテーブルのレコード数をカウントして POSTS.score を更新
+        // ★ POST_SCORESテーブルのレコード数をカウントして POSTS.score を更新
         const count = await this.postScoresRepository.count({
             where: {
                 postId
