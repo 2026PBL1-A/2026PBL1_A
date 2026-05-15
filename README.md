@@ -343,6 +343,12 @@ Invoke-RestMethod -Method Post `
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions/<questionId>
 ```
 
+### 質問複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:5000/questions/search?keyword=test%20mysql"
+```
+
 ### タグ作成
 
 ```powershell
@@ -512,6 +518,12 @@ curl -X POST http://localhost:5000/questions \
 
 ```bash
 curl -X GET http://localhost:5000/questions/<questionId>
+```
+
+### 質問複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
+
+```bash
+curl -G 'http://localhost:5000/questions/search' --data-urlencode 'q=test%20mysql'
 ```
 
 ### タグ作成
