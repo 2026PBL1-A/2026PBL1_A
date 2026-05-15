@@ -6,7 +6,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { CreateAnswerDto } from './dto/create-answer.dto';
-import { AnswerService } from './answer.service';
+import { AnswerService } from './answers.service';
 
 // requestからユーザーIDと質問IDを取得するインターフェース
 interface AuthenticatedRequest extends Request {
