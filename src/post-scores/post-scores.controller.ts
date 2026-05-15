@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Param, Req, UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import type { Request } from 'express';
-import { PostScoresService } from './post_scores.service';
+import { PostScoresService } from './post-scores.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 interface AuthenticatedRequest extends Request {
