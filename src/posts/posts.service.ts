@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Posts } from './entities/posts.entity';
-import { PostTag } from '../post-tags/entities/post-tags.entity';
+import { PostTags } from '../post-tags/entities/post-tags.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 
 @Injectable()
@@ -10,8 +10,8 @@ export class PostsService {
     constructor(
         @InjectRepository(Posts)
         private postsRepository: Repository<Posts>,
-        @InjectRepository(PostTag)
-        private postTagRepository: Repository<PostTag>,
+        @InjectRepository(PostTags)
+        private postTagsRepository: Repository<PostTags>,
     ) {}
 
 //新規作成
@@ -26,12 +26,12 @@ export class PostsService {
         // タグがあれば関連付ける
         if (createPostDto.tag_ids && createPostDto.tag_ids.length > 0) {
             const postTags = createPostDto.tag_ids.map(tag_id =>
-                this.postTagRepository.create({
+                this.postTagsRepository.create({
                     post_id: savedPost.id,
                     tag_id: tag_id,
                 })
             );
-            await this.postTagRepository.save(postTags);
+            await this.postTagsRepository.save(postTags);
         }
 
         return savedPost;

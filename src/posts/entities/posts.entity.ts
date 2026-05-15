@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn,Column,CreateDateColumn, OneToMany } from "typeorm";
-import { PostTag } from "../../post-tags/entities/post-tags.entity";
+import { PostTags } from "../../post-tags/entities/post-tags.entity";
 
 
 @Entity('POSTS')
@@ -19,8 +19,8 @@ export class Posts {
     @Column({ default: 0 })
     score!: number;
 
-    @OneToMany(() => PostTag, (postTag) => postTag.post)
-    postTags!: PostTag[];
+    @OneToMany(() => PostTags, (postTags) => postTags.post)
+    postTags!: PostTags[];
 
     @CreateDateColumn()
     created_at!: Date;
