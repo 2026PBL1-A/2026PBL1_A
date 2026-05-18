@@ -110,12 +110,14 @@ export class QuestionsService {
 
 //キーワードで質問を検索して結果を取得
     async searchQuestionsByKeyword(keyword: string): Promise<Questions[]> {
-        // キーワードをスペースで分割して複数のキーワードを処理。単体でも大丈夫
-        const keywords: string[] = keyword.split(/[\s　]+/);
-        const keywordslength = keywords.length;
-        
+        // 前後の空白を除去し、スペース区切りで複数キーワードに分割
+        const keywords = keyword
+            .trim()
+            .split(/[\s　]+/)
+            .filter(Boolean);
+
         // キーワードが空の場合は空の配列を返す
-        if (keywordslength === 0) {
+        if (keywords.length === 0) {
             return [];
         }
         
@@ -128,10 +130,11 @@ export class QuestionsService {
         keywords.forEach((kw, index) => {
             // パラメータ名が重複しないようにindexを付与。例:keyword0, keyword1
             const paramName = `keyword${index}`;
+            const likeKeyword = `%${kw.toLowerCase()}%`;
             const condition = new Brackets((qb) => {
-                qb.where(`question.title LIKE :${paramName}`, { [paramName]: `%${kw}%` })
-                .orWhere(`question.content LIKE :${paramName}`, { [paramName]: `%${kw}%` })
-                .orWhere(`tag.tag LIKE :${paramName}`, { [paramName]: `%${kw}%` });
+                qb.where(`LOWER(question.title) LIKE :${paramName}`, { [paramName]: likeKeyword })
+                .orWhere(`LOWER(question.content) LIKE :${paramName}`, { [paramName]: likeKeyword })
+                .orWhere(`LOWER(tag.tag) LIKE :${paramName}`, { [paramName]: likeKeyword });
             });
             if (index === 0) {
                 queryBuilder.where(condition);
@@ -142,6 +145,7 @@ export class QuestionsService {
         });
 
         return queryBuilder
+        .distinct(true)
         .orderBy('question.created_at', 'DESC')
         .getMany();
         // // キーワードがスペースを含まない場合は、そのキーワードでそのまま検索
