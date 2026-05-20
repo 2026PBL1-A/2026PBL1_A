@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Brackets } from 'typeorm';
 import { Questions } from './entities/questions.entity';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionTags } from '../question-tags/entities/question-tags.entity';
 
 @Injectable()
@@ -56,7 +57,50 @@ export class QuestionsService {
 
         return savedQuestion;
     }
-    
+
+    // 質問更新
+    async update(id: string, userId: string, updateQuestionDto: UpdateQuestionDto): Promise<Questions> {
+        // 質問の存在確認
+        const question = await this.questionsRepository.findOneBy({ id });
+        if (!question) {
+            throw new NotFoundException('質問が見つかりません');
+        }
+
+        // 質問の所有者確認
+        if (question.user_id !== userId) {
+            throw new ForbiddenException('権限がありません');
+        }
+
+        // 部分更新に対応
+        if (updateQuestionDto.title !== undefined) {
+            question.title = updateQuestionDto.title;
+        }
+        if (updateQuestionDto.content !== undefined) {
+            question.content = updateQuestionDto.content;
+        }
+
+        const savedQuestion = await this.questionsRepository.save(question);
+
+        // タグ更新処理: tag_ids が指定されていれば既存タグを削除して再登録
+        if (updateQuestionDto.tag_ids !== undefined) {
+            // 既存の中間テーブルを削除
+            await this.questionTagsRepository.delete({ question_id: id });
+
+            if (updateQuestionDto.tag_ids && updateQuestionDto.tag_ids.length > 0) {
+                const questionTags = updateQuestionDto.tag_ids.map((tag_id) =>
+                    this.questionTagsRepository.create({
+                        question_id: savedQuestion.id,
+                        tag_id,
+                    }),
+                );
+                await this.questionTagsRepository.save(questionTags);
+            }
+        }
+
+        // relations を含めて返す
+        return this.findOne(savedQuestion.id);
+    }
+
 //全件取得（オプション: タグで絞り込み可能）
     async findAll(tagIds: string[] = []): Promise<Questions[]> {
         // 重複排除と空文字列をフィルタリング

@@ -358,6 +358,12 @@ Invoke-RestMethod -Method Post `
   -Body $questionBody
 ```
 
+### 質問一覧取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions
+```
+
 ### 質問詳細取得（タグ情報込み）
 
 ```powershell
@@ -368,6 +374,21 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions/<questionId>
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri "http://localhost:5000/questions/search?keyword=test%20mysql"
+```
+
+### 質問更新（JWT必須・部分更新対応）
+```powershell
+$QuestionBody = @{
+  title = "新しいタイトル"
+  content = "更新された本文"
+  tag_ids = @("uuid-1","uuid-2")
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/questions/<questionId> `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $QuestionBody
 ```
 
 ### タグ作成
@@ -553,6 +574,15 @@ curl -X GET http://localhost:5000/questions/<questionId>
 curl -G 'http://localhost:5000/questions/search' --data-urlencode 'q=test%20mysql'
 ```
 
+### 質問更新（JWT必須・部分更新対応）
+
+```bash
+curl -X PATCH http://localhost:5000/questions/<questionId> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"新しいタイトル","tag_ids":["uuid-1","uuid-2"]}'
+```
+
 ### タグ作成
 
 ```bash
@@ -660,3 +690,6 @@ npm run test:e2e
 
 * DB構造変更時はチームに共有すること
 * READMEは随時更新してください
+
+*** End Patch
+
