@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Get, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Param, Query, Patch } from '@nestjs/common';
 import { Request } from 'express';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -41,5 +41,16 @@ export class PostsController {
     @Get(':id')//指定した投稿を取得
     findOne(@Param('id') id: string) {
         return this.postsService.findOne(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(':id')//投稿を更新
+    update(
+        @Param('id') id: string,
+        @Req() req: AuthenticatedRequest,
+        @Body() dto: CreatePostDto,
+    ) {
+        const userId = req.user.userId;
+        return this.postsService.updatePost(id, dto, userId);
     }
 }
