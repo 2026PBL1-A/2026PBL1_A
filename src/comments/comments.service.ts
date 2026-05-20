@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateCommentDto} from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Comments } from './entities/comments.entity';
 import { Users } from '../users/entities/users.entity';
 import { Posts } from '../posts/entities/posts.entity';
@@ -45,11 +46,27 @@ export class CommentsService {
         return this.commentRepository.findOneBy({ id });
     }
 
-    // 必要なら。指定IDのコメント情報を更新し、その後最新の状態を取得して返す
-    /*async update(id: string, updateCommentDto: CreateCommentDto) {
-        await this.commentRepository.update(id, updateCommentDto);
-        return this.findOne(id);
-    }*/
+    // 指定された投稿、ユーザーIDのコメント情報を更新し、その後最新の状態を取得して返す
+    async update(id: string, updateCommentDto: UpdateCommentDto) {
+        if (!id) {
+            throw new Error('コメントIDが必要です');
+        }
+        
+        const post = await this.postsRepository.findOneBy({ id: updateCommentDto.postId });
+        const user = await this.userRepository.findOneBy({ id: updateCommentDto.userId });
+        if (!post || !user) {
+            throw new Error('指定された投稿またはユーザーが存在しません');
+        }
+
+        const updateComment = await this.commentRepository.findOneBy({ id: id });
+        if (!updateComment) {
+            throw new Error('指定されたコメントが見つかりません');
+        }
+
+        updateComment.comment = updateCommentDto.comment;
+        await this.commentRepository.save(updateComment);
+        return await this.commentRepository.findOneBy({ id: id });
+    }
 
     // 必要なら。指定IDのコメントを削除する
     /*async remove(id: string) {
