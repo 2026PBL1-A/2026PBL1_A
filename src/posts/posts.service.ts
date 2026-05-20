@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Posts } from './entities/posts.entity';
@@ -35,6 +35,51 @@ export class PostsService {
         }
 
         return savedPost;
+    }
+
+    // 🌝投稿編集
+    async updatePost(
+        id: string,
+        updatePostDto: CreatePostDto,
+        userId: string,
+    ): Promise<Posts> {
+
+    // ☃️投稿取得
+        const post = await this.postsRepository.findOne({
+            where: { id },
+        });
+
+        if (!post) {
+            throw new NotFoundException('投稿が見つかりません');
+        }
+
+    // 🕒投稿者本人か確認
+        if (post.user_id !== userId) {
+            throw new ForbiddenException();
+        }
+
+        post.title = updatePostDto.title;
+        post.content = updatePostDto.content;
+
+        await this.postsRepository.save(post);
+    // 🦧タグ更新（既存タグ削除→新規タグ追加）
+        await this.postTagsRepository.delete({
+            post_id: id,
+        });
+
+        if (updatePostDto.tag_ids && updatePostDto.tag_ids.length > 0) {
+
+            const postTags = updatePostDto.tag_ids.map(tag_id =>
+                this.postTagsRepository.create({
+                    post_id: id,
+                    tag_id,
+                })
+            );
+
+            await this.postTagsRepository.save(postTags);
+        }
+
+        return this.findOne(id);
     }
 
 //全件取得（オプション: タグで絞り込み可能）

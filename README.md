@@ -328,7 +328,20 @@ Invoke-RestMethod -Method Post `
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
 ```
+### 投稿更新（JWT必須・部分更新対応）
+powershell
+$PostBody = @{
+  title = "新しいタイトル"
+  content = "更新された本文"
+  tag_ids = @("uuid-1","uuid-2")
+} | ConvertTo-Json
 
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/posts/<postId> `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $PostBody
+  
 ### 質問作成（JWT必須、タグ複数指定）
 
 ```powershell
