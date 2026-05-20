@@ -5,11 +5,11 @@ export class UpdateAnswerDto {
     @IsString()
     @IsNotEmpty({ message: '内容を入力してください' })
     @Transform(({ value }) => value.trim()) // 空白入力のみを防止
-    answer!: string;
+    comment!: string;
 
     @IsUUID()
     @IsNotEmpty({ message: '質問IDを入力してください' })
-    postId!: string;
+    questionId!: string;
 
     @IsUUID()
     @IsNotEmpty({ message: 'ユーザーIDを入力してください' })
