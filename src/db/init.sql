@@ -110,10 +110,8 @@ CREATE TABLE IF NOT EXISTS POST_SCORES (
     user_id VARCHAR(36) NOT NULL,
 
     PRIMARY KEY (post_id, user_id),
-    FOREIGN KEY (post_id) REFERENCES POSTS(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES USERS(id)
-        ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES POSTS(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
 );
 
 -- answer_scoreテーブル作成(テーブル大文字)

@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Delete } from '@nestjs/common';
 
 interface AuthenticatedRequest extends Request {//userIdを取得するためのインターフェース
     user: { userId: string };
@@ -52,5 +53,15 @@ export class PostsController {
     ) {
         const userId = req.user.userId;
         return this.postsService.updatePost(id, dto, userId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')//投稿を削除
+    delete(
+        @Param('id') id: string,
+        @Req() req: AuthenticatedRequest,
+    ) {
+        const userId = req.user.userId;
+        return this.postsService.deletePost(id, userId);
     }
 }

@@ -82,6 +82,37 @@ export class PostsService {
         return this.findOne(id);
     }
 
+    //🚨投稿削除
+    async deletePost(
+        id: string,
+        userId: string,
+    ): Promise<{ message: string }> {
+
+    // 投稿取得
+    const post = await this.postsRepository.findOne({
+        where: { id },
+    });
+
+    // 投稿が存在しない
+    if (!post) {
+        throw new NotFoundException('投稿が見つかりません');
+    }
+
+    // 投稿者本人か確認
+    if (post.user_id !== userId) {
+        throw new ForbiddenException();
+    }
+
+    // 投稿削除
+    await this.postsRepository.delete({
+        id,
+    });
+
+    return {
+        message: '投稿を削除しました',
+    };
+}
+
 //全件取得（オプション: タグで絞り込み可能）
     async findAll(tagIds: string[] = []): Promise<Posts[]> {
         // 重複排除と空文字列をフィルタリング
