@@ -1,11 +1,13 @@
 import {
   Controller,
   Get,
+  Patch,
   Post,
   Param,
   Body,
 } from '@nestjs/common';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { AnswersService } from './answers.service';
 
 // requestからユーザーIDと質問IDを取得するインターフェース
@@ -44,6 +46,11 @@ export class AnswersController {
   getScore(@Param('answerId') answerId: string) {
     return this.answerService.getScore(answerId);
   }
+
+  @Patch('update/:id')
+    update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
+      return this.answerService.update(id, updateAnswerDto);
+    }
 
   // 回答の作成
   @Post()
