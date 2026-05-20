@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS PROFILES (
   id VARCHAR(36) NOT NULL,
   user_id VARCHAR(36) NOT NULL UNIQUE,
   bio TEXT,
-  -- avatar_url VARCHAR(255),
+  avatar_url VARCHAR(1000),
   PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
 );
@@ -121,4 +121,26 @@ CREATE TABLE IF NOT EXISTS ANSWER_SCORES (
   answer_id VARCHAR(36) NOT NULL,
   user_id VARCHAR(36) NOT NULL,
   PRIMARY KEY (answer_id, user_id)
+);
+
+-- post_imaegsテーブル作成(テーブル大文字)
+CREATE TABLE IF NOT EXISTS POST_IMAGES (
+  id VARCHAR(36) NOT NULL,
+  post_id VARCHAR(36) NOT NULL,
+  image_url VARCHAR(1000) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (id),
+  UNIQUE (post_id, sort_order),
+  FOREIGN KEY (post_id) REFERENCES POSTS(id) ON DELETE CASCADE
+);
+
+-- question_imagesテーブル作成(テーブル大文字)
+CREATE TABLE IF NOT EXISTS QUESTION_IMAGES (
+  id VARCHAR(36) NOT NULL,
+  question_id VARCHAR(36) NOT NULL,
+  image_url VARCHAR(1000) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (id),
+  UNIQUE (question_id, sort_order),
+  FOREIGN KEY (question_id) REFERENCES QUESTIONS(id) ON DELETE CASCADE
 );
