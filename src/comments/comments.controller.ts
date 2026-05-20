@@ -1,11 +1,13 @@
 import {
   Controller,
   Get,
+  Patch,
   Post,
   Param,
   Body,
 } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CommentsService } from './comments.service';
 
 // requestからユーザーIDと投稿IDを取得するためのインターフェース
@@ -29,6 +31,11 @@ export class CommentsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.commentService.findOne(id);
+  }
+
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
+    return this.commentService.update(id, updateCommentDto);
   }
 
   @Post()
