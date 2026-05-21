@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateAnswerDto} from './dto/create-answer.dto';
@@ -100,15 +100,25 @@ export class AnswersService {
         return await this.answerRepository.findOneBy({ id: id });
     }
 
-    // 必要なら。指定IDの回答を削除する
-    async remove(id: string) {
-        const result = await this.answerRepository.delete(id);
+    // 必要なら。指定IDの回答を削除する（作成者のみ実行可）
+    async remove(id: string, userId: string) {
+        // 回答を取得（作成者確認のため userId を取得）
+        const answer = await this.answerRepository.findOne({ where: { id }, relations: { userId: true } });
+        if (!answer) {
+            throw new NotFoundException('指定された回答が見つかりません');
+        }
 
-        // 削除が成功したか確認し、失敗していたら例外を投げる
+        // 作成者かどうか確認
+        if (!answer.userId || answer.userId.id !== userId) {
+            throw new ForbiddenException();
+        }
+
+        const result = await this.answerRepository.delete(id);
         if (!result || result.affected === 0) {
             throw new NotFoundException('指定された回答が見つかりません');
         }
-        return { deleted: true, id };
+
+        return { message: '回答を削除しました' };
     }
 
     // 回答のシードデータを作成する
