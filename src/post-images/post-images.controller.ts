@@ -1,5 +1,3 @@
-// src/post-images/post-images.controller.ts
-
 import {
   Controller,
   Post,
@@ -25,10 +23,7 @@ export class PostImagesController {
     private readonly postImagesService: PostImagesService,
   ) {}
 
-  /**
-   * 画像ファイルをアップロードして保存
-   * POST /post-images/upload/:postId
-   */
+  // 画像ファイルをアップロードして保存
   @Post('upload/:postId')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -67,10 +62,7 @@ export class PostImagesController {
     );
   }
 
-  /**
-   * 手動でURLを登録
-   * POST /post-images
-   */
+  // 手動でURLを登録
   @Post()
   async create(
     @Body()
@@ -87,10 +79,7 @@ export class PostImagesController {
     );
   }
 
-  /**
-   * 投稿ごとの画像一覧取得
-   * GET /post-images/post/:postId
-   */
+  // 投稿ごとの画像一覧取得
   @Get('post/:postId')
   async findByPostId(
     @Param('postId') postId: string,
@@ -100,10 +89,7 @@ export class PostImagesController {
     );
   }
 
-  /**
-   * 画像削除
-   * DELETE /post-images/:id
-   */
+  // 画像削除
   @Delete(':id')
   async remove(
     @Param('id') id: string,
