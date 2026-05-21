@@ -3,6 +3,7 @@ import {
   Get,
   Patch,
   Post,
+  Delete,
   Param,
   Body,
 } from '@nestjs/common';
@@ -62,6 +63,12 @@ export class AnswersController {
   @Post('score/:answerId/:userId')
   updateScore(@Param('answerId') answerId: string, @Param('userId') userId: string) {
     return this.answerService.updateScore(answerId, userId);
+  }
+
+  // 回答の削除
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.answerService.remove(id);
   }
 
   // 仮の回答データ作成
