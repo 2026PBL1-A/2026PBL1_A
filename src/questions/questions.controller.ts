@@ -1,7 +1,8 @@
-import { Controller, Post, Get, Body, Param, Req, UseGuards, Query } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Req, UseGuards, Query, Patch, Delete } from '@nestjs/common';
 import { Request } from 'express';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 interface AuthenticatedRequest extends Request {
@@ -26,6 +27,27 @@ export class QuestionsController {
     ) {
         const userId = req.user.userId;
         return this.questionsService.createQuestion(dto, userId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(':id')//質問更新
+    update(
+        @Req() req: AuthenticatedRequest,
+        @Body() dto: UpdateQuestionDto,
+        @Param('id') id: string
+    ) {
+        const userId = req.user.userId;
+        return this.questionsService.update(id, userId, dto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')//質問削除
+    delete(
+        @Param('id') id: string,
+        @Req() req: AuthenticatedRequest,
+    ) {
+        const userId = req.user.userId;
+        return this.questionsService.deleteQuestion(id, userId);
     }
 
     @Get()//全件取得

@@ -10,7 +10,7 @@ export class Comments {
   id!: string;
 
   //投稿ID
-  @ManyToOne(() => Posts)
+  @ManyToOne(() => Posts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'post_id' })
   postId!: Posts;
 

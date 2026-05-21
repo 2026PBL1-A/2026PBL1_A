@@ -10,7 +10,7 @@ export class Answers {
   id!: string;
 
   //質問ID
-  @ManyToOne((type) => Questions)
+  @ManyToOne((type) => Questions, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'question_id' })
   questionId!: Questions;
 

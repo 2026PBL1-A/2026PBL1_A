@@ -146,7 +146,10 @@ src/
 | GET    | /posts     | 一覧取得 |
 | GET    | /posts/search?q=keyword | タイトル・本文・タグ名で部分一致検索（OR / 大文字小文字無視） |
 | GET    | /posts/:id | 詳細取得 |
+| PATCH  | /posts/:id | 更新（JWT必須） |
+| DELETE | /posts/:id | 削除（JWT必須） |
 | GET    | /posts/seed | 仮データ投入 |
+
 
 ### タグ
 
@@ -158,6 +161,17 @@ src/
 | GET | /tags/ids?ids=id1,id2 | 複数IDで取得 |
 | GET | /tags/search?tag=name | タグ名で検索 |
 | GET | /tags/:id | 1件取得 |
+
+### 質問
+
+| Method | Path | 内容 |
+| ------ | ---- | ---- |
+| POST | /questions | 質問作成（JWT必須） |
+| PATCH | /questions/:id | 更新（JWT必須） |
+| DELETE | /questions/:id | 削除（JWT必須） |
+| GET | /questions | 一覧取得 |
+| GET | /questions/search?keyword=... | キーワード検索 |
+| GET | /questions/:id | 1件取得 |
 
 ---
 
@@ -328,7 +342,20 @@ Invoke-RestMethod -Method Post `
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
 ```
+### 投稿更新（JWT必須・部分更新対応）
+powershell
+$PostBody = @{
+  title = "新しいタイトル"
+  content = "更新された本文"
+  tag_ids = @("uuid-1","uuid-2")
+} | ConvertTo-Json
 
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/posts/<postId> `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $PostBody
+  
 ### 質問作成（JWT必須、タグ複数指定）
 
 ```powershell
@@ -345,6 +372,12 @@ Invoke-RestMethod -Method Post `
   -Body $questionBody
 ```
 
+### 質問一覧取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions
+```
+
 ### 質問詳細取得（タグ情報込み）
 
 ```powershell
@@ -355,6 +388,29 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/questions/<questionId>
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri "http://localhost:5000/questions/search?keyword=test%20mysql"
+```
+
+### 質問更新（JWT必須・部分更新対応）
+```powershell
+$QuestionBody = @{
+  title = "新しいタイトル"
+  content = "更新された本文"
+  tag_ids = @("uuid-1","uuid-2")
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/questions/<questionId> `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $QuestionBody
+```
+
+### 質問削除（JWT必須）
+
+```powershell
+Invoke-RestMethod -Method Delete `
+  -Uri http://localhost:5000/questions/<id> `
+  -Headers @{ Authorization = "Bearer $token" }
 ```
 
 ### タグ作成
@@ -519,6 +575,22 @@ curl -X POST http://localhost:5000/posts \
 curl -X GET http://localhost:5000/posts/seed
 ```
 
+### 投稿更新（JWT必須・部分更新対応）
+
+```bash
+curl -X PATCH http://localhost:5000/posts/<postId> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"新しいタイトル","content":"更新された本文","tag_ids":["uuid-1","uuid-2"]}'
+```
+
+### 投稿削除（JWT必須）
+
+```bash
+curl -X DELETE http://localhost:5000/posts/<postId> \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 ### 質問作成（JWT必須、タグ複数指定）
 
 ```bash
@@ -534,10 +606,26 @@ curl -X POST http://localhost:5000/questions \
 curl -X GET http://localhost:5000/questions/<questionId>
 ```
 
+### 質問削除（JWT必須）
+
+```bash
+curl -X DELETE http://localhost:5000/questions/<questionId> \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 ### 質問複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
 
 ```bash
 curl -G 'http://localhost:5000/questions/search' --data-urlencode 'q=test%20mysql'
+```
+
+### 質問更新（JWT必須・部分更新対応）
+
+```bash
+curl -X PATCH http://localhost:5000/questions/<questionId> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"新しいタイトル","tag_ids":["uuid-1","uuid-2"]}'
 ```
 
 ### タグ作成
@@ -647,3 +735,6 @@ npm run test:e2e
 
 * DB構造変更時はチームに共有すること
 * READMEは随時更新してください
+
+*** End Patch
+

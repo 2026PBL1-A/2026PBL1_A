@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Transform } from 'class-transformer';
-//ユーザーデータの作成に必要なデータの型とバリデーションを定義
-export class CreateAnswerDto {
+//回答の更新に必要なデータの型とバリデーションを定義
+export class UpdateAnswerDto {
     @IsString()
     @IsNotEmpty({ message: '内容を入力してください' })
     @Transform(({ value }) => value.trim()) // 空白入力のみを防止

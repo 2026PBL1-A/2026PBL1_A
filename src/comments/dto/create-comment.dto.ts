@@ -1,8 +1,10 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
-//ユーザーデータの作成に必要なデータの型とバリデーションを定義
+import { Transform } from 'class-transformer';
+//コメントの作成に必要なデータの型とバリデーションを定義
 export class CreateCommentDto {
     @IsString()
     @IsNotEmpty({ message: '内容を入力してください' })
+    @Transform(({ value }) => value.trim()) // 空白入力のみを防止
     comment!: string;
 
     @IsUUID()

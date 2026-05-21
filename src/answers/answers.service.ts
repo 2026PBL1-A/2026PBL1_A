@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateAnswerDto} from './dto/create-answer.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { Answers } from './entities/answers.entity';
 import { Users } from '../users/entities/users.entity';
 import { Questions } from '../questions/entities/questions.entity';
@@ -77,11 +78,27 @@ export class AnswersService {
         }
     }
 
-    // 必要なら。指定IDの回答情報を更新し、その後最新の状態を取得して返す
-    /*async update(id: string, updateAnswerDto: CreateAnswerDto) {
-        await this.answerRepository.update(id, updateAnswerDto);
-        return this.findOne(id);
-    }*/
+    // 指定IDの回答情報を更新し、その後最新の状態を取得して返す
+    async update(id: string, updateAnswerDto: UpdateAnswerDto) {
+        if (!id) {
+            throw new Error('回答IDが必要です');
+        }
+        
+        const question = await this.questionRepository.findOneBy({ id: updateAnswerDto.questionId });
+        const user = await this.userRepository.findOneBy({ id: updateAnswerDto.userId });
+        if (!question || !user) {
+            throw new Error('指定された質問またはユーザーが存在しません');
+        }
+
+        const updateAnswer = await this.answerRepository.findOneBy({ id: id });
+        if (!updateAnswer) {
+            throw new Error('指定された回答が見つかりません');
+        }
+
+        updateAnswer.comment = updateAnswerDto.comment;
+        await this.answerRepository.save(updateAnswer);
+        return await this.answerRepository.findOneBy({ id: id });
+    }
 
     // 必要なら。指定IDの回答を削除する
     /*async remove(id: string) {
