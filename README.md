@@ -146,9 +146,21 @@ src/
 | GET    | /posts     | 一覧取得 |
 | GET    | /posts/search?q=keyword | タイトル・本文・タグ名で部分一致検索（OR / 大文字小文字無視） |
 | GET    | /posts/:id | 詳細取得 |
+| PATCH  | /posts/:id | 更新（JWT必須） |
+| DELETE | /posts/:id | 削除（JWT必須） |
 | GET    | /posts/seed | 仮データ投入 |
 
+
 ### タグ
+
+| Method | Path | 内容 |
+| ------ | ---- | ---- |
+| POST | /tags | タグ新規作成 |
+| POST | /tags/seed | 仮データ投入 |
+| GET | /tags | 一覧取得 |
+| GET | /tags/ids?ids=id1,id2 | 複数IDで取得 |
+| GET | /tags/search?tag=name | タグ名で検索 |
+| GET | /tags/:id | 1件取得 |
 
 ### 質問
 
@@ -160,16 +172,6 @@ src/
 | GET | /questions | 一覧取得 |
 | GET | /questions/search?keyword=... | キーワード検索 |
 | GET | /questions/:id | 1件取得 |
-
-
-| Method | Path | 内容 |
-| ------ | ---- | ---- |
-| POST | /tags | タグ新規作成 |
-| POST | /tags/seed | 仮データ投入 |
-| GET | /tags | 一覧取得 |
-| GET | /tags/ids?ids=id1,id2 | 複数IDで取得 |
-| GET | /tags/search?tag=name | タグ名で検索 |
-| GET | /tags/:id | 1件取得 |
 
 ---
 
@@ -246,14 +248,6 @@ Invoke-RestMethod -Method Delete `
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles
-```
-
-### 質問削除（JWT必須）
-
-```powershell
-Invoke-RestMethod -Method Delete `
-  -Uri http://localhost:5000/questions/<id> `
-  -Headers @{ Authorization = "Bearer $token" }
 ```
 
 ### プロフィール詳細取得
@@ -409,6 +403,14 @@ Invoke-RestMethod -Method Patch `
   -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body $QuestionBody
+```
+
+### 質問削除（JWT必須）
+
+```powershell
+Invoke-RestMethod -Method Delete `
+  -Uri http://localhost:5000/questions/<id> `
+  -Headers @{ Authorization = "Bearer $token" }
 ```
 
 ### タグ作成
