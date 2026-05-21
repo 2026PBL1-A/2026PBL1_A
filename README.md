@@ -173,6 +173,18 @@ src/
 | GET | /questions/search?keyword=... | キーワード検索 |
 | GET | /questions/:id | 1件取得 |
 
+### 回答
+
+| Method | Path | 内容 |
+| ------ | ---- | ---- |
+| POST | /answers | 回答作成 |
+| GET | /answers/question/:questionId | 指定質問の回答一覧取得 |
+| GET | /answers/:id | 回答1件取得 |
+| GET | /answers/score/:answerId | 回答のスコア取得 |
+| PATCH | /answers/update/:id | 回答更新 |
+| DELETE | /answers/:id | 回答削除（JWT必須） |
+| POST | /answers/seed | 回答の仮データ投入 |
+
 ---
 
 ## 🧪 動作確認（PowerShell）
@@ -413,6 +425,26 @@ Invoke-RestMethod -Method Delete `
   -Headers @{ Authorization = "Bearer $token" }
 ```
 
+### 回答一覧（ある質問の回答を取得）
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/answers/question/<questionId>
+```
+
+### 回答1件取得
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:5000/answers/<answerId>
+```
+
+### 回答削除
+
+```powershell
+Invoke-RestMethod -Method Delete `
+  -Uri http://localhost:5000/answers/<answerId> `
+  -Headers @{ Authorization = "Bearer $token" }
+```
+
 ### タグ作成
 
 ```powershell
@@ -617,6 +649,25 @@ curl -X DELETE http://localhost:5000/questions/<questionId> \
 
 ```bash
 curl -G 'http://localhost:5000/questions/search' --data-urlencode 'q=test%20mysql'
+```
+
+### 回答一覧（ある質問の回答を取得）
+
+```bash
+curl -i -X GET "http://localhost:5000/answers/question/<questionId>"
+```
+
+### 回答1件取得
+
+```bash
+curl -i -X GET "http://localhost:5000/answers/<answerId>"
+```
+
+### 回答削除
+
+```bash
+curl -i -X DELETE "http://localhost:5000/answers/<answerId>" \
+  -H "Authorization: Bearer $TOKEN"
 ```
 
 ### 質問更新（JWT必須・部分更新対応）
