@@ -117,7 +117,9 @@ CREATE TABLE IF NOT EXISTS POST_SCORES (
 CREATE TABLE IF NOT EXISTS ANSWER_SCORES (
   answer_id VARCHAR(36) NOT NULL,
   user_id VARCHAR(36) NOT NULL,
-  PRIMARY KEY (answer_id, user_id)
+  PRIMARY KEY (answer_id, user_id),
+  FOREIGN KEY (answer_id) REFERENCES ANSWERS(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
 );
 
 -- post_imaegsテーブル作成(テーブル大文字)
