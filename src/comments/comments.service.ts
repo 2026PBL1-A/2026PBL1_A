@@ -68,10 +68,20 @@ export class CommentsService {
         return await this.commentRepository.findOneBy({ id: id });
     }
 
-    // 必要なら。指定IDのコメントを削除する
-    /*async remove(id: string) {
+    // 指定IDのコメントを削除する
+    async remove(id: string) {
+        if (!id) {
+            throw new Error('コメントIDが必要です');
+        }
+
+        const comment = await this.commentRepository.findOneBy({ id: id });
+        if (!comment) {
+            throw new Error('指定されたコメントが見つかりません');
+        }
+
         await this.commentRepository.delete(id);
-    }*/
+        return { deleted: true };
+    }
 
     // コメントのシードデータを作成する
     async seed() {
