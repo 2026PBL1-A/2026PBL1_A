@@ -3,6 +3,7 @@ import {
   Get,
   Patch,
   Post,
+  Delete,
   Param,
   Body,
 } from '@nestjs/common';
@@ -41,7 +42,12 @@ export class CommentsController {
   @Post()
   create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentService.create(createCommentDto);
-  } 
+  }
+
+  @Delete('delete/:id')
+  remove(@Param('id') id: string) {
+    return this.commentService.remove(id);
+  }
 
   // 仮のコメントデータ作成
   @Post('seed')
