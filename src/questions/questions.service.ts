@@ -101,6 +101,37 @@ export class QuestionsService {
         return this.findOne(savedQuestion.id);
     }
 
+    // 質問削除
+    async deleteQuestion(
+        id: string,
+        userId: string
+    ): Promise<{ message: string }> {
+
+        // 投稿取得
+        const question = await this.questionsRepository.findOne({
+            where: { id }
+        });
+
+        // 質問の存在確認
+        if (!question) {
+            throw new NotFoundException('質問が見つかりません');
+        }
+
+        // 質問の所有者確認
+        if (question.user_id !== userId) {
+            throw new ForbiddenException('権限がありません');
+        }
+
+        // 質問削除
+        await this.questionsRepository.delete({
+            id
+        });
+
+        return {
+            message: '質問を削除しました',
+        };
+    }
+
 //全件取得（オプション: タグで絞り込み可能）
     async findAll(tagIds: string[] = []): Promise<Questions[]> {
         // 重複排除と空文字列をフィルタリング

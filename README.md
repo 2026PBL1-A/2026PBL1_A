@@ -150,6 +150,18 @@ src/
 
 ### タグ
 
+### 質問
+
+| Method | Path | 内容 |
+| ------ | ---- | ---- |
+| POST | /questions | 質問作成（JWT必須） |
+| PATCH | /questions/:id | 更新（JWT必須） |
+| DELETE | /questions/:id | 削除（JWT必須） |
+| GET | /questions | 一覧取得 |
+| GET | /questions/search?keyword=... | キーワード検索 |
+| GET | /questions/:id | 1件取得 |
+
+
 | Method | Path | 内容 |
 | ------ | ---- | ---- |
 | POST | /tags | タグ新規作成 |
@@ -234,6 +246,14 @@ Invoke-RestMethod -Method Delete `
 
 ```powershell
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/profiles
+```
+
+### 質問削除（JWT必須）
+
+```powershell
+Invoke-RestMethod -Method Delete `
+  -Uri http://localhost:5000/questions/<id> `
+  -Headers @{ Authorization = "Bearer $token" }
 ```
 
 ### プロフィール詳細取得
@@ -553,6 +573,22 @@ curl -X POST http://localhost:5000/posts \
 curl -X GET http://localhost:5000/posts/seed
 ```
 
+### 投稿更新（JWT必須・部分更新対応）
+
+```bash
+curl -X PATCH http://localhost:5000/posts/<postId> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"新しいタイトル","content":"更新された本文","tag_ids":["uuid-1","uuid-2"]}'
+```
+
+### 投稿削除（JWT必須）
+
+```bash
+curl -X DELETE http://localhost:5000/posts/<postId> \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 ### 質問作成（JWT必須、タグ複数指定）
 
 ```bash
@@ -566,6 +602,13 @@ curl -X POST http://localhost:5000/questions \
 
 ```bash
 curl -X GET http://localhost:5000/questions/<questionId>
+```
+
+### 質問削除（JWT必須）
+
+```bash
+curl -X DELETE http://localhost:5000/questions/<questionId> \
+  -H "Authorization: Bearer $TOKEN"
 ```
 
 ### 質問複数キーワード検索（タイトル・本文・タグ名を OR の部分一致検索・複数キーワードは空白区切りで AND 検索）
