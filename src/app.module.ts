@@ -11,6 +11,7 @@ import { AnswersModule } from './answers/answers.module';
 import { TagsModule } from './tags/tags.module';
 import { PostScoresModule } from './post-scores/post-scores.module';
 import { PostImagesModule } from './post-images/post-images.module';
+import { QuestionImagesModule } from './question-images/question-images.module';
 
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
@@ -66,6 +67,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     PostScoresModule,
     // 投稿画像関連APIを提供するモジュール
     PostImagesModule,
+    // 質問画像関連APIを提供するモジュール
+    QuestionImagesModule,
   ],
 })
 export class AppModule {}

@@ -218,4 +218,19 @@ export class ProfilesService {
 
         return { message: 'パスワードが正常に更新されました' };
     }
+
+    // アバター画像をアップロードしてURLを保存する
+    async updateAvatar(
+        profileId: string,
+        avatarUrl: string,
+    ) {
+        await this.profileRepository.update(profileId, {
+            avatarUrl,
+        });
+
+        return {
+            message: 'プロフィール画像を更新しました',
+            avatar_url: avatarUrl,
+        };
+    }
 }

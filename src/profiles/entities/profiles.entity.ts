@@ -19,7 +19,7 @@ export class Profiles {
   @OneToMany(() => ProfileTags, (profileTags) => profileTags.profile)
   profileTags!: ProfileTags[];
 
-  // アバターのURL（現在開発中）
-  // @Column({ name: 'avatar_url', type: 'varchar', length: 255, nullable: true })
-  // avatarUrl?: string;
+  
+  @Column({ name: 'avatar_url', type: 'varchar', length: 255, nullable: true })
+  avatarUrl?: string;
 }

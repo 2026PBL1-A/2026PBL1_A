@@ -1,10 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards,UploadedFile, UseInterceptors, ParseFilePipe, MaxFileSizeValidator, } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProfileDto } from './dto/create-profiles.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { ProfilesService } from './profiles.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { randomUUID } from 'crypto';
 
 // userIdを取得するためのインターフェース
 interface AuthenticatedRequest extends Request {
@@ -66,5 +70,40 @@ export class ProfilesController {
 	) {
 		const userId = req.user.userId;
 		return this.profileService.updatePassword(userId, dto);
+	}
+
+	@Post('avatar/upload/:profileId')
+	@UseInterceptors(
+  		FileInterceptor('file', {
+    		storage: diskStorage({
+      			destination: './uploads/profiles',
+      			filename: (req, file, callback) => {
+        			const uniqueName =
+          			randomUUID() + extname(file.originalname);
+        			callback(null, uniqueName);
+      			},
+    		}),
+  		}),
+	)
+	async uploadAvatar(
+  		@Param('profileId') profileId: string,
+  		@UploadedFile(
+    		new ParseFilePipe({
+      			validators: [
+        			new MaxFileSizeValidator({
+          				maxSize: 5 * 1024 * 1024,
+        			}),
+      			],
+    		}),
+  		)
+  		file: Express.Multer.File,
+	) {
+  		const avatarUrl =
+    	`/uploads/profiles/${file.filename}`;
+
+  		return await this.profileService.updateAvatar(
+    		profileId,
+    		avatarUrl,
+  		);
 	}
 }
