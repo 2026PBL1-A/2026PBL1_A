@@ -3,6 +3,7 @@ import {
   Post,
   Get,
   Delete,
+  Patch,
   Param,
   Body,
   UploadedFile,
@@ -51,6 +52,7 @@ export class PostImagesController {
       }),
     )
     file: Express.Multer.File,
+    @Body('Order') Order?: string,
   ) {
     // DBに保存するURL
     const imageUrl = `/uploads/posts/${file.filename}`;
@@ -59,6 +61,7 @@ export class PostImagesController {
     return await this.postImagesService.create(
       postId,
       imageUrl,
+      Order !== undefined ? parseInt(Order, 10) : undefined,
     );
   }
 
@@ -86,6 +89,41 @@ export class PostImagesController {
   ) {
     return await this.postImagesService.findByPostId(
       postId,
+    );
+  }
+
+  // 画像ファイルをアップロードして既存画像を差し替える
+  @Patch('upload/:id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/posts',
+        filename: (req, file, callback) => {
+          const uniqueName =
+            randomUUID() + extname(file.originalname);
+          callback(null, uniqueName);
+        },
+      }),
+    }),
+  )
+  async uploadAndUpdatePostImage(
+    @Param('id') id: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 5 * 1024 * 1024,
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const imageUrl = `/uploads/posts/${file.filename}`;
+
+    return await this.postImagesService.updatePostImage(
+      id,
+      imageUrl,
     );
   }
 

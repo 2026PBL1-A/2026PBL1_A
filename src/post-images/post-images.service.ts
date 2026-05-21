@@ -58,6 +58,24 @@ export class PostImagesService {
     });
   }
 
+  // 画像の変更
+  async updatePostImage(id: string, imageUrl: string, sortOrder?: number) {
+    const image = await this.postImagesRepository.findOneBy({
+      id,
+    });
+
+    if (!image) {
+      throw new NotFoundException('画像が見つかりません');
+    }
+
+    image.imageUrl = imageUrl;
+    if (sortOrder !== undefined) {
+        image.sortOrder = sortOrder;
+    }
+
+    return await this.postImagesRepository.save(image);
+  }
+
   // 画像削除
   async remove(id: string) {
     const image = await this.postImagesRepository.findOneBy({

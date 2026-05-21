@@ -58,6 +58,24 @@ export class QuestionImagesService {
     });
   }
 
+  // 画像の変更
+  async updateQuestionImage(id: string, imageUrl: string, sortOrder?: number) {
+    const questionImage = await this.questionImagesRepository.findOneBy({
+      id,
+    });
+
+    if (!questionImage) {
+      throw new NotFoundException('画像が見つかりません');
+    }
+
+    questionImage.imageUrl = imageUrl;
+    if (sortOrder !== undefined) {
+        questionImage.sortOrder = sortOrder;
+    }
+
+    return await this.questionImagesRepository.save(questionImage);
+  }
+
   // 画像削除
   async remove(id: string) {
     const questionImage = await this.questionImagesRepository.findOneBy({

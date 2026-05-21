@@ -65,3 +65,11 @@ uploads/posts/**/*.png
 uploads/posts/**/*.jpg
 uploads/posts/**/*.jpeg
 uploads/posts/**/*.gif
+uploads/questions/**/*.png
+uploads/questions/**/*.jpg
+uploads/questions/**/*.jpeg
+uploads/questions/**/*.gif
+uploads/profiles/**/*.png
+uploads/profiles/**/*.jpg
+uploads/profiles/**/*.jpeg
+uploads/profiles/**/*.gif

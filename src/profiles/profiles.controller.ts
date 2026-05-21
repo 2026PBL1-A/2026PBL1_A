@@ -72,6 +72,7 @@ export class ProfilesController {
 		return this.profileService.updatePassword(userId, dto);
 	}
 
+	// アバター画像をアップロードして保存
 	@Post('avatar/upload/:profileId')
 	@UseInterceptors(
   		FileInterceptor('file', {
@@ -105,5 +106,11 @@ export class ProfilesController {
     		profileId,
     		avatarUrl,
   		);
+	}
+
+	// デフォルト画像一覧を取得
+	@Get('default-avatars')
+	getDefaultAvatars() {
+		return this.profileService.getDefaultAvatars();
 	}
 }

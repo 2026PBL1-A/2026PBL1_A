@@ -233,4 +233,18 @@ export class ProfilesService {
             avatar_url: avatarUrl,
         };
     }
+
+    // デフォルトアバター画像一覧を取得する
+    async getDefaultAvatars() {
+        return [
+            '/avatars/default1.png',
+            '/avatars/default2.png',
+            '/avatars/default3.png',
+            '/avatars/default4.png',
+            '/avatars/default5.png',
+            '/avatars/default6.png',
+            '/avatars/default7.png',
+            '/avatars/default8.png',
+        ];
+    }
 }
