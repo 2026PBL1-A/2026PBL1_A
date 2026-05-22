@@ -455,6 +455,14 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/tags
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/tags/search?tag=nestjs
 ```
 
+### フォロー追加・解除（JWT必須）
+
+```powershell
+Invoke-RestMethod -Method Patch `
+  -Uri http://localhost:5000/follows/<userId> `
+  -Headers @{ Authorization = "Bearer $token" }
+```
+
 ### フォロワー取得（PowerShell）
 
 ```powershell
@@ -677,6 +685,13 @@ curl -X GET http://localhost:5000/tags
 
 ```bash
 curl -X GET "http://localhost:5000/tags/search?tag=nestjs"
+```
+
+### フォロー追加・解除（JWT必須）
+
+```bash
+curl -X PATCH http://localhost:5000/follows/<userId> \
+  -H "Authorization: Bearer $TOKEN"
 ```
 
 ### フォロワー取得 (macOS / zsh)

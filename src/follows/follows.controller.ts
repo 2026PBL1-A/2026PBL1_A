@@ -11,6 +11,7 @@ interface AuthenticatedRequest extends Request {
 export class FollowsController {
     constructor(private readonly followsService: FollowsService) {}
 
+    // フォローの追加・解除
     @UseGuards(JwtAuthGuard)
     @Patch(':followerId')
     create(@Param('followerId')id: string, @Req() req: AuthenticatedRequest) {
