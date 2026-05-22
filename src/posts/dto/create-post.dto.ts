@@ -15,6 +15,12 @@ export class CreatePostDto {
     @MaxLength(5000,{ message: '5000文字以内で入力してください' })
     content!: string;   //必須項目
 
+    @IsString()
+    @IsOptional()
+    @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // 空白入力のみを防止
+    @MaxLength(1000,{ message: '1000文字以内で入力してください' })
+    work_url?: string;   //オプション：制作物URL
+
     @IsOptional()
     @IsArray()
     @IsUUID('4', { each: true })

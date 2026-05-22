@@ -142,11 +142,11 @@ src/
 
 | Method | Path       | 内容     |
 | ------ | ---------- | ------ |
-| POST   | /posts     | 新規作成（JWT必須） |
+| POST   | /posts     | 新規作成（JWT必須、work_url対応） |
 | GET    | /posts     | 一覧取得 |
 | GET    | /posts/search?q=keyword | タイトル・本文・タグ名で部分一致検索（OR / 大文字小文字無視） |
 | GET    | /posts/:id | 詳細取得 |
-| PATCH  | /posts/:id | 更新（JWT必須） |
+| PATCH  | /posts/:id | 更新（JWT必須、work_url対応） |
 | DELETE | /posts/:id | 削除（JWT必須） |
 | GET    | /posts/seed | 仮データ投入 |
 
@@ -327,6 +327,7 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/<postId>
 $postBody = @{
   title = "タイトル（タグ付き）"
   content = "本文内容（タグ付き）"
+  work_url = "https://example.com/work"
   tag_ids = @("uuid-1", "uuid-2")
 } | ConvertTo-Json
 
@@ -343,10 +344,11 @@ Invoke-RestMethod -Method Post `
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
 ```
 ### 投稿更新（JWT必須・部分更新対応）
-powershell
+```powershell
 $PostBody = @{
   title = "新しいタイトル"
   content = "更新された本文"
+  work_url = "https://example.com/updated-work"
   tag_ids = @("uuid-1","uuid-2")
 } | ConvertTo-Json
 
@@ -355,7 +357,8 @@ Invoke-RestMethod -Method Patch `
   -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body $PostBody
-  
+```
+
 ### 質問作成（JWT必須、タグ複数指定）
 
 ```powershell
@@ -566,7 +569,7 @@ curl -X GET http://localhost:5000/posts/<postId>
 curl -X POST http://localhost:5000/posts \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"title":"タイトル","content":"本文内容","tag_ids":["uuid-1","uuid-2"]}'
+  -d '{"title":"タイトル","content":"本文内容","work_url":"https://example.com/work","tag_ids":["uuid-1","uuid-2"]}'
 ```
 
 ### 投稿仮データ投入
@@ -581,7 +584,7 @@ curl -X GET http://localhost:5000/posts/seed
 curl -X PATCH http://localhost:5000/posts/<postId> \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"title":"新しいタイトル","content":"更新された本文","tag_ids":["uuid-1","uuid-2"]}'
+  -d '{"title":"新しいタイトル","content":"更新された本文","work_url":"https://example.com/updated-work","tag_ids":["uuid-1","uuid-2"]}'
 ```
 
 ### 投稿削除（JWT必須）

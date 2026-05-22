@@ -14,12 +14,13 @@ export class PostsService {
         private postTagsRepository: Repository<PostTags>,
     ) {}
 
-//新規作成
+    //新規作成
     async createPost(createPostDto: CreatePostDto, userId: string): Promise<Posts> {
         const post = this.postsRepository.create({
             user_id: userId,
             title: createPostDto.title,
             content: createPostDto.content,
+            work_url: createPostDto.work_url,
         });
         const savedPost = await this.postsRepository.save(post);
 
@@ -60,6 +61,7 @@ export class PostsService {
 
         post.title = updatePostDto.title;
         post.content = updatePostDto.content;
+        post.work_url = updatePostDto.work_url;
 
         await this.postsRepository.save(post);
     // 🦧タグ更新（既存タグ削除→新規タグ追加）
@@ -82,7 +84,7 @@ export class PostsService {
         return this.findOne(id);
     }
 
-    //🚨投稿削除
+    // 🚨投稿削除
     async deletePost(
         id: string,
         userId: string,
@@ -113,7 +115,7 @@ export class PostsService {
     };
 }
 
-//全件取得（オプション: タグで絞り込み可能）
+    //全件取得（オプション: タグで絞り込み可能）
     async findAll(tagIds: string[] = []): Promise<Posts[]> {
         // 重複排除と空文字列をフィルタリング
         const uniqueTagIds = [...new Set(tagIds.filter(Boolean))];
@@ -148,7 +150,7 @@ export class PostsService {
             .getMany();                                     // 結果を取得
     }
 
-    //文字列検索（複数キーワード対応、空白区切り / タイトル・本文・タグ名で部分一致 / AND / 大文字小文字区別なし）
+    // 文字列検索（複数キーワード対応、空白区切り / タイトル・本文・タグ名で部分一致 / AND / 大文字小文字区別なし）
     async searchPosts(keyword: string): Promise<Posts[]> {
         const keywords = keyword
             .trim()     // 前後の空白を削除
@@ -184,7 +186,7 @@ export class PostsService {
             .getMany();
     }
 
-//IDで取得
+    //IDで取得
     async findOne(id: string): Promise<Posts> {
         const post = await this.postsRepository.findOne({
             where: { id },
@@ -200,7 +202,7 @@ export class PostsService {
         return post;
     }
 
-//仮データ
+    //仮データ
     async seed(): Promise<Posts[]> {
         const userId = '51c4f76f-8a97-4fba-a634-ccd56444640e'; // 仮のユーザーID
         const samples: CreatePostDto[] = [

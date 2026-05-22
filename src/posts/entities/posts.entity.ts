@@ -16,6 +16,9 @@ export class Posts {
     @Column('text')
     content!: string;
 
+    @Column({ nullable: true })
+    work_url?: string;
+
     @Column({ default: 0 })
     score!: number;
 
