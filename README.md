@@ -182,7 +182,7 @@ src/
 | GET | /answers/:id | 回答1件取得 |
 | GET | /answers/score/:answerId | 回答のスコア取得 |
 | PATCH | /answers/update/:id | 回答更新 |
-| DELETE | /answers/:id | 回答削除（JWT必須） |
+| DELETE | /answers/delete/:id | 回答削除（JWT必須） |
 | POST | /answers/seed | 回答の仮データ投入 |
 
 ---
@@ -355,7 +355,7 @@ Invoke-RestMethod -Method Post `
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/posts/seed
 ```
 ### 投稿更新（JWT必須・部分更新対応）
-powershell
+```powershell
 $PostBody = @{
   title = "新しいタイトル"
   content = "更新された本文"
@@ -367,6 +367,7 @@ Invoke-RestMethod -Method Patch `
   -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body $PostBody
+```
   
 ### 質問作成（JWT必須、タグ複数指定）
 
@@ -441,7 +442,7 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/answers/<answerId>
 
 ```powershell
 Invoke-RestMethod -Method Delete `
-  -Uri http://localhost:5000/answers/<answerId> `
+  -Uri http://localhost:5000/answers/delete/<answerId> `
   -Headers @{ Authorization = "Bearer $token" }
 ```
 
@@ -666,7 +667,7 @@ curl -i -X GET "http://localhost:5000/answers/<answerId>"
 ### 回答削除
 
 ```bash
-curl -i -X DELETE "http://localhost:5000/answers/<answerId>" \
+curl -i -X DELETE "http://localhost:5000/answers/delete/<answerId>" \
   -H "Authorization: Bearer $TOKEN"
 ```
 

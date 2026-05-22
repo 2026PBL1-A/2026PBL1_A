@@ -101,24 +101,18 @@ export class AnswersService {
     }
 
     // 必要なら。指定IDの回答を削除する（作成者のみ実行可）
-    async remove(id: string, userId: string) {
-        // 回答を取得（作成者確認のため userId を取得）
-        const answer = await this.answerRepository.findOne({ where: { id }, relations: { userId: true } });
+    async remove(id: string) {
+        if (!id) {
+            throw new Error('回答IDが必要です');
+        }
+
+        const answer = await this.answerRepository.findOneBy({ id: id });
         if (!answer) {
-            throw new NotFoundException('指定された回答が見つかりません');
+            throw new Error('指定された回答が見つかりません');
         }
 
-        // 作成者かどうか確認
-        if (!answer.userId || answer.userId.id !== userId) {
-            throw new ForbiddenException();
-        }
-
-        const result = await this.answerRepository.delete(id);
-        if (!result || result.affected === 0) {
-            throw new NotFoundException('指定された回答が見つかりません');
-        }
-
-        return { message: '回答を削除しました' };
+        await this.answerRepository.delete(id);
+        return { deleted: true };
     }
 
     // 回答のシードデータを作成する

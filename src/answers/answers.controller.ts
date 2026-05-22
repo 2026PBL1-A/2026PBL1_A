@@ -6,8 +6,6 @@ import {
   Delete,
   Param,
   Body,
-  Req,
-  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -69,11 +67,10 @@ export class AnswersController {
     return this.answerService.updateScore(answerId, userId);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Delete(':id')//回答削除
-  delete(@Param('id') id: string, @Req() req: AuthenticatedRequest) {
-    const userId = req.user.userId;
-    return this.answerService.remove(id, userId);
+  // 回答の削除
+  @Delete('delete/:id')
+  delete(@Param('id') id: string) {
+    return this.answerService.remove(id);
   }
 
   // 仮の回答データ作成
