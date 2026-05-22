@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { Repository, DeepPartial } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Users } from '../users/entities/users.entity';
 import { Follows } from './entities/follows.entity';
 
@@ -32,4 +32,22 @@ export class FollowsService {
             return await this.followRepository.save({ following_id: followingId, follower_id: followerId });
         }
     }
+
+	// 指定ユーザーをフォローしているユーザー一覧を取得（followers）
+	async getFollowers(userId: string) {
+		const follows = await this.followRepository.find({
+			where: { following_id: userId },
+			relations: ['follower'],
+		});
+		return follows.map((f) => ({ id: f.follower.id, username: f.follower.username }));
+	}
+
+	// 指定ユーザーがフォローしているユーザー一覧を取得（following）
+	async getFollowing(userId: string) {
+		const follows = await this.followRepository.find({
+			where: { follower_id: userId },
+			relations: ['following'],
+		});
+		return follows.map((f) => ({ id: f.following.id, username: f.following.username }));
+	}
 }

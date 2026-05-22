@@ -175,6 +175,14 @@ src/
 
 ---
 
+### フォロー
+
+| Method | Path | 内容 |
+| ------ | ---- | ---- |
+| GET | /follows/followers/:userId | 指定ユーザーのフォロワー一覧取得 |
+| GET | /follows/following/:userId | 指定ユーザーがフォローしているユーザー一覧取得 |
+
+
 ## 🧪 動作確認（PowerShell）
 
 ### 仮データ投入
@@ -447,6 +455,20 @@ Invoke-RestMethod -Method Get -Uri http://localhost:5000/tags
 Invoke-RestMethod -Method Get -Uri http://localhost:5000/tags/search?tag=nestjs
 ```
 
+### フォロワー取得（PowerShell）
+
+```powershell
+Invoke-RestMethod -Method Get `
+  -Uri http://localhost:5000/follows/followers/<userId>
+```
+
+### フォロー中取得（PowerShell）
+
+```powershell
+Invoke-RestMethod -Method Get `
+  -Uri http://localhost:5000/follows/following/<userId>
+```
+
 
 
 
@@ -655,6 +677,18 @@ curl -X GET http://localhost:5000/tags
 
 ```bash
 curl -X GET "http://localhost:5000/tags/search?tag=nestjs"
+```
+
+### フォロワー取得 (macOS / zsh)
+
+```bash
+curl -s -X GET "http://localhost:5000/follows/followers/<userId>"
+```
+
+### フォロー中取得 (macOS / zsh)
+
+```bash
+curl -s -X GET "http://localhost:5000/follows/following/<userId>"
 ```
 
 ---
