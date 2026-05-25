@@ -1,0 +1,302 @@
+[
+    {
+        "banned_word": "死ね",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "殺す",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "クソ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "デブ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "ブス",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "無能",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "バカ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "アホ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "あほ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "クズ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "ゴミ野郎",
+        "replace_text": "*****"
+    },
+    {
+        "banned_word": "キモ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "きもい",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "イエローモンキー",
+        "replace_text": "********"
+    },
+    {
+        "banned_word": "ニガー",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "雑魚",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "消えろ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "ホモ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "モルヒネ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "喋んな",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "死ねよ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "死ねばいいのに",
+        "replace_text": "*******"
+    },
+    {
+        "banned_word": "死ねクズ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "死ねバカ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "死ねアホ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "死ねデブ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "死ねブス",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "死ね無能",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "キチガイ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "おちんちん",
+        "replace_text": "*****"
+    },
+    {
+        "banned_word": "高収入",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "外人",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "SEX",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "Tバック",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "えっち",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "おちんちん",
+        "replace_text": "*****"
+    },
+    {
+        "banned_word": "おっπ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "おっぱい",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "おなにー",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "おねショタ",
+        "replace_text": "*****"
+    },
+    {
+        "banned_word": "おぼこ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "おまんこ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "おめこ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "お掃除フェラ",
+        "replace_text": "******"
+    },
+    {
+        "banned_word": "せっくす",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "ちんこ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "ちんぽ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "ふたなり",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "まんこ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "むらむら",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "アヘ顔",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "エッチ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "エロ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "オナニー",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "オナホ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "クンニ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "コンドーム",
+        "replace_text": "*****"
+    },
+    {
+        "banned_word": "ザーメン",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "セフレ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "ソープランド",
+        "replace_text": "******"
+    },
+    {
+        "banned_word": "チンコ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "チンチン",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "チンポ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "デリヘル",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "ノーパン",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "パイズリ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "パンチラ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "マンコ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "ヤリマン",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "ラブホテル",
+        "replace_text": "******"
+    },
+    {
+        "banned_word": "レイプ",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "ロリコン",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "フリーメイソン",
+        "replace_text": "*******"
+    },
+    {
+        "banned_word": "田舎者",
+        "replace_text": "***"
+    },
+    {
+        "banned_word": "低俗",
+        "replace_text": "**"
+    }
+]
