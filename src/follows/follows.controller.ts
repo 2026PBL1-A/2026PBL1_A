@@ -9,16 +9,27 @@ interface AuthenticatedRequest extends Request {
 
 @Controller('follows')
 export class FollowsController {
-    constructor(
-        private readonly FollowsService: FollowsService,
-    ) {}
+    constructor(private readonly followsService: FollowsService) {}
 
+    // フォローの追加・解除
+    // following = フォローする側（自分） / follower = フォローされる側（相手）
     @UseGuards(JwtAuthGuard)
-    @Patch(':followerId')
-    create(@Param('followerId')id: string, @Req() req: AuthenticatedRequest) {
-        const followerId = id;
-        const followingId = req.user.userId;
-        return this.FollowsService.create(followingId, followerId);
+    @Patch(':targetUserId')
+    create(@Param('targetUserId') targetUserId: string, @Req() req: AuthenticatedRequest) {
+        const followingId = req.user.userId;  // following = フォローする側（自分）
+        const followerId = targetUserId;      // follower = フォローされる側（相手）
+        return this.followsService.create(followingId, followerId);
     }
     
+    // フォロワー取得
+    @Get('followers/:userId')
+    getFollowers(@Param('userId') userId: string) {
+        return this.followsService.getFollowers(userId);
+    }
+
+    // フォロー中取得
+    @Get('following/:userId')
+    getFollowing(@Param('userId') userId: string) {
+        return this.followsService.getFollowing(userId);
+    }
 }
