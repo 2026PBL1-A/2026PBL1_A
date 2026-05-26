@@ -54,19 +54,29 @@ export class TagsService {
         });
     }
 
-    // 開発・テスト用にサンプルタグデータをDBへ登録する
-    async seed(): Promise<Tags[]> {
-        const samples: CreateTagDto[] = [
-            { tag: 'TypeScript' },
-            { tag: 'エラー修正' },
-            { tag: 'mysql' },
-        ];
+    async seedTags(tags: any[]) {
+        for (const tagData of tags) {
+            const exists =
+            await this.tagRepository.findOne({
+                where: {
+                    tag: tagData.tag,
+                },
+            });
 
-        const tags: Tags[] = [];
-        for (const sample of samples) {
-            tags.push(await this.create(sample));
+            // 既に存在するならスキップ
+            if (exists) {
+                continue;
+            }
+
+            const tag =
+            this.tagRepository.create({
+                tag: tagData.tag,
+            });
+
+            await this.tagRepository.save(
+                tag,
+            );
         }
-
-        return tags;
+        console.log('タグseed完了');
     }
 }

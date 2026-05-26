@@ -5,6 +5,8 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { loadBannedWords } from './seed/banned-words.seed';
 import { BannedWordsService } from './banned-words/banned-words.service';
+import { loadTags } from './seed/tags.seed';
+import { TagsService } from './tags/tags.service';
 
 // Nestアプリを生成してHTTPサーバーを起動する
 async function bootstrap() {
@@ -14,10 +16,16 @@ async function bootstrap() {
   console.log(bannedWords);
   const bannedWordsService =
   app.get(BannedWordsService);
-
   await bannedWordsService.seedBannedWords(
     bannedWords,
   );
+
+  const tags = loadTags();
+  console.log(tags);
+  const tagsService =
+  app.get(TagsService);
+  await tagsService.seedTags(tags);
+
   app.enableCors({
     origin: true,
   });

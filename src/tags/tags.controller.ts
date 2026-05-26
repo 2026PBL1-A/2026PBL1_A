@@ -7,13 +7,6 @@ import { Tags } from './entities/tags.entity';
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
-    // タグの仮データを作成
-    // POST /tags/seed
-    @Post('seed')
-    async seed(): Promise<Tags[]> {
-        return this.tagsService.seed();
-    }
-
     // タグの新規作成
     // POST /tags
     @Post()
