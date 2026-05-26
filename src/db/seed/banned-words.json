@@ -1,11 +1,55 @@
 [
     {
+        "banned_word": "ランランルー",
+        "replace_text": "******"
+    },
+    {
+        "banned_word": "頭に虫が湧いて",
+        "replace_text": "*******"
+    },
+    { 
+        "banned_word": "チー牛", 
+        "replace_text": "***" 
+    },
+    { 
+        "banned_word": "害悪", 
+        "replace_text": "**" 
+    },
+    {
+        "banned_word": "キモオタ",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "キモオタク",
+        "replace_text": "******"
+    },
+    {
+        "banned_word": "ボケナス",
+        "replace_text": "****"
+    },
+    {
         "banned_word": "死ね",
         "replace_text": "**"
     },
     {
+        "banned_word": "しね",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "シネ",
+        "replace_text": "***"
+    },
+    {
         "banned_word": "殺す",
         "replace_text": "**"
+    },
+    {
+        "banned_word": "ころす",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "コロス",
+        "replace_text": "***"
     },
     {
         "banned_word": "クソ",
@@ -24,7 +68,15 @@
         "replace_text": "**"
     },
     {
+        "banned_word": "馬鹿",
+        "replace_text": "**"
+    },
+    {
         "banned_word": "バカ",
+        "replace_text": "**"
+    },
+    {
+        "banned_word": "ばか",
         "replace_text": "**"
     },
     {
@@ -40,8 +92,16 @@
         "replace_text": "**"
     },
     {
+        "banned_word": "くず",
+        "replace_text": "**"
+    },  
+    {
         "banned_word": "ゴミ野郎",
         "replace_text": "*****"
+    },
+    {
+        "banned_word": "ガイジ",
+        "replace_text": "***"
     },
     {
         "banned_word": "キモ",
@@ -116,16 +176,24 @@
         "replace_text": "****"
     },
     {
-        "banned_word": "おちんちん",
-        "replace_text": "*****"
-    },
-    {
         "banned_word": "高収入",
         "replace_text": "***"
     },
     {
         "banned_word": "外人",
         "replace_text": "**"
+    },
+    {
+        "banned_word": "おちんちん",
+        "replace_text": "*****"
+    },
+    {
+        "banned_word": "ちんかす",
+        "replace_text": "****"
+    },
+    {
+        "banned_word": "チンカス",
+        "replace_text": "****"
     },
     {
         "banned_word": "SEX",
