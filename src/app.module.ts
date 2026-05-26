@@ -13,6 +13,7 @@ import { PostScoresModule } from './post-scores/post-scores.module';
 import { PostImagesModule } from './post-images/post-images.module';
 import { QuestionImagesModule } from './question-images/question-images.module';
 import { FollowsModule } from './follows/follows.module';
+import { BannedWordsModule } from './banned-words/banned-words.module';
 
 // 環境変数を安全に数値へ変換する
 const dbPort = Number(process.env.DB_PORT ?? 3306);
@@ -72,6 +73,8 @@ const shouldSynchronize = (process.env.DB_SYNCHRONIZE ?? 'false') === 'true';
     QuestionImagesModule,
     // フォロー関連APIを提供するモジュール
     FollowsModule,
+    // 禁止ワード関連APIを提供するモジュール
+    BannedWordsModule,
   ],
 })
 export class AppModule {}

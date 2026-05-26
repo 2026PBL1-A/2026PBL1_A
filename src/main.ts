@@ -3,10 +3,21 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { loadBannedWords } from './seed/banned-words.seed';
+import { BannedWordsService } from './banned-words/banned-words.service';
 
 // Nestアプリを生成してHTTPサーバーを起動する
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  const bannedWords = loadBannedWords();
+  console.log(bannedWords);
+  const bannedWordsService =
+  app.get(BannedWordsService);
+
+  await bannedWordsService.seedBannedWords(
+    bannedWords,
+  );
   app.enableCors({
     origin: true,
   });
