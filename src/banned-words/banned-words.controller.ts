@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Patch, Body } from '@nestjs/common';
 
 import { BannedWordsService } from './banned-words.service';
 
@@ -8,4 +8,10 @@ export class BannedWordsController {
     private readonly bannedWordsService:
       BannedWordsService,
   ) {}
+
+  @Patch('replace')
+      async replaceBannedWords(@Body('content') content: string): Promise<{ replacedContent: string }> {
+          const replacedContent = await this.bannedWordsService.replaceBannedWords(content);
+          return { replacedContent };
+      }
 }

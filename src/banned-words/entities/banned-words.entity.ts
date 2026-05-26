@@ -7,18 +7,18 @@ import {
 @Entity('BANNED_WORDS')
 export class BannedWords {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({
     unique: true,
   })
-  banned_word: string;
+  banned_word!: string;
 
   @Column()
-  replace_text: string;
+  replace_text!: string;
 
   @Column({
     default: true,
   })
-  is_active: boolean;
+  is_active!: boolean;
 }
