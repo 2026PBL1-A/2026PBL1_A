@@ -100,10 +100,10 @@ export class AnswersService {
         return await this.answerRepository.findOneBy({ id: id });
     }
 
-    // 必要なら。指定IDの回答を削除する
-    /*async remove(id: string) {
-        await this.answerRepository.delete(id);
-    }*/
+    // 指定IDの回答を削除する
+    async remove(id: string) {
+        return await this.answerRepository.delete(id);
+    }
 
     // 回答のシードデータを作成する
     async seed() {
