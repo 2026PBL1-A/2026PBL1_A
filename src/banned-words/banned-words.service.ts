@@ -33,6 +33,7 @@ export class BannedWordsService {
         this.bannedWordsRepository.create({
           banned_word: wordData.banned_word,
           replace_text: wordData.replace_text,
+          match_type: wordData.match_type,
           is_active: true,
         });
 
@@ -87,7 +88,7 @@ export class BannedWordsService {
     // クエリビルダーを使用して、キーワードが banned_word に部分一致する禁止語を検索
     let queryBuilder = this.bannedWordsRepository
         .createQueryBuilder('bannedWord')
-        .select(['bannedWord.banned_word', 'bannedWord.replace_text', 'bannedWords.match_type'])
+        .select(['bannedWord.banned_word', 'bannedWord.replace_text', 'bannedWord.match_type'])
         .where(':text LIKE CONCAT(\'%\', bannedWord.banned_word, \'%\')', { text })
         .orderBy('LENGTH(bannedWord.banned_word)', 'DESC');
 
@@ -100,8 +101,6 @@ export class BannedWordsService {
 
     let escapedBannedWord;
     let regex;
-    let chars;
-    let escapedChars;
     // 禁止語が見つかった場合は、テキスト内の禁止語を置換する
     for (const bannedWord of bannedWords) {
       switch (bannedWord.match_type) {

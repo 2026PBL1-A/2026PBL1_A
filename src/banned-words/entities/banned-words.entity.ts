@@ -18,6 +18,11 @@ export class BannedWords {
   replace_text!: string;
 
   @Column({
+    default: 'strict',
+  })
+  match_type!: string;
+
+  @Column({
     default: true,
   })
   is_active!: boolean;
