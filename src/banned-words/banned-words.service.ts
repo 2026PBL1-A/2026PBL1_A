@@ -87,7 +87,7 @@ export class BannedWordsService {
     // クエリビルダーを使用して、キーワードが banned_word に部分一致する禁止語を検索
     let queryBuilder = this.bannedWordsRepository
         .createQueryBuilder('bannedWord')
-        .select(['bannedWord.banned_word', 'bannedWord.replace_text'])
+        .select(['bannedWord.banned_word', 'bannedWord.replace_text', 'bannedWords.match_type'])
         .where(':text LIKE CONCAT(\'%\', bannedWord.banned_word, \'%\')', { text })
         .orderBy('LENGTH(bannedWord.banned_word)', 'DESC');
 
@@ -100,13 +100,32 @@ export class BannedWordsService {
 
     let escapedBannedWord;
     let regex;
+    let chars;
+    let escapedChars;
     // 禁止語が見つかった場合は、テキスト内の禁止語を置換する
     for (const bannedWord of bannedWords) {
-        escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-        regex = new RegExp(escapedBannedWord, 'g');
-        text = text.replace(regex, bannedWord.replace_text);
+      switch (bannedWord.match_type) {
+        case 'exact': // 完全一致(従来の方式)
+          escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          regex = new RegExp(escapedBannedWord, 'gu');
+          text = text.replace(regex, bannedWord.replace_text);
+          break;
+        case 'partial': // 部分一致
+          escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          regex = new RegExp(`[${escapedBannedWord}]`, 'gu');
+          text = text.replace(regex, bannedWord.replace_text);
+          break;
+        case 'strict': // 前後含み判定
+          escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          regex = new RegExp(`(^|\\s|[\\u3000-\\u303F])${escapedBannedWord}(\\s|[\\u3000-\\u303F]|$)`, 'gu');
+          text = text.replace(regex, `$1${bannedWord.replace_text}$2`);
+          break;
+        default: // 正規表現
+          escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          regex = new RegExp(escapedBannedWord, 'gu');
+          text = text.replace(regex, bannedWord.replace_text);
+      }
     }
-
     return text;
   }
 }
