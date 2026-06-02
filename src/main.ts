@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { loadBannedWords } from './seed/banned-words.seed';
+import { loadSafetyWords } from './seed/safety_words.seed';
 import { BannedWordsService } from './banned-words/banned-words.service';
 import { loadTags } from './seed/tags.seed';
 import { TagsService } from './tags/tags.service';
@@ -18,6 +19,12 @@ async function bootstrap() {
   app.get(BannedWordsService);
   await bannedWordsService.seedBannedWords(
     bannedWords,
+  );
+
+  const safetyWords = loadSafetyWords();
+  console.log(safetyWords);
+  await bannedWordsService.seedSafetyWords(
+    safetyWords,
   );
 
   const tags = loadTags();
