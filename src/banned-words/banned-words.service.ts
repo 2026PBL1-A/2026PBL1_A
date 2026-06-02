@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { BannedWords } from './entities/banned-words.entity';
+import { SafetyWords } from './entities/safety_words.entity';
 
 @Injectable()
 export class BannedWordsService {
   constructor(
     @InjectRepository(BannedWords)
     private readonly bannedWordsRepository: Repository<BannedWords>,
+    @InjectRepository(SafetyWords)
+    private readonly safetyWordsRepository: Repository<SafetyWords>,
   ) {}
 
   async seedBannedWords(banned_word: any[]) {
@@ -40,6 +43,36 @@ export class BannedWordsService {
 
     console.log(
       'NGワードseed完了',
+    );
+  }
+
+  async seedSafetyWords(safety_words: any[]) {
+    for (const wordData of safety_words) {
+      const exists =
+        await this.safetyWordsRepository.findOne({
+          where: {
+            safety_word: wordData.safety_word,
+          },
+        });
+
+      // 既に存在するならスキップ
+      if (exists) {
+        continue;
+      }
+
+      // 新規保存
+      const safetyWord =
+        this.safetyWordsRepository.create({
+          safety_word: wordData.safety_word,
+        });
+
+      await this.safetyWordsRepository.save(
+        safetyWord,
+      );
+    }
+
+    console.log(
+      'Safetyワードseed完了',
     );
   }
 
