@@ -32,7 +32,7 @@
     {
         "banned_word": "キモオタク",
         "replace_text": "******",
-        "match_type": "partial"
+        "match_type": "exact"
     },
     {
         "banned_word": "ボケ",
