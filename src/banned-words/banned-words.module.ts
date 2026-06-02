@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { BannedWords } from './entities/banned-words.entity';
+import { SafetyWords } from './entities/safety_words.entity';
 import { BannedWordsService } from './banned-words.service';
 import { BannedWordsController } from './banned-words.controller';
 
@@ -9,6 +10,7 @@ import { BannedWordsController } from './banned-words.controller';
   imports: [
     TypeOrmModule.forFeature([
       BannedWords,
+      SafetyWords,
     ]),
   ],
   controllers: [
@@ -16,6 +18,7 @@ import { BannedWordsController } from './banned-words.controller';
   ],
   providers: [
     BannedWordsService,
+    
   ],
   exports: [
     BannedWordsService,
