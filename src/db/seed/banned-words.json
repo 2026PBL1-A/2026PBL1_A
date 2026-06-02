@@ -1,370 +1,378 @@
 [
     {
         "banned_word": "ランランルー",
-        "replace_text": "******"
+        "replace_text": "******",
+        "match_type": "exact"
     },
     {
         "banned_word": "頭に虫が湧いて",
-        "replace_text": "*******"
+        "replace_text": "*******",
+        "match_type": "exact"
     },
     { 
         "banned_word": "チー牛", 
-        "replace_text": "***" 
-    },
-    { 
-        "banned_word": "害悪", 
-        "replace_text": "**" 
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
-        "banned_word": "キモオタ",
-        "replace_text": "****"
+        "banned_word": "害悪", 
+        "replace_text": "**",
+        "match_type": "strict"
+    },
+    {
+        "banned_word": "畜生",
+        "replace_text": "**",
+        "match_type": "strict"
+    },
+    {
+        "banned_word": "社会不適合者",
+        "replace_text": "******",
+        "match_type": "exact"
     },
     {
         "banned_word": "キモオタク",
-        "replace_text": "******"
+        "replace_text": "******",
+        "match_type": "partial"
+    },
+    {
+        "banned_word": "ボケ",
+        "replace_text": "**",
+        "match_type": "exact"
     },
     {
         "banned_word": "ボケナス",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "死ね",
-        "replace_text": "**"
+        "banned_word": "[しシ死氏4４][ねネ]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
     {
-        "banned_word": "しね",
-        "replace_text": "**"
+        "banned_word": "[タﾀ][ヒﾋ][ねネﾈ]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
-        "banned_word": "シネ",
-        "replace_text": "***"
+        "banned_word": "[こコ5５][ろロ6６][すス]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
-        "banned_word": "殺す",
-        "replace_text": "**"
+        "banned_word": "[くク][そソ]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
     {
-        "banned_word": "ころす",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "コロス",
-        "replace_text": "***"
-    },
-    {
-        "banned_word": "クソ",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "デブ",
-        "replace_text": "**"
+        "banned_word": "[でデ][ぶブ]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
     {
         "banned_word": "ブス",
-        "replace_text": "**"
+        "replace_text": "**",
+        "match_type": "strict"
     },
     {
         "banned_word": "無能",
-        "replace_text": "**"
+        "replace_text": "**",
+        "match_type": "strict"
     },
     {
-        "banned_word": "馬鹿",
-        "replace_text": "**"
+        "banned_word": "[ばバ馬][かカ鹿]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
     {
-        "banned_word": "バカ",
-        "replace_text": "**"
+        "banned_word": "[あア][ほホ]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
     {
-        "banned_word": "ばか",
-        "replace_text": "**"
+        "banned_word": "[くク][ずズ]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
-    {
-        "banned_word": "アホ",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "あほ",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "クズ",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "くず",
-        "replace_text": "**"
-    },  
     {
         "banned_word": "ゴミ野郎",
-        "replace_text": "*****"
+        "replace_text": "*****",
+        "match_type": "strict"
     },
     {
         "banned_word": "ガイジ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
-        "banned_word": "キモ",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "きもい",
-        "replace_text": "***"
+        "banned_word": "[きキ][もモ]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
         "banned_word": "イエローモンキー",
-        "replace_text": "********"
+        "replace_text": "********",
+        "match_type": "exact"
     },
     {
         "banned_word": "ニガー",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
-        "banned_word": "雑魚",
-        "replace_text": "**"
+        "banned_word": "[ざザ][こコ]",
+        "replace_text": "**",
+        "match_type": "regex"
     },
     {
         "banned_word": "消えろ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "ホモ",
-        "replace_text": "**"
+        "replace_text": "**",
+        "match_type": "strict"
     },
     {
         "banned_word": "モルヒネ",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "exact"
     },
     {
         "banned_word": "喋んな",
-        "replace_text": "***"
-    },
-    {
-        "banned_word": "死ねよ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "死ねばいいのに",
-        "replace_text": "*******"
-    },
-    {
-        "banned_word": "死ねクズ",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "死ねバカ",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "死ねアホ",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "死ねデブ",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "死ねブス",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "死ね無能",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "キチガイ",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "高収入",
-        "replace_text": "***"
+        "replace_text": "*******",
+        "match_type": "strict"
     },
     {
         "banned_word": "外人",
-        "replace_text": "**"
+        "replace_text": "**",
+        "match_type": "strict"
     },
     {
-        "banned_word": "おちんちん",
-        "replace_text": "*****"
+        "banned_word": "[ちチ][んン][かカ][すス]",
+        "replace_text": "****",
+        "match_type": "regex"
     },
     {
-        "banned_word": "ちんかす",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "チンカス",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "SEX",
-        "replace_text": "***"
+        "banned_word": "[sS][eE][xX]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
         "banned_word": "Tバック",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "えっち",
-        "replace_text": "***"
+        "banned_word": "[えエ][ろロ]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
-        "banned_word": "おちんちん",
-        "replace_text": "*****"
+        "banned_word": "[おオ][ちチ][んン][ちチ][んン]",
+        "replace_text": "*****",
+        "match_type": "regex"
     },
     {
         "banned_word": "おっπ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "おっぱい",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "おなにー",
-        "replace_text": "****"
+        "banned_word": "[おオ][なナ][にニ][ー-]",
+        "replace_text": "****",
+        "match_type": "regex"
     },
     {
         "banned_word": "おねショタ",
-        "replace_text": "*****"
+        "replace_text": "*****",
+        "match_type": "strict"
+    },
+    {
+        "banned_word": "ショタコン",
+        "replace_text": "*****",
+        "match_type": "strict"
+    },
+    {
+        "banned_word": "しょうたコンプレックス",
+        "replace_text": "********************",
+        "match_type": "exact"
     },
     {
         "banned_word": "おぼこ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
-        "banned_word": "おまんこ",
-        "replace_text": "****"
+        "banned_word": "[おオ][まマ][んン][こコ]",
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "おめこ",
-        "replace_text": "***"
+        "banned_word": "[おオ][めメ][こコ]",
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "お掃除フェラ",
-        "replace_text": "******"
+        "replace_text": "******",
+        "match_type": "exact"
     },
     {
-        "banned_word": "せっくす",
-        "replace_text": "****"
+        "banned_word": "[せセ][っッ][くク][すス]",
+        "replace_text": "****",
+        "match_type": "regex"
     },
     {
-        "banned_word": "ちんこ",
-        "replace_text": "***"
-    },
-    {
-        "banned_word": "ちんぽ",
-        "replace_text": "***"
+        "banned_word": "[ちチ][んン][こコぽポ]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
         "banned_word": "ふたなり",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "まんこ",
-        "replace_text": "***"
+        "banned_word": "[まマ][んン][こコ]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
         "banned_word": "むらむら",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "アヘ顔",
-        "replace_text": "***"
+        "banned_word": "[あア][へヘ][顔]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
-        "banned_word": "エッチ",
-        "replace_text": "***"
-    },
-    {
-        "banned_word": "エロ",
-        "replace_text": "**"
-    },
-    {
-        "banned_word": "オナニー",
-        "replace_text": "****"
+        "banned_word": "[えエ][っッ][ちチ]",
+        "replace_text": "***",
+        "match_type": "regex"
     },
     {
         "banned_word": "オナホ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
+    },
+    {
+        "banned_word": "オナホール",
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
         "banned_word": "クンニ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "コンドーム",
-        "replace_text": "*****"
+        "replace_text": "*****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "ザーメン",
-        "replace_text": "****"
+        "banned_word": "[ざザ][めメ][ー-][んン]",
+        "replace_text": "****",
+        "match_type": "regex"
     },
     {
         "banned_word": "セフレ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "ソープランド",
-        "replace_text": "******"
+        "replace_text": "******",
+        "match_type": "strict"
     },
     {
-        "banned_word": "チンコ",
-        "replace_text": "***"
-    },
-    {
-        "banned_word": "チンチン",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "チンポ",
-        "replace_text": "***"
+        "banned_word": "[ちチ][んン][ちチ][んン]",
+        "replace_text": "****",
+        "match_type": "regex"
     },
     {
         "banned_word": "デリヘル",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
         "banned_word": "ノーパン",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
-        "banned_word": "パイズリ",
-        "replace_text": "****"
+        "banned_word": "[ぱパ][いイ][ずズ][りリ]",
+        "replace_text": "****",
+        "match_type": "regex"
     },
     {
         "banned_word": "パンチラ",
-        "replace_text": "****"
-    },
-    {
-        "banned_word": "マンコ",
-        "replace_text": "***"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
         "banned_word": "ヤリマン",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
         "banned_word": "ラブホテル",
-        "replace_text": "******"
+        "replace_text": "******",
+        "match_type": "strict"
     },
     {
         "banned_word": "レイプ",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "ロリコン",
-        "replace_text": "****"
+        "replace_text": "****",
+        "match_type": "strict"
     },
     {
+        "banned_word": "ロリータコンプレックス",
+        "replace_text": "****************",
+        "match_type": "exact"
+    },
+    {
+        "banned_word": "[ろロ][りリ]",
+        "replace_text": "**",
+        "match_type": "regex"
+    },
+    {
+        "banned_word": "ロリータ",
+        "replace_text": "****",
+        "match_type": "strict"
+    },
+
+    {
         "banned_word": "フリーメイソン",
-        "replace_text": "*******"
+        "replace_text": "*******",
+        "match_type": "exact"
     },
     {
         "banned_word": "田舎者",
-        "replace_text": "***"
+        "replace_text": "***",
+        "match_type": "strict"
     },
     {
         "banned_word": "低俗",
-        "replace_text": "**"
+        "replace_text": "**",
+        "match_type": "strict"
     }
 ]
