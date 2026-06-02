@@ -95,6 +95,14 @@ export class BannedWordsService {
     let bannedWords = await bannedqueryBuilder.getMany();
     let safetyWords = await this.safetyWordsRepository.find();
 
+    // 安全ワードを一時的にトークンに変換して避難させ、誤った変換を防止する
+    const safetyWordMap = new Map<string, string>();
+    safetyWords.forEach((safetyWord, index) => {
+      const token = `__SAFE_TOKEN_${index}__`;
+      safetyWordMap.set(token, safetyWord.safety_word);
+      text = text.split(safetyWord.safety_word).join(token);
+    });
+
     // 禁止語が見つからない場合は、元のテキストを返す
     if (!bannedWords.length) {
         return text;
@@ -143,6 +151,12 @@ export class BannedWordsService {
           break;
       }
     }
+
+    // 避難させていた安全ワードを元のテキストに戻す
+    safetyWordMap.forEach((originalWord, token) => {
+      result = result.split(token).join(originalWord);
+    });
+
     return result;
   }
 }
