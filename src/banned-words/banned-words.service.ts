@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { BannedWords } from './entities/banned-words.entity';
 import { SafetyWords } from './entities/safety_words.entity';
 
@@ -80,19 +79,21 @@ export class BannedWordsService {
   async replaceBannedWords(content: string): Promise<string> {
     let text = content.trim();
 
+    console.log('置換前のテキスト:', text);
     // キーワードが空の場合は空文字列を返す
     if (text.length === 0) {
         return '';
     }
 
     // クエリビルダーを使用して、キーワードが banned_word に部分一致する禁止語を検索
-    let queryBuilder = this.bannedWordsRepository
+    let bannedqueryBuilder = this.bannedWordsRepository
         .createQueryBuilder('bannedWord')
         .select(['bannedWord.banned_word', 'bannedWord.replace_text', 'bannedWord.match_type'])
-        .where(':text LIKE CONCAT(\'%\', bannedWord.banned_word, \'%\')', { text })
+        //.where(':text LIKE CONCAT(\'%\', bannedWord.banned_word, \'%\')', { text })
         .orderBy('LENGTH(bannedWord.banned_word)', 'DESC');
 
-    let bannedWords = await queryBuilder.getMany();
+    let bannedWords = await bannedqueryBuilder.getMany();
+    let safetyWords = await this.safetyWordsRepository.find();
 
     // 禁止語が見つからない場合は、元のテキストを返す
     if (!bannedWords.length) {
@@ -101,30 +102,47 @@ export class BannedWordsService {
 
     let escapedBannedWord;
     let regex;
+    let result = text;
     // 禁止語が見つかった場合は、テキスト内の禁止語を置換する
     for (const bannedWord of bannedWords) {
+      text = result;
       switch (bannedWord.match_type) {
         case 'exact': // 完全一致(従来の方式)
           escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
           regex = new RegExp(escapedBannedWord, 'gu');
-          text = text.replace(regex, bannedWord.replace_text);
+          result = text.replace(regex, bannedWord.replace_text);
+          if (result !== text) {
+            console.log('完全一致')
+          }
           break;
         case 'partial': // 部分一致
           escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
           regex = new RegExp(`[${escapedBannedWord}]`, 'gu');
-          text = text.replace(regex, bannedWord.replace_text);
+          result = text.replace(regex, bannedWord.replace_text);
+          if (result !== text) {
+            console.log('部分一致')
+          }
           break;
         case 'strict': // 前後含み判定
           escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-          regex = new RegExp(`(^|\\s|[\\u3000-\\u303F])${escapedBannedWord}(\\s|[\\u3000-\\u303F]|$)`, 'gu');
-          text = text.replace(regex, `$1${bannedWord.replace_text}$2`);
+          regex = new RegExp(`(?<=^|\\s|[\\u3000-\\u303F])${escapedBannedWord}(?=\\s|[\\u3000-\\u303F]|$)`, 'gu');
+          result = text.replace(regex, `$1${bannedWord.replace_text}$2`);
+          if (result !== text) {
+            console.log('厳密一致')
+          }
           break;
-        default: // 正規表現
-          escapedBannedWord = bannedWord.banned_word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-          regex = new RegExp(escapedBannedWord, 'gu');
-          text = text.replace(regex, bannedWord.replace_text);
+        case 'regex': // 正規表現
+          regex = new RegExp(bannedWord.banned_word, 'gu');
+          result = text.replace(regex, bannedWord.replace_text);
+          if (result !== text) {
+            console.log('正規表現')
+          }
+          break;
+        default:
+          console.warn(`未知のマッチタイプ: ${bannedWord.match_type}`);
+          break;
       }
     }
-    return text;
+    return result;
   }
 }
