@@ -35,9 +35,9 @@
         "match_type": "exact"
     },
     {
-        "banned_word": "ボケ",
+        "banned_word": "[ぼボ][けケ]",
         "replace_text": "**",
-        "match_type": "exact"
+        "match_type": "regex"
     },
     {
         "banned_word": "ボケナス",
@@ -55,8 +55,18 @@
         "match_type": "regex"
     },
     {
+        "banned_word": "死にたい",
+        "replace_text": "****",
+        "match_type": "exact"
+    },
+    {
         "banned_word": "[こコ5５][ろロ6６][すス]",
         "replace_text": "***",
+        "match_type": "regex"
+    },
+    {
+        "banned_word": "[殺][すス]",
+        "replace_text": "**",
         "match_type": "regex"
     },
     {
